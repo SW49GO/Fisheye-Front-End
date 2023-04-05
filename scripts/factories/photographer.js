@@ -16,7 +16,7 @@ function photographerFactory(data) {
    */
   function getUserCardDOM() {
     console.log("factories/photographer.js->getUserCardDOM");
-    // Création des éléments HTML pour représenter la carte utilisateur
+    // Création des éléments HTML pour représenter la carte utilisateur page Accueil
     const article = document.createElement("article");
     article.setAttribute(
       "aria-label",
@@ -33,5 +33,54 @@ function photographerFactory(data) {
                         </div>`;
     return article;
   }
-  return { name, picture, getUserCardDOM };
+  /**
+   * Function to return the HTML page of each Photographer
+   * @returns HTMLElement(article)
+   */
+  function getPagePhotographerDOM() {
+    const { name, id, city, country, tagline, price, portrait } =
+      data.photographer;
+    const picture = `assets/photographers/Photographers ID Photos/${portrait}`;
+    console.log(data);
+    console.log("factories/photographer.js->getPagePhotographerDOM");
+    const verif = document.querySelector(".photographer-header-article");
+    console.log(verif);
+    if (!verif) {
+      const article = document.createElement("article");
+      article.className = "photographer-header-article";
+      article.innerHTML = `<div class="photographer-identity" data-identity="${id}">
+                          <div  aria-label="Localisation, slogan et tarifs du photographe ${name}">
+                            <h2 class="name-photographer">${name}</h2>
+                            <h3>${city}, ${country}</h3> 
+                            <p>${tagline}</p>
+                          </div>
+                          <div aria-label="Bouton pour contacter ${name}">
+                            <button class="contact_button" onclick="displayModal('form')">Contactez-moi</button>
+                          </div>
+                          <div aria-label="Portait de ${name}">
+                            <img class="photographer-portrait" src="${picture}" alt="Portrait du photographe ${name}, lien vers sa page">
+                          </div>
+                        </div>
+                        <div class="select-sort" aria-label="Tri des images selon la popularité, la date ou le titre">
+                          <p>Trier par </p>
+                          <div class="dropdown">
+                            <button class="btn-filter" type="button"><p class="txt-filter" >Popularité</p><span class="chevron-filter"><i class="fa-solid fa-chevron-down"></i></span></button>
+                            <ul class="select-menu">
+                             <hr>
+                              <li class="select-menu-item" >Date</li><hr>
+                              <li class="select-menu-item" >Titre</li>
+                            </ul>
+                          </div>
+                        </div>
+                        <div class="encart">
+                          <p class="likes"><span>&hearts;<span></p>
+                          <p class="price">${price}€/jour</p>
+                        </div>
+                    `;
+      return article;
+    }
+    return null;
+  }
+
+  return { getUserCardDOM, getPagePhotographerDOM };
 }

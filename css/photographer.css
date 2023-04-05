@@ -1,76 +1,180 @@
 #contact_modal {
-    display: none;
+  display: none;
 }
 
 .photograph-header {
-    background-color: #FAFAFA;
-    height: 300px;
-    margin: 0 100px;
+  width: 90%;
+  margin: 0 auto;
 }
 
 .contact_button {
-    font-size: 20px;
-    font-weight: bold;
-    color: white;
-    padding: 11px;
-    width: 170px;
-    height: 70px;
-    border: none;
-    background-color: #901C1C;
-    border-radius: 5px;
-    cursor: pointer;
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: white;
+  padding: 0.6875rem;
+  width: 10.625rem;
+  height: 4.375rem;
+  border: none;
+  background-color: #901c1c;
+  border-radius: 0.3125rem;
+  cursor: pointer;
 }
 
 .modal {
-    border-radius: 5px;
-    background-color: #DB8876;
-    width: 50%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    padding: 35px;
-    margin: auto;
+  border-radius: 0.3125rem;
+  background-color: #db8876;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2.1875rem;
+  margin: auto;
 }
 
 .modal header {
-    justify-content: space-between;
-    width: 100%;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .modal header img {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .modal header h2 {
-    font-size: 64px;
-    font-weight: normal;
-    text-align: center;
+  font-size: 64px;
+  font-weight: normal;
+  text-align: center;
 }
 
 form {
-    display: flex;
-    width: 100%;
-    flex-direction: column;
-    align-items: flex-start;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 form label {
-    color: #312E2E;
-    font-size: 36px;
+  color: #312e2e;
+  font-size: 36px;
 }
 
 form div {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    align-items: self-start;
-    margin-bottom: 26px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: self-start;
+  margin-bottom: 26px;
 }
 
 form input {
-    width: 100%;
-    height: 68px;
-    border: none;
-    border-radius: 5px;
+  width: 100%;
+  height: 68px;
+  border: none;
+  border-radius: 5px;
+}
+/***************Static Page Photographer presentation**********************/
+.photographer-header-article {
+  margin: 2rem 0 2rem 0;
+}
+.photographer-identity {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 2rem 0 2rem 0;
+  padding: 2rem;
+  border-radius: 0.3125rem;
+  background-color: #fafafa;
+}
+.photographer-identity h3 {
+  color: #901c1c;
+  font-size: 1.3rem;
+}
+.name-photographer {
+  color: #d3573c;
+  font-size: 2rem;
+  order: 1;
+}
+/*************Filter Menu****************/
+.select-sort {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 2rem 0 2rem 1rem;
+}
+.select-menu {
+  position: relative;
+  top: 0.6875rem;
+  height: 6rem;
+  display: none;
+}
+.select-menu li {
+  list-style: none;
+  line-height: 2.5rem;
+  padding-left: 1rem;
+  color: #fff;
+}
+ul {
+  list-style: none;
+  position: relative;
+  overflow: hidden;
+  padding: 0;
+}
+hr {
+  width: 8rem;
+  margin: 0 auto;
+}
+.btn-filter {
+  position: relative;
+  height: 2rem;
+  background-color: #901c1c;
+  border: none;
+  width: 9rem;
+  border-radius: 0.3125rem;
+}
+
+.txt-filter {
+  display: inline;
+  position: absolute;
+  font-size: 1rem;
+  left: 1rem;
+  top: 0.5rem;
+  color: #fff;
+}
+.chevron-filter {
+  position: absolute;
+  color: #fff;
+  top: 0.6rem;
+  right: 1rem;
+}
+.dropdown {
+  width: 9rem;
+  position: absolute;
+  top: 2rem;
+  left: 7rem;
+  border-radius: 0.3125rem;
+  background-color: #901c1c;
+  z-index: 1;
+}
+.show {
+  display: block;
+}
+/**********Encart*************/
+.encart {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  justify-content: space-around;
+  background-color: #db8876;
+  border-radius: 0.3125rem;
+  width: 17.5rem;
+  height: 3.375rem;
+  position: fixed;
+  right: 1rem;
+  bottom: 0;
+}
+.fa-heart {
+  font-size: 1rem;
+  padding-left: 0.3rem;
 }
