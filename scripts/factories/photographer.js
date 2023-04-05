@@ -26,7 +26,7 @@ function photographerFactory(data) {
                             <img src="${picture}" alt="Portrait du photographe ${name}, lien vers sa page">
                             <h2>${name}</h2>
                         </a>
-                        <div class="photographer-description" aria-label="Localisation, slogan et tarifs du photographe ${name}">
+                        <div class="photographer-description" aria-label="Localisation, slogan et tarifs du photographe ${name}" tabindex="0">
                           <h3>${city}, ${country}</h3> 
                           <p>${tagline}</p>
                           <p>${price}€/jour</p>

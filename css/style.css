@@ -5,7 +5,10 @@
   padding: 0;
   box-sizing: border-box;
 }
-
+*:focus-visible {
+  border: 2px solid #d3573c;
+  box-shadow: 1px 1px 7px 7px #d3573c;
+}
 body {
   font-family: "DM Sans", sans-serif;
   max-width: 1440px;
@@ -18,7 +21,7 @@ header {
   justify-content: space-between;
   align-items: center;
   height: 5.625rem;
-  width: 90%;
+  width: 87%;
   margin: 0 auto;
 }
 
@@ -37,8 +40,8 @@ a {
 .photographer_section {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 4.375rem;
-  margin-top: 6.25rem;
+  gap: 2.375rem;
+  margin-top: 3.25rem;
 }
 
 .photographer_section article {
@@ -52,7 +55,7 @@ a {
 .photographer_section article h2 {
   color: #d3573c;
   font-size: 2rem;
-  margin-bottom: 0;
+  line-height: 3rem;
 }
 
 .photographer_section article img {
@@ -64,17 +67,16 @@ a {
 }
 .photographer-description {
   text-align: center;
-  line-height: 1rem;
+  line-height: 1.2rem;
 }
 .photographer-description h3 {
   color: #901c1c;
-  font-size: 0.81rem;
+  font-size: 1.125rem;
 }
 .photographer-description p:first-of-type {
-  font-size: 0.62rem;
-  font-weight: bold;
+  font-size: 0.875rem;
 }
 .photographer-description:last-child {
   color: #525252;
-  font-size: 0.5625rem;
+  font-size: 0.75rem;
 }

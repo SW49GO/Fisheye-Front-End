@@ -35,7 +35,7 @@ async function displayDataPhotographer(photographers) {
 }
 
 /**
- * Initialization function :
+ * Initialization all functions :
  * - displayDataPhotographer() : to display portraits of photographers
  */
 async function init() {
