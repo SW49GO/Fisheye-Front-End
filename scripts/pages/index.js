@@ -95,9 +95,18 @@ async function displayDataPhotographer(photographers, idPhotographer) {
   const selectMenuFilter = document.querySelectorAll(".select-menu-item");
   for (let i = 0; i < selectMenuFilter.length; i++) {
     selectMenuFilter[i].addEventListener("click", function () {
+      console.log();
       selectFilter(selectMenuFilter[i], btnFilter);
       const selectedMenuFilter = document.querySelector(".select-menu");
       selectedMenuFilter.classList.remove("show");
+    });
+    selectMenuFilter[i].addEventListener("keydown", function (event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        selectFilter(selectMenuFilter[i], btnFilter);
+        const selectedMenuFilter = document.querySelector(".select-menu");
+        selectedMenuFilter.classList.remove("show");
+      }
     });
   }
 }

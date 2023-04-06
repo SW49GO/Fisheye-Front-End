@@ -34,18 +34,19 @@ function mediaFactory(data) {
       if (images) {
         // console.log(images);
         article.innerHTML += `<div class="list-photos-photographer">
-                                  <a href="#">
-                                    <figure class="list-photos-conteneur">
+                                  <a href="#" tabindex="-1">
+                                    <figure class="list-photos-conteneur" tabindex="0">
                                       ${images}
                                     </figure>
                                    </a>
-                                  <figcaption class="list-photos-description">
+                                  <figcaption class="list-photos-description" tabindex="0">
                                     ${title}
                                   <p class="number-likes"">${data.media[i].likes}<i data-ref="${data.media[i].id}" class="fa-solid fa-heart icon-likes"></i></p>
                                   </figcaption>
                                 </div>`;
       }
     }
+    article.innerHTML += `<a href="#begin">Revenir en haut de la page</a>`;
 
     return article;
   }

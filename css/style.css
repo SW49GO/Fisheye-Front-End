@@ -6,8 +6,8 @@
   box-sizing: border-box;
 }
 *:focus-visible {
-  border: 2px solid #d3573c;
-  box-shadow: 1px 1px 7px 7px #d3573c;
+  border: 2px solid #faed05;
+  box-shadow: 1px 1px 7px 7px #faed05;
 }
 body {
   font-family: "DM Sans", sans-serif;
