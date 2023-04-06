@@ -55,7 +55,7 @@ function photographerFactory(data) {
                             <p>${tagline}</p>
                           </div>
                           <div aria-label="Bouton pour contacter ${name}">
-                            <button class="contact_button" onclick="displayModal('form')" aria-pressed="false">Contactez-moi</button>
+                            <button class="contact_button" onclick="displayModal()" aria-pressed="false">Contactez-moi</button>
                           </div>
                           <div aria-label="Portait de ${name}" tabindex="0">
                             <img class="photographer-portrait" src="${picture}" alt="Portrait du photographe ${name}">
@@ -64,12 +64,7 @@ function photographerFactory(data) {
                         <div class="select-sort">
                           <p tabindex="0">Trier par </p>
                           <div class="dropdown">
-                            <button class="btn-filter" tabindex="0" aria-haspopup="true" aria-pressed="false" role="dropdown">
-                              <p class="txt-filter" >Popularité</p>
-                              <span class="chevron-filter">
-                                <i class="fa-solid fa-chevron-down"></i>
-                                  </span>
-                            </button>
+                            <button class="btn-filter" tabindex="0" aria-haspopup="true" aria-pressed="false" role="dropdown"><p class="txt-filter">Popularité</p><span class="chevron-filter"><i class="fa-solid fa-chevron-down"></i></span></button>
                             <ul class="select-menu">
                               <hr aria-hidden="true">
                               <li class="select-menu-item" tabindex="0">Date</li>

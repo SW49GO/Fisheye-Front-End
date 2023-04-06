@@ -18,11 +18,11 @@ async function getJsonDataPhotographers() {
       console.error("Error:", error);
     });
 }
-/*
+/**
  * Function to get Object of Identity of one Photograph
  * @param {object} photographers
  * @param {string} id
- * @returns object (personalPhotographer)
+ * @returns
  */
 async function getPhotograperById(photographers, id) {
   console.log("index.js->getPhotograperById(photographers, id)");
@@ -101,14 +101,13 @@ async function displayDataPhotographer(photographers, idPhotographer) {
     });
   }
 }
-/*
- **
+/**
  * Function to display the medias of photographers in photographer.html
  * construct from mediaFactory -> getMediaCardDOM
  * @param {object} media
  * @param {object} photographers
  * @param {string} idPhotographer
- * @param {string} selectDisplayOption->popularite:1, date:2, titre:3
+ * @param {string} options
  */
 async function displayMedia(media, photographers, idPhotographer, options) {
   console.log("trier par :" + options);
@@ -138,6 +137,7 @@ async function displayMedia(media, photographers, idPhotographer, options) {
  * - displayDataIndex() : to display portraits of photographers in home page
  * - displayDataPhotographer() : to display static page header photographer
  * - displayMedia() : to display all photos and video
+ * @param {string} options
  */
 async function init(options) {
   // Récupèration des datas des photographes

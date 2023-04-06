@@ -34,20 +34,69 @@
     </main>
     <div id="contact_modal" role="dialog">
       <div class="modal">
-        <header>
-          <h1>Contactez-moi</h1>
+        <header class="modal-header">
+          <h1 tabindex="0">Contactez-moi</h1>
           <img
+            class="modal-close"
             src="assets/icons/close.svg"
             onclick="closeModal()"
             alt="Fermer la fenêtre"
+            tabindex="0"
           />
         </header>
-        <form>
+        <form class="modal-form" novalidate>
           <div>
-            <label>Prénom</label>
-            <input />
+            <label id="first" for="firstname">Prénom</label>
+            <input
+              type="text"
+              name="firsname"
+              id="firstname"
+              required
+              aria-required="true"
+              aria-labelledby="first"
+            />
+            <label id="last" for="lastname">Nom</label>
+            <input
+              type="text"
+              name="lastname"
+              id="lastname"
+              required
+              aria-required="true"
+              aria-labelledby="last"
+            />
+            <label id="mail" for="email">Email</label>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              required
+              aria-required="true"
+              aria-labelledby="mail"
+            />
+            <label id="mess" for="message" aria-label="Votre message"
+              >Votre message</label
+            >
+            <input
+              type="text"
+              name="message"
+              id="message"
+              required
+              aria-required="true"
+              aria-labelledby="mess"
+            />
           </div>
-          <button class="contact_button">Envoyer</button>
+          <button
+            type="submit"
+            class="contact_button"
+            aria-pressed="false"
+            aria-describedby="form-validation"
+          >
+            Envoyer
+          </button>
+          <p id="form-validation">
+            Veuillez remplir tous les champs obligatoires avant de soumettre le
+            formulaire.
+          </p>
         </form>
       </div>
     </div>
