@@ -49,32 +49,38 @@ function photographerFactory(data) {
       const article = document.createElement("article");
       article.className = "photographer-header-article";
       article.innerHTML = `<div class="photographer-identity" data-identity="${id}">
-                          <div  aria-label="Localisation, slogan et tarifs du photographe ${name}">
+                          <div  aria-label="Localisation, slogan et tarifs du photographe ${name}" tabindex="0">
                             <h2 class="name-photographer">${name}</h2>
                             <h3>${city}, ${country}</h3> 
                             <p>${tagline}</p>
                           </div>
                           <div aria-label="Bouton pour contacter ${name}">
-                            <button class="contact_button" onclick="displayModal('form')">Contactez-moi</button>
+                            <button class="contact_button" onclick="displayModal('form')" aria-pressed="false">Contactez-moi</button>
                           </div>
-                          <div aria-label="Portait de ${name}">
-                            <img class="photographer-portrait" src="${picture}" alt="Portrait du photographe ${name}, lien vers sa page">
+                          <div aria-label="Portait de ${name}" tabindex="0">
+                            <img class="photographer-portrait" src="${picture}" alt="Portrait du photographe ${name}">
                           </div>
                         </div>
-                        <div class="select-sort" aria-label="Tri des images selon la popularité, la date ou le titre">
-                          <p>Trier par </p>
+                        <div class="select-sort">
+                          <p tabindex="0">Trier par </p>
                           <div class="dropdown">
-                            <button class="btn-filter" type="button"><p class="txt-filter" >Popularité</p><span class="chevron-filter"><i class="fa-solid fa-chevron-down"></i></span></button>
+                            <button class="btn-filter" tabindex="0" aria-haspopup="true" aria-pressed="false" role="dropdown">
+                              <p class="txt-filter" >Popularité</p>
+                              <span class="chevron-filter">
+                                <i class="fa-solid fa-chevron-down"></i>
+                                  </span>
+                            </button>
                             <ul class="select-menu">
-                             <hr>
-                              <li class="select-menu-item" >Date</li><hr>
-                              <li class="select-menu-item" >Titre</li>
+                              <hr aria-hidden="true">
+                              <li class="select-menu-item" tabindex="0">Date</li>
+                              <hr aria-hidden="true">
+                              <li class="select-menu-item" tabindex="0">Titre</li>
                             </ul>
                           </div>
                         </div>
                         <div class="encart">
-                          <p class="likes"><span>&hearts;<span></p>
-                          <p class="price">${price}€/jour</p>
+                          <p class="likes" tabindex="0"><span>&hearts;<span></p>
+                          <p class="price" tabindex="0">${price}€/jour</p>
                         </div>
                     `;
       return article;

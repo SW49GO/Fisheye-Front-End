@@ -34,6 +34,21 @@ async function getPhotograperById(photographers, id) {
 }
 
 /**
+ * Function to get all Object Media for one Photograph
+ * @param {object} media
+ * @param {string} id
+ * @returns
+ */
+async function getMediaById(media, id) {
+  console.log("index.js->getMediaById(media,id)");
+  const mediaPhotographer = media.filter(
+    (medias) => medias.photographerId === parseInt(id)
+  );
+  // console.log(mediaPhotographer);
+  return mediaPhotographer;
+}
+
+/**
  * Function to display portraits of photographers
  * @param {array of objects} photographers
  */
@@ -86,12 +101,45 @@ async function displayDataPhotographer(photographers, idPhotographer) {
     });
   }
 }
+/*
+ **
+ * Function to display the medias of photographers in photographer.html
+ * construct from mediaFactory -> getMediaCardDOM
+ * @param {object} media
+ * @param {object} photographers
+ * @param {string} idPhotographer
+ * @param {string} selectDisplayOption->popularite:1, date:2, titre:3
+ */
+async function displayMedia(media, photographers, idPhotographer, options) {
+  console.log("trier par :" + options);
+
+  const mediaPhotographer = await getMediaById(media, idPhotographer);
+
+  console.log("index.js->displaymedia");
+
+  const mediaImage = document.querySelector(".photograph-header");
+  const personalPhotographer = await getPhotograperById(
+    photographers,
+    idPhotographer
+  );
+
+  const photographerData = {
+    photographer: personalPhotographer,
+    media: mediaPhotographer,
+  };
+  const mediaModel = mediaFactory(photographerData);
+  const mediaCardDOM = mediaModel.getMediaCardDOM();
+  console.log(mediaCardDOM);
+  mediaImage.appendChild(mediaCardDOM);
+}
 
 /**
  * Initialization all functions :
- * - displayDataIndex() : to display portraits of photographers
+ * - displayDataIndex() : to display portraits of photographers in home page
+ * - displayDataPhotographer() : to display static page header photographer
+ * - displayMedia() : to display all photos and video
  */
-async function init() {
+async function init(options) {
   // Récupèration des datas des photographes
   const { media, photographers } = await getJsonDataPhotographers();
 
@@ -107,6 +155,7 @@ async function init() {
     const idPhotographer = urlParams.get("identify");
 
     displayDataPhotographer(photographers, idPhotographer);
+    displayMedia(media, photographers, idPhotographer, (options = "1"));
   }
 }
 

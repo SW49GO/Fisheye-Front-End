@@ -103,6 +103,9 @@ form input {
   gap: 1.25rem;
   padding: 2rem 0 2rem 1rem;
 }
+.select-sort p {
+  font-weight: bold;
+}
 .select-menu {
   position: relative;
   top: 0.6875rem;
@@ -177,4 +180,36 @@ hr {
 .fa-heart {
   font-size: 1rem;
   padding-left: 0.3rem;
+}
+
+/***********Display Medias****************/
+.list-article {
+  display: grid;
+  grid-template-columns: repeat(3, calc((97%) / 3));
+  gap: 1rem;
+}
+.list-photos {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0.3125rem;
+}
+.list-photos-photographer {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+.list-photos-conteneur {
+  width: 100%;
+  height: 20rem;
+}
+.list-photos-description {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 1rem;
+  color: #901c1c;
+}
+video {
+  width: 100%;
+  height: 100%;
 }
