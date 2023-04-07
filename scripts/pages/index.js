@@ -148,6 +148,16 @@ async function displayMedia(media, photographers, idPhotographer, options) {
   const mediaCardDOM = mediaModel.getMediaCardDOM();
   console.log(mediaCardDOM);
   mediaImage.appendChild(mediaCardDOM);
+
+  // Initialisation d'un tableau pour le stockage des data-ref des Likes des Photos
+  // Ecouteur d'évèvement sur chaque icône Like et appelle de la fonction likeNumberChange() pour le traitement
+  const numberLikes = document.querySelectorAll(".number-likes");
+  const tabRef = [];
+  for (let i = 0; i < numberLikes.length; i++) {
+    numberLikes[i].addEventListener("click", function () {
+      likeNumberChange(numberLikes[i], tabRef);
+    });
+  }
 }
 
 /**

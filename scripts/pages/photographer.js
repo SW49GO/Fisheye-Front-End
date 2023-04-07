@@ -81,3 +81,34 @@ if (form != null) {
     closeModal();
   });
 }
+
+/**
+ * Function Management Likes
+ * @param {string} numberLikes HTML
+ * @param {array} tabRef
+ */
+
+function likeNumberChange(numberLikes, tabRef) {
+  const encart = document.querySelector(".likes");
+  let photoLike = parseInt(numberLikes.textContent);
+  console.log(photoLike);
+  const refLike = numberLikes.childNodes[1].dataset.ref;
+  let totalLikesEncart = parseInt(encart.textContent);
+  console.log(totalLikesEncart);
+
+  if (tabRef.includes(refLike)) {
+    // Si l'utilisateur a déjà liké
+    const index = tabRef.indexOf(refLike);
+    tabRef.splice(index, 1);
+    totalLikesEncart--;
+    photoLike--;
+  } else {
+    // Si l'utilisateur n'a pas encore liké
+    tabRef.push(refLike);
+    totalLikesEncart++;
+    photoLike++;
+  }
+  // Insertion des nouvelles données dans le DOM
+  encart.innerHTML = `${totalLikesEncart}<i class="fa-solid fa-heart"></i>`;
+  numberLikes.innerHTML = `${photoLike}<i data-ref="${refLike}" class="fa-solid fa-heart icon-likes"></i>`;
+}
