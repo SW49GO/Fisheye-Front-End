@@ -181,6 +181,9 @@ hr {
 .show {
   display: block;
 }
+.hidden {
+  display: none;
+}
 /**********Encart*************/
 .encart {
   display: flex;
@@ -234,6 +237,10 @@ hr {
   color: #901c1c;
   background-color: #fff;
 }
+.likes {
+  margin-right: 1rem;
+}
+
 video {
   width: 100%;
   height: 100%;
@@ -246,4 +253,73 @@ a[href="#homePage]"] {
   color: transparent;
   width: 1rem;
   height: 1rem;
+}
+
+/********************LightBox*********************/
+.lightBox {
+  display: flex;
+  justify-content: center;
+  background-color: #fff;
+  width: 46rem;
+  overflow: hidden;
+}
+.conteneurImages {
+  position: relative;
+  display: flex;
+  /* width: 380rem; */
+  height: 38rem;
+}
+.conteneurLightBox {
+  width: 44rem;
+  height: 38rem;
+  position: relative;
+  overflow: hidden;
+}
+ul {
+  list-style: none;
+  position: relative;
+  overflow: hidden;
+  padding: 0;
+}
+.li-image {
+  position: absolute;
+  width: 44rem;
+  height: 37rem;
+  padding: 1rem 2rem;
+  top: -0.25rem;
+}
+.title-photo {
+  color: #901c1c;
+  padding-top: 0.3rem;
+}
+.list-images {
+  width: 100%;
+  margin-bottom: 5rem;
+}
+.icon-close {
+  font-size: 2rem;
+  color: #901c1c;
+  position: absolute;
+  top: 0.125rem;
+  right: 0.1rem;
+  z-index: 3;
+}
+.conteneurImage {
+  width: 20rem;
+  height: 20rem;
+}
+
+.lightBox-photo {
+  border-radius: 0;
+}
+.arrow-left,
+.arrow-right {
+  font-size: 2rem;
+  color: #901c1c;
+  position: absolute;
+  top: 50%;
+  z-index: 5;
+}
+.arrow-right {
+  right: 0;
 }

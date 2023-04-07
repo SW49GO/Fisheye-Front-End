@@ -26,7 +26,7 @@ async function getJsonDataPhotographers() {
  */
 async function getPhotographerById(photographers, id) {
   console.log("index.js->getPhotograperById(photographers, id)");
-  // Filtre pour récupérer les données correspondant à l'ID du photographe
+  // Retrieve data of a photographer from his ID
   const personalPhotographer = photographers.filter(
     (user) => user.id === parseInt(id)
   );
@@ -68,7 +68,7 @@ async function getNamePhotographer(photographers, id) {
 async function displayDataIndex(photographers) {
   console.log(photographers);
   const photographersSection = document.querySelector(".photographer_section");
-
+  // Loop for display each photographers data in Home Page
   photographers.forEach((photographer) => {
     const photographerModel = photographerFactory(photographer);
     const userCardDOM = photographerModel.getUserCardDOM();
@@ -84,19 +84,13 @@ async function displayDataIndex(photographers) {
  */
 async function displayDataPhotographer(media, photographers, idPhotographer) {
   console.log("index.js->displayDataPhotographer");
-  // Element du DOM qui recevra le HTML
+  // DOM element that will receive the HTML
   const mediaSection = document.querySelector(".photograph-header");
-  // Données du photographe sélectionné
+  // Data of photographer who is selected
   const personalPhotographer = await getPhotographerById(
     photographers,
     idPhotographer
   );
-
-  // // Additionner tout les Likes d'un photographe pour l'encart
-  // const numbLikesEncart = media
-  //   .filter((media) => media.photographerId === parseInt(idPhotographer))
-  //   .map((listLike) => listLike.likes)
-  //   .reduce((acc, value) => acc + value);
 
   console.log(personalPhotographer);
   const personalData = { photographer: personalPhotographer[0] };
@@ -104,24 +98,24 @@ async function displayDataPhotographer(media, photographers, idPhotographer) {
   const pageCardDOM = pagePhotographer.getPagePhotographerDOM();
   mediaSection.appendChild(pageCardDOM);
 
-  // Ecouteur d'évènement sur le bouton du Filtre
+  // Event listener on Filter button
   const btnFilter = document.querySelector(".btn-filter");
   console.log(btnFilter);
   btnFilter.addEventListener("click", function () {
     console.log("entrer addEventListener Index");
     displayMenuFilter(btnFilter);
   });
-  // Ecouteur d'évènement sur le menu de sélection du filtre
+  // Event listener on filter selection menu
   const selectMenuFilter = document.querySelectorAll(".select-menu-item");
   for (let i = 0; i < selectMenuFilter.length; i++) {
-    // Sur le click
+    // On click
     selectMenuFilter[i].addEventListener("click", function () {
       console.log();
       selectFilter(selectMenuFilter[i], btnFilter);
       const selectedMenuFilter = document.querySelector(".select-menu");
       selectedMenuFilter.classList.remove("show");
     });
-    // Sur la touche "Entrée"
+    // On the "Enter" key
     selectMenuFilter[i].addEventListener("keydown", function (event) {
       if (event.key === "Enter") {
         event.preventDefault();
@@ -141,23 +135,27 @@ async function displayDataPhotographer(media, photographers, idPhotographer) {
  * @param {string} options
  */
 async function displayMedia(media, photographers, idPhotographer, options) {
-  console.log("trier par :" + options);
+  // DOM element that will receive the HTML
+  const mediaImage = document.querySelector(".photograph-header");
 
+  console.log("trier par :" + options);
+  // Get the media from ID photographer
   const mediaPhotographer = await getMediaById(media, idPhotographer);
 
   console.log("index.js->displaymedia");
-
-  const mediaImage = document.querySelector(".photograph-header");
+  // Get the data for THE photographer
   const personalPhotographer = await getPhotographerById(
     photographers,
     idPhotographer
   );
+  // Get the medias after to check filter
   const newMedia = await getMediaFilter(
     mediaPhotographer,
     idPhotographer,
     options
   );
   console.log(newMedia);
+  // The data which is sent to mediaFactory
   const photographerData = {
     photographer: personalPhotographer,
     media: newMedia,
@@ -166,15 +164,33 @@ async function displayMedia(media, photographers, idPhotographer, options) {
   const mediaModel = mediaFactory(photographerData);
   const mediaCardDOM = mediaModel.getMediaCardDOM();
   console.log(mediaCardDOM);
+  // Received HTML Element who insert into the DOM
   mediaImage.appendChild(mediaCardDOM);
 
-  // Initialisation d'un tableau pour le stockage des data-ref des Likes des Photos
-  // Ecouteur d'évèvement sur chaque icône Like et appelle de la fonction likeNumberChange() pour le traitement
+  // Display encart after the medias
+  displayEncart(media, photographers, idPhotographer);
+
+  // Initialization of an array for storing the data-ref of the Likes of the Photos
+  // Event listener on each Like icon and call likeNumberChange() function for processing
   const numberLikes = document.querySelectorAll(".number-likes");
   const tabRef = [];
   for (let i = 0; i < numberLikes.length; i++) {
     numberLikes[i].addEventListener("click", function () {
       likeNumberChange(numberLikes[i], tabRef);
+    });
+  }
+  // Event listener on each photo -> Click and Enter
+  const listPhotos = document.querySelectorAll(".list-photos");
+  for (let i = 0; i < listPhotos.length; i++) {
+    listPhotos[i].addEventListener("click", function (event) {
+      event.preventDefault();
+      selectPhotoLightBox(listPhotos[i]);
+    });
+    listPhotos[i].addEventListener("keydown", function (event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        selectPhotoLightBox(listPhotos[i]);
+      }
     });
   }
 }
@@ -191,6 +207,8 @@ async function getMediaFilter(media, id, options) {
 
   const medias = await getMediaById(media, id);
   // console.log(medias);
+
+  // Filter for the select options
   let mediaFilter;
   switch (options) {
     case "1":
@@ -215,9 +233,10 @@ async function getMediaFilter(media, id, options) {
  * @param {string} idPhotographer
  */
 async function displayEncart(media, photographers, idPhotographer) {
+  // DOM element that will receive the HTML
   const mediaConteneur = document.querySelector(".photograph-header");
 
-  // Additionner tout les Likes d'un photographe pour l'encart
+  // Add all the Like of the photographer photos
   const numbLikesEncart = media
     .filter((media) => media.photographerId === parseInt(idPhotographer))
     .map((listLike) => listLike.likes)
@@ -225,7 +244,7 @@ async function displayEncart(media, photographers, idPhotographer) {
   console.log(numbLikesEncart);
   console.log(media);
 
-  // Prix des services du photographe
+  // Get all informations about a photographer to take is service price
   const photoghrapherData = await getPhotographerById(
     photographers,
     idPhotographer
@@ -240,31 +259,77 @@ async function displayEncart(media, photographers, idPhotographer) {
 }
 
 /**
+ * Function to display LightBox
+ * @param {object} media
+ * @param {object} photographers
+ * @param {string} selectPhoto
+ * @param {string} idPhotographer
+ */
+async function displayLightBox(
+  media,
+  photographers,
+  selectPhoto,
+  idPhotographer
+) {
+  console.log(selectPhoto);
+  if (selectPhoto !== "1") {
+    console.log("index.js->displayLightBox");
+    const mediaPhotographer = await getMediaById(media, idPhotographer);
+    const name = await getNamePhotographer(photographers, idPhotographer);
+
+    const modal = document.getElementById("contact_modal");
+    // Nombre de Medias
+    const nbMedias = mediaPhotographer.length;
+
+    const mediaModel = mediaFactory(mediaPhotographer);
+    const mediaLightBoxDOM = mediaModel.getLightBoxDOM(selectPhoto, name);
+
+    if (mediaLightBoxDOM != null) {
+      modal.appendChild(mediaLightBoxDOM);
+      const ul = modal.querySelector(".conteneurImages");
+      console.log(ul);
+      // Ajustement du conteneur par rapport au nombre de medias
+      ul.style.width = `${38 * nbMedias}rem`;
+      // Ecouteur d'évènement sur les flèches
+      const arrowLeft = modal.querySelector(".arrow-left");
+      arrowLeft.addEventListener("click", function () {
+        goToPreviewPhoto(mediaPhotographer);
+      });
+      const arrowRight = modal.querySelector(".arrow-right");
+      arrowRight.addEventListener("click", function () {
+        goToNextPhoto(mediaPhotographer);
+      });
+    }
+  }
+}
+
+/**
  * Initialization all functions :
  * - displayDataIndex() : to display portraits of photographers in home page
  * - displayDataPhotographer() : to display static page header photographer
  * - displayMedia() : to display all photos and video
  * - displayPhotographerName() : to get the Name of the photographer
+ * - displayLightBox() : to display the LightBox
  * @param {string} options
  */
 async function init(options) {
-  // Récupèration des datas des photographes
+  // Retrieve data (media,photographers) -> fetch
   const { media, photographers } = await getJsonDataPhotographers();
 
-  // Initialisation du contenu de la page d'accueil
+  // Initialization of homepage content
   if (window.location.href.includes("index.html")) {
     displayDataIndex(photographers);
   }
 
-  // Initialisation du contenu de la page d'un photographe
+  // Initializing the content of a photographer's page
   if (window.location.href.includes("photographer.html")) {
-    // Récupération de l'ID du photographe
+    // Photographer ID recovery
     const urlParams = new URLSearchParams(window.location.search);
     const idPhotographer = urlParams.get("identify");
 
     displayDataPhotographer(media, photographers, idPhotographer);
     displayMedia(media, photographers, idPhotographer, (options = "1"));
-    displayEncart(media, photographers, idPhotographer);
+    displayLightBox(media, photographers, options, idPhotographer);
 
     const name = await getNamePhotographer(photographers, idPhotographer);
     displayPhotographerName(name);

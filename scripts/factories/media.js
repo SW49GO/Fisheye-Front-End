@@ -28,8 +28,8 @@ function mediaFactory(data) {
 
     for (let i = 0; i < data.media.length; i++) {
       const images = data.media[i].image
-        ? `<img class="list-photos" data-id="${data.media[i].id}" src="assets/photographers/${path}/${data.media[i].image}" alt="${data.media[i].title}" loading="lazy"></img>`
-        : `<video class="video list-photos" data-id="${data.media[i].id}" aria-label="Vidéo : ${data.media[i].title}">
+        ? `<img tabindex="0" class="list-photos" data-id="${data.media[i].id}" src="assets/photographers/${path}/${data.media[i].image}" alt="${data.media[i].title}" loading="lazy"></img>`
+        : `<video tabindex="0" class="video list-photos" data-id="${data.media[i].id}" aria-label="Vidéo : ${data.media[i].title}">
                                         <source src="assets/photographers/${path}/${data.media[i].video}" type="video/mp4" >
                                       </video>`;
       const title = data.media[i].video
@@ -39,7 +39,7 @@ function mediaFactory(data) {
         // console.log(images);
         article.innerHTML += `<div class="list-photos-photographer">
                                   <a href="#" tabindex="-1">
-                                    <button class="list-photos-conteneur" tabindex="0" aria-label="Cliquer pour zoomer sur la photo ou lire la vidéo">
+                                    <button type="button" tabindex="-1" class="list-photos-conteneur" aria-label="Cliquer pour zoomer sur la photo ou lire la vidéo">
                                       ${images}
                                     </button>
                                    </a>
@@ -68,5 +68,76 @@ function mediaFactory(data) {
     <p class="price" tabindex="0">${price}€/jour</p>`;
     return article;
   }
-  return { getMediaCardDOM, getEncart };
+
+  /**
+   * Function to display LightBox
+   * @param {string} selectPhoto
+   * @param {string} name
+   * @returns
+   */
+  function getLightBoxDOM(selectPhoto, name) {
+    console.log("factories/media.js->getLightBoxDOM");
+    console.log("selectionPhoto" + selectPhoto);
+    // Récupération du nom pour le chemin d'accès au fichier
+    const path = name[0].split(" ")[0];
+    // Récupération de l'index de la photo sélectionnée d'après son id
+    const indexPhoto = data
+      .map((photo) => photo.id == selectPhoto)
+      .indexOf(true);
+    console.log(indexPhoto);
+    // Envoi de la valeur de l'index de la photo
+    getValueIndex(indexPhoto);
+    // Déterminer le format du media s'il s'agit pour la photo ou video sélectionner
+
+    const formatPhoto = data
+      .filter((photo) => photo.id == selectPhoto)
+      .map((format) => format.image);
+    const formatVideo = data
+      .filter((photo) => photo.id == selectPhoto)
+      .map((format) => format.video);
+
+    // Affichage de toutes les images et video
+    let displayMedia = `<div class="conteneurLightBox">
+                          <div tabindex="0" class="icon-close">
+                            <i class="fa-sharp fa-solid fa-xmark" onclick="closeModal()"></i>
+                          </div>
+                          <div tabindex="0" class="arrow-right">
+                            <i class="fa-sharp fa-solid fa-angle-right"></i>
+                          </div>
+                          <div tabindex="0" class="arrow-left">
+                            <i class="fa-sharp fa-solid fa-angle-right fa-rotate-180"></i>
+                          </div>
+                          <ul class="conteneurImages">`;
+
+    // Création du rendu
+    data.forEach((item, index) => {
+      // Définition d'une classe en fonction de la photo sélectionnée
+      const classed = indexPhoto == index ? "show" : "hidden";
+      if (item.image) {
+        displayMedia += `<li class="li-image" data-index="${index}">
+                          <img class="list-photos lightBox-photo ${classed}" src="assets/photographers/${path}/${item.image}" alt="photo sélectionnée">
+                          <p class="title-photo ${classed}">${item.title}</p>
+                        </li>`;
+      }
+      if (item.video) {
+        displayMedia += ` <li class="li-image" data-index="${index}">
+                            <video class="video list-photos lightBox-photo ${classed}" controls width="100" aria-label="Vidéo : ${item.video}">
+                              <source src="assets/photographers/${path}/${item.video}" type="video/mp4">
+                            </video>
+                            <p class="title-photo ${classed}">${item.title}</p>
+                          </li>`;
+      }
+    });
+    displayMedia.innerHTML = `</ul></div>`;
+
+    const article = document.createElement("article");
+    article.className = "lightBox";
+    article.style.position = "relative";
+    article.style.top = "0";
+    article.style.order = "1";
+    article.innerHTML = displayMedia;
+    return article;
+  }
+
+  return { getMediaCardDOM, getEncart, getLightBoxDOM };
 }

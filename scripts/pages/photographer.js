@@ -37,7 +37,7 @@ function selectFilter(selectMenuFilter, btnFilter) {
   console.log(btnFilter);
   console.log(selectMenuFilter);
   console.log("entrer selection menu");
-  // Positionnement du chevron
+  // Positioning of arrows
   const chevronFilter = btnFilter.querySelector(".chevron-filter");
   chevronFilter.innerHTML = `<i class="fa-solid fa-chevron-down"></i>`;
   const button = btnFilter.childNodes[0];
@@ -45,7 +45,7 @@ function selectFilter(selectMenuFilter, btnFilter) {
   const buttonTxt = button.textContent;
   const choiceName = selectMenuFilter.textContent;
 
-  // Inversion des nom de menuItems
+  // Reversing menuItems names
   button.textContent = choiceName;
   selectMenuFilter.textContent = buttonTxt;
 
@@ -69,7 +69,7 @@ function selectFilter(selectMenuFilter, btnFilter) {
 }
 
 /**
- * Console.log de la soumission du formulaire
+ * Console.log of form submission
  */
 const form = document.querySelector(".modal-form");
 if (form != null) {
@@ -104,18 +104,131 @@ function likeNumberChange(numberLikes, tabRef) {
   console.log(totalLikesEncart);
 
   if (tabRef.includes(refLike)) {
-    // Si l'utilisateur a déjà liké
+    // If the user has already liked
     const index = tabRef.indexOf(refLike);
     tabRef.splice(index, 1);
     totalLikesEncart--;
     photoLike--;
   } else {
-    // Si l'utilisateur n'a pas encore liké
+    // If the user has not yet liked
     tabRef.push(refLike);
     totalLikesEncart++;
     photoLike++;
   }
-  // Insertion des nouvelles données dans le DOM
+  // Inserting new data into the DOM
   encart.innerHTML = `${totalLikesEncart}<i class="fa-solid fa-heart"></i>`;
   numberLikes.innerHTML = `${photoLike}<i data-ref="${refLike}" class="fa-solid fa-heart icon-likes"></i>`;
+}
+
+/**
+ * Function to display the LightBox when user select a photo
+ * @param {*} photo
+ */
+function selectPhotoLightBox(photo) {
+  console.log(photo);
+  const idPhoto = photo.dataset.id;
+  console.log(idPhoto);
+  getJsonDataPhotographers().then(({ media, photographers }) => {
+    displayLightBox(media, photographers, idPhoto, idPhotographer);
+  });
+  displayModal("lightBox");
+}
+
+/**
+ * Function to initialize "i" that is the index of the photo selected
+ * @param {string} indexPhoto
+ * @returns
+ */
+function getValueIndex(indexPhoto) {
+  console.log(indexPhoto);
+  i = parseInt(indexPhoto);
+  return i;
+}
+// Variable i=indexPhoto
+let i;
+console.log(i);
+
+/**
+ * Function to show the next photo
+ * @param {*} nbMedias
+ */
+function goToPreviewPhoto(nbMedias) {
+  document
+    .getElementById("contact_modal")
+    .querySelectorAll(".li-image")
+    [i].querySelector(".lightBox-photo")
+    .classList.toggle("hidden");
+  document
+    .getElementById("contact_modal")
+    .querySelectorAll(".li-image")
+    [i].querySelector(".title-photo")
+    .classList.toggle("hidden");
+  // console.log(nbMedias.length);
+  console.log("left");
+  i--;
+  // if (i >= 0) {
+  //   i = Math.abs(i % nbMedias.length);
+  // } else {
+  //   i = nbMedias.length - Math.abs(i % nbMedias.length);
+  // }
+  // Affecte une valeur positif à "i", si "i" est négatif
+  i = ((i % nbMedias.length) + nbMedias.length) % nbMedias.length;
+
+  document
+    .getElementById("contact_modal")
+    .querySelectorAll(".li-image")
+    [i].querySelector(".lightBox-photo")
+    .classList.toggle("hidden");
+  console.log(
+    document.getElementById("contact_modal").querySelectorAll(".li-image")[i]
+  );
+  document
+    .getElementById("contact_modal")
+    .querySelectorAll(".li-image")
+    [i].querySelector(".title-photo")
+    .classList.toggle("hidden");
+}
+
+/**
+ * Function to go to the preview photo
+ * @param {} nbMedias
+ */
+function goToNextPhoto(nbMedias) {
+  // console.log(nbMedias.length);
+  // Effacement de l'image et son titre en cours
+  document
+    .getElementById("contact_modal")
+    .querySelectorAll(".li-image")
+    [i].querySelector(".lightBox-photo")
+    .classList.toggle("hidden");
+  document
+    .getElementById("contact_modal")
+    .querySelectorAll(".li-image")
+    [i].querySelector(".title-photo")
+    .classList.toggle("hidden");
+
+  console.log("right");
+  i++;
+  // if (i >= 0) {
+  //   i = Math.abs(i % nbMedias.length);
+  // } else {
+  //   i = nbMedias.length - Math.abs(i % nbMedias.length);
+  // }
+  // Affecte une valeur positif à "i", si "i" est négatif
+  i = ((i % nbMedias.length) + nbMedias.length) % nbMedias.length;
+
+  // Apparition de la prochain photo et son titre
+  document
+    .getElementById("contact_modal")
+    .querySelectorAll(".li-image")
+    [i].querySelector(".lightBox-photo")
+    .classList.toggle("hidden");
+  console.log(
+    document.getElementById("contact_modal").querySelectorAll(".li-image")[i]
+  );
+  document
+    .getElementById("contact_modal")
+    .querySelectorAll(".li-image")
+    [i].querySelector(".title-photo")
+    .classList.toggle("hidden");
 }
