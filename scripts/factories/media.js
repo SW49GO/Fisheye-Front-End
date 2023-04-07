@@ -7,6 +7,10 @@ function mediaFactory(data) {
   console.log("factories/media.js");
   console.log(data);
 
+  /**
+   * Function to display Photos and Video
+   * @returns HTML Element
+   */
   function getMediaCardDOM() {
     console.log("factories/media.js->getMediaCardDOM");
     const { name } = data.photographer[0];
@@ -50,5 +54,19 @@ function mediaFactory(data) {
 
     return article;
   }
-  return { getMediaCardDOM };
+
+  /**
+   * Function to display the Encart
+   * @param {number} numberLikes
+   * @param {number} price
+   * @returns
+   */
+  function getEncart(numberLikes, price) {
+    const article = document.createElement("article");
+    article.className = "encart";
+    article.innerHTML = `<p class="likes" tabindex="0">${numberLikes} <span>&hearts;<span></p>
+    <p class="price" tabindex="0">${price}€/jour</p>`;
+    return article;
+  }
+  return { getMediaCardDOM, getEncart };
 }

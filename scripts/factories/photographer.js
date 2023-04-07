@@ -75,10 +75,6 @@ function photographerFactory(data) {
                             </ul>
                           </div>
                         </div>
-                        <div class="encart">
-                          <p class="likes" tabindex="0">${numbLikes} <span>&hearts;<span></p>
-                          <p class="price" tabindex="0">${price}€/jour</p>
-                        </div>
                     `;
       return article;
     }
