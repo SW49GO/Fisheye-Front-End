@@ -33,11 +33,13 @@ function photographerFactory(data) {
                         </div>`;
     return article;
   }
+
   /**
    * Function to return the HTML page of each Photographer
-   * @returns HTMLElement(article)
+   * @param {number} numbLikes
+   * @returns HTML Element
    */
-  function getPagePhotographerDOM() {
+  function getPagePhotographerDOM(numbLikes) {
     const { name, id, city, country, tagline, price, portrait } =
       data.photographer;
     const picture = `assets/photographers/Photographers ID Photos/${portrait}`;
@@ -74,7 +76,7 @@ function photographerFactory(data) {
                           </div>
                         </div>
                         <div class="encart">
-                          <p class="likes" tabindex="0"><span>&hearts;<span></p>
+                          <p class="likes" tabindex="0">${numbLikes} <span>&hearts;<span></p>
                           <p class="price" tabindex="0">${price}€/jour</p>
                         </div>
                     `;

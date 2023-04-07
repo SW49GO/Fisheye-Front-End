@@ -69,7 +69,7 @@ async function displayDataIndex(photographers) {
  * @param {object} media
  * @param {object} photographers
  */
-async function displayDataPhotographer(photographers, idPhotographer) {
+async function displayDataPhotographer(media, photographers, idPhotographer) {
   console.log("index.js->displayDataPhotographer");
   // Element du DOM qui recevra le HTML
   const mediaSection = document.querySelector(".photograph-header");
@@ -78,10 +78,17 @@ async function displayDataPhotographer(photographers, idPhotographer) {
     photographers,
     idPhotographer
   );
+
+  // Additionner tout les Likes d'un photographe pour l'encart
+  const numbLikesEncart = media
+    .filter((media) => media.photographerId === parseInt(idPhotographer))
+    .map((listLike) => listLike.likes)
+    .reduce((acc, value) => acc + value);
+
   console.log(personalPhotographer);
   const personalData = { photographer: personalPhotographer[0] };
   const pagePhotographer = photographerFactory(personalData);
-  const pageCardDOM = pagePhotographer.getPagePhotographerDOM();
+  const pageCardDOM = pagePhotographer.getPagePhotographerDOM(numbLikesEncart);
   mediaSection.appendChild(pageCardDOM);
 
   // Ecouteur d'évènement sur le bouton du Filtre
@@ -91,15 +98,17 @@ async function displayDataPhotographer(photographers, idPhotographer) {
     console.log("entrer addEventListener Index");
     displayMenuFilter(btnFilter);
   });
-
+  // Ecouteur d'évènement sur le menu de sélection du filtre
   const selectMenuFilter = document.querySelectorAll(".select-menu-item");
   for (let i = 0; i < selectMenuFilter.length; i++) {
+    // Sur le click
     selectMenuFilter[i].addEventListener("click", function () {
       console.log();
       selectFilter(selectMenuFilter[i], btnFilter);
       const selectedMenuFilter = document.querySelector(".select-menu");
       selectedMenuFilter.classList.remove("show");
     });
+    // Sur la touche "Entrée"
     selectMenuFilter[i].addEventListener("keydown", function (event) {
       if (event.key === "Enter") {
         event.preventDefault();
@@ -163,7 +172,7 @@ async function init(options) {
     const urlParams = new URLSearchParams(window.location.search);
     const idPhotographer = urlParams.get("identify");
 
-    displayDataPhotographer(photographers, idPhotographer);
+    displayDataPhotographer(media, photographers, idPhotographer);
     displayMedia(media, photographers, idPhotographer, (options = "1"));
   }
 }

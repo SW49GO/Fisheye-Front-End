@@ -29,19 +29,19 @@ function mediaFactory(data) {
                                         <source src="assets/photographers/${path}/${data.media[i].video}" type="video/mp4" >
                                       </video>`;
       const title = data.media[i].video
-        ? `<p><i class="fa-solid fa-video" title="Vidéo"></i> ${data.media[i].title}</p>`
-        : `<p>${data.media[i].title}</p>`;
+        ? `<p tabindex="0"><i class="fa-solid fa-video" title="Vidéo"></i> ${data.media[i].title}</p>`
+        : `<p tabindex="0">${data.media[i].title}</p>`;
       if (images) {
         // console.log(images);
         article.innerHTML += `<div class="list-photos-photographer">
                                   <a href="#" tabindex="-1">
-                                    <figure class="list-photos-conteneur" tabindex="0">
+                                    <button class="list-photos-conteneur" tabindex="0" aria-label="Cliquer pour zoomer sur la photo ou lire la vidéo">
                                       ${images}
-                                    </figure>
+                                    </button>
                                    </a>
-                                  <figcaption class="list-photos-description" tabindex="0">
+                                  <figcaption class="list-photos-description" >
                                     ${title}
-                                  <p class="number-likes"">${data.media[i].likes}<i data-ref="${data.media[i].id}" class="fa-solid fa-heart icon-likes"></i></p>
+                                    <button class="number-likes" tabindex="0" aria-label="Poser un like sur cette image apprécié ${data.media[i].likes} fois">${data.media[i].likes}<i data-ref="${data.media[i].id}" class="fa-solid fa-heart icon-likes"></i></button>
                                   </figcaption>
                                 </div>`;
       }

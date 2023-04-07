@@ -7,7 +7,7 @@ function displayModal() {
   modal.style.display = "block";
   main.style.opacity = 0.5;
   header.style.opacity = 0.5;
-  document.getElementById("firstname").focus();
+  document.querySelector(".modal-header-title").focus();
 }
 
 function closeModal() {
