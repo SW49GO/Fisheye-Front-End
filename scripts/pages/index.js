@@ -47,6 +47,19 @@ async function getMediaById(media, id) {
   // console.log(mediaPhotographer);
   return mediaPhotographer;
 }
+/**
+ * Function to get the Name of a photographer
+ * @param {object} photographers
+ * @param {string} id
+ * @returns
+ */
+async function getNamePhotographer(photographers, id) {
+  console.log("index.js->getNamePhotopher(photographers,id)");
+  const photographerName = photographers
+    .filter((photographer) => photographer.id === parseInt(id))
+    .map((photographer) => photographer.name);
+  return photographerName;
+}
 
 /**
  * Function to display portraits of photographers
@@ -195,6 +208,7 @@ async function displayEncart(media, photographers, idPhotographer) {
  * - displayDataIndex() : to display portraits of photographers in home page
  * - displayDataPhotographer() : to display static page header photographer
  * - displayMedia() : to display all photos and video
+ * - displayPhotographerName() : to get the Name of the photographer
  * @param {string} options
  */
 async function init(options) {
@@ -215,6 +229,9 @@ async function init(options) {
     displayDataPhotographer(media, photographers, idPhotographer);
     displayMedia(media, photographers, idPhotographer, (options = "1"));
     displayEncart(media, photographers, idPhotographer);
+
+    const name = await getNamePhotographer(photographers, idPhotographer);
+    displayPhotographerName(name);
   }
 }
 
