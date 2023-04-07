@@ -152,15 +152,61 @@ async function displayMedia(media, photographers, idPhotographer, options) {
     photographers,
     idPhotographer
   );
-
+  const newMedia = await getMediaFilter(
+    mediaPhotographer,
+    idPhotographer,
+    options
+  );
+  console.log(newMedia);
   const photographerData = {
     photographer: personalPhotographer,
-    media: mediaPhotographer,
+    media: newMedia,
   };
+
   const mediaModel = mediaFactory(photographerData);
   const mediaCardDOM = mediaModel.getMediaCardDOM();
   console.log(mediaCardDOM);
   mediaImage.appendChild(mediaCardDOM);
+
+  // Initialisation d'un tableau pour le stockage des data-ref des Likes des Photos
+  // Ecouteur d'évèvement sur chaque icône Like et appelle de la fonction likeNumberChange() pour le traitement
+  const numberLikes = document.querySelectorAll(".number-likes");
+  const tabRef = [];
+  for (let i = 0; i < numberLikes.length; i++) {
+    numberLikes[i].addEventListener("click", function () {
+      likeNumberChange(numberLikes[i], tabRef);
+    });
+  }
+}
+
+/**
+ * Function to filter photos
+ * @param {object} media
+ * @param {string} id
+ * @param {string} options
+ * @returns
+ */
+async function getMediaFilter(media, id, options) {
+  console.log("index.js-> getMediaFilter(media, id, options)");
+
+  const medias = await getMediaById(media, id);
+  // console.log(medias);
+  let mediaFilter;
+  switch (options) {
+    case "1":
+      mediaFilter = medias.sort((a, b) => b.likes - a.likes);
+      break;
+    case "2":
+      mediaFilter = medias.sort((a, b) => b.dates - a.dates);
+      break;
+    case "3":
+      mediaFilter = medias.sort((a, b) => a.title.localeCompare(b.title));
+      break;
+    default:
+      mediaFilter = medias;
+  }
+  // console.log(mediaFilter);
+  return mediaFilter;
 }
 /**
  * Function to display the Encart
@@ -191,16 +237,6 @@ async function displayEncart(media, photographers, idPhotographer) {
   const mediaEncart = mediaFactory(mediaData);
   const encartCardDOM = mediaEncart.getEncart(numbLikesEncart, price);
   mediaConteneur.appendChild(encartCardDOM);
-
-  // Initialisation d'un tableau pour le stockage des data-ref des Likes des Photos
-  // Ecouteur d'évèvement sur chaque icône Like et appelle de la fonction likeNumberChange() pour le traitement
-  const numberLikes = document.querySelectorAll(".number-likes");
-  const tabRef = [];
-  for (let i = 0; i < numberLikes.length; i++) {
-    numberLikes[i].addEventListener("click", function () {
-      likeNumberChange(numberLikes[i], tabRef);
-    });
-  }
 }
 
 /**

@@ -1,3 +1,7 @@
+// ID of the photographer
+const urlParams = new URLSearchParams(window.location.search);
+const idPhotographer = urlParams.get("identify");
+
 /**
  * Function to display chevrons & appear menu
  * @param {string} btnFilter HTML
@@ -59,6 +63,9 @@ function selectFilter(selectMenuFilter, btnFilter) {
       break;
   }
   console.log(select);
+  getJsonDataPhotographers().then(({ media, photographers }) => {
+    displayMedia(media, photographers, idPhotographer, select);
+  });
 }
 
 /**
