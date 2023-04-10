@@ -33,7 +33,10 @@ a {
   text-decoration: none;
   text-align: center;
 }
-
+button {
+  border: none;
+  background-color: #fff;
+}
 .logo {
   height: 3.125rem;
 }
@@ -65,7 +68,7 @@ a {
   width: 12.5rem;
   object-fit: cover;
   border-radius: 50%;
-  /* overflow-clip-margin: unset; */
+  overflow-clip-margin: unset;
 }
 .photographer-description {
   text-align: center;

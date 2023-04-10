@@ -5,14 +5,16 @@
  */
 function photographerFactory(data) {
   console.log("factories/photographer.js");
-  console.log(data);
   // Extraction des propriétés de l'objet data pour photographer à l'aide de la déstructuration
   const { name, id, city, country, tagline, price, portrait } = data;
+  console.log(data);
   const picture = `assets/photographers/Photographers ID Photos/${portrait}`;
+  // console.log(data);
 
   /**
    * Function to create HTLM Elements (portraits and name of photographers)
    * @returns string (article)
+   * --> from displayDataIndex
    */
   function getUserCardDOM() {
     console.log("factories/photographer.js->getUserCardDOM");
@@ -36,15 +38,13 @@ function photographerFactory(data) {
 
   /**
    * Function to return the HTML page of each Photographer
-   * @param {number} numbLikes
    * @returns HTML Element
+   * --> from displayDataPhotographer
    */
-  function getPagePhotographerDOM(numbLikes) {
-    const { name, id, city, country, tagline, price, portrait } =
-      data.photographer;
+  function getPagePhotographerDOM() {
+    console.log("factories/photographer.js->getPagePhotographer");
     const picture = `assets/photographers/Photographers ID Photos/${portrait}`;
-    console.log(data);
-    console.log("factories/photographer.js->getPagePhotographerDOM");
+
     const verif = document.querySelector(".photographer-header-article");
     console.log(verif);
     if (!verif) {

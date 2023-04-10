@@ -64,6 +64,7 @@ async function getNamePhotographer(photographers, id) {
 /**
  * Function to display portraits of photographers
  * @param {array of objects} photographers
+ * --> to getUserCardDOM
  */
 async function displayDataIndex(photographers) {
   console.log(photographers);
@@ -78,11 +79,11 @@ async function displayDataIndex(photographers) {
 
 /**
  * Function to display an article for header photograph for the page photographer.html
- * construct from photographerFactory -> getPagePhotographerDOM
  * @param {object} media
  * @param {object} photographers
+ * --> to getPagePhotographerDOM
  */
-async function displayDataPhotographer(media, photographers, idPhotographer) {
+async function displayDataPhotographer(photographers, idPhotographer) {
   console.log("index.js->displayDataPhotographer");
   // DOM element that will receive the HTML
   const mediaSection = document.querySelector(".photograph-header");
@@ -92,8 +93,8 @@ async function displayDataPhotographer(media, photographers, idPhotographer) {
     idPhotographer
   );
 
-  console.log(personalPhotographer);
-  const personalData = { photographer: personalPhotographer[0] };
+  console.log(personalPhotographer[0]);
+  const personalData = personalPhotographer[0];
   const pagePhotographer = photographerFactory(personalData);
   const pageCardDOM = pagePhotographer.getPagePhotographerDOM();
   mediaSection.appendChild(pageCardDOM);
@@ -135,6 +136,11 @@ async function displayDataPhotographer(media, photographers, idPhotographer) {
  * @param {string} options
  */
 async function displayMedia(media, photographers, idPhotographer, options) {
+  // Display name of the photographer for contact_modal
+  const name = await getNamePhotographer(photographers, idPhotographer);
+  displayPhotographerName(name);
+
+  console.log("index.js->displaymedia");
   // DOM element that will receive the HTML
   const mediaImage = document.querySelector(".photograph-header");
 
@@ -142,7 +148,6 @@ async function displayMedia(media, photographers, idPhotographer, options) {
   // Get the media from ID photographer
   const mediaPhotographer = await getMediaById(media, idPhotographer);
 
-  console.log("index.js->displaymedia");
   // Get the data for THE photographer
   const personalPhotographer = await getPhotographerById(
     photographers,
@@ -286,18 +291,33 @@ async function displayLightBox(
 
     if (mediaLightBoxDOM != null) {
       modal.appendChild(mediaLightBoxDOM);
-      const ul = modal.querySelector(".conteneurImages");
-      console.log(ul);
-      // Ajustement du conteneur par rapport au nombre de medias
-      ul.style.width = `${38 * nbMedias}rem`;
+
       // Ecouteur d'évènement sur les flèches
       const arrowLeft = modal.querySelector(".arrow-left");
       arrowLeft.addEventListener("click", function () {
-        goToPreviewPhoto(mediaPhotographer);
+        goToPreviousPhoto(mediaPhotographer);
       });
       const arrowRight = modal.querySelector(".arrow-right");
       arrowRight.addEventListener("click", function () {
         goToNextPhoto(mediaPhotographer);
+      });
+      // Ecouteur d'évènement sur la modal pour la gestion des flèches du clavier
+      modal.addEventListener("keydown", function (e) {
+        if (e.key === "ArrowRight") {
+          goToNextPhoto(mediaPhotographer);
+        }
+        if (e.key === "ArrowLeft") {
+          goToPreviousPhoto(mediaPhotographer);
+        }
+      });
+      // Ecouteur d'évènement sur la fermeture de la modal
+      const closeLightBox = modal.querySelector(".icon-close");
+      closeLightBox.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") {
+          console.log("index close lightbox");
+          e.preventDefault();
+          closeModal("lightBox");
+        }
       });
     }
   }
@@ -308,7 +328,6 @@ async function displayLightBox(
  * - displayDataIndex() : to display portraits of photographers in home page
  * - displayDataPhotographer() : to display static page header photographer
  * - displayMedia() : to display all photos and video
- * - displayPhotographerName() : to get the Name of the photographer
  * - displayLightBox() : to display the LightBox
  * @param {string} options
  */
@@ -327,12 +346,9 @@ async function init(options) {
     const urlParams = new URLSearchParams(window.location.search);
     const idPhotographer = urlParams.get("identify");
 
-    displayDataPhotographer(media, photographers, idPhotographer);
+    displayDataPhotographer(photographers, idPhotographer);
     displayMedia(media, photographers, idPhotographer, (options = "1"));
     displayLightBox(media, photographers, options, idPhotographer);
-
-    const name = await getNamePhotographer(photographers, idPhotographer);
-    displayPhotographerName(name);
   }
 }
 

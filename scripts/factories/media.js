@@ -20,12 +20,12 @@ function mediaFactory(data) {
     const path = name.split(" ")[0];
     const parentArticle = document.querySelector(".photograph-header");
     const theLastArticle = document.querySelector(".list-article");
+    // If "article" already exist in DOM, remove it
     if (theLastArticle) {
       parentArticle.removeChild(theLastArticle);
     }
     const article = document.createElement("article");
     article.className = "list-article";
-
     for (let i = 0; i < data.media.length; i++) {
       const images = data.media[i].image
         ? `<img tabindex="0" class="list-photos" data-id="${data.media[i].id}" src="assets/photographers/${path}/${data.media[i].image}" alt="${data.media[i].title}" loading="lazy"></img>`
@@ -50,7 +50,6 @@ function mediaFactory(data) {
                                 </div>`;
       }
     }
-    article.innerHTML += `<a href="#begin">Revenir en haut de la page</a>`;
 
     return article;
   }
@@ -66,6 +65,7 @@ function mediaFactory(data) {
     article.className = "encart";
     article.innerHTML = `<p class="likes" tabindex="0">${numberLikes} <span>&hearts;<span></p>
     <p class="price" tabindex="0">${price}€/jour</p>`;
+    article.innerHTML += `<a href="#begin">Revenir en haut de la page</a>`;
     return article;
   }
 
@@ -85,10 +85,11 @@ function mediaFactory(data) {
       .map((photo) => photo.id == selectPhoto)
       .indexOf(true);
     console.log(indexPhoto);
+
     // Envoi de la valeur de l'index de la photo
     getValueIndex(indexPhoto);
-    // Déterminer le format du media s'il s'agit pour la photo ou video sélectionner
 
+    // Déterminer le format du media s'il s'agit pour la photo ou video sélectionner
     const formatPhoto = data
       .filter((photo) => photo.id == selectPhoto)
       .map((format) => format.image);
@@ -98,30 +99,31 @@ function mediaFactory(data) {
 
     // Affichage de toutes les images et video
     let displayMedia = `<div class="conteneurLightBox">
-                          <div tabindex="0" class="icon-close">
-                            <i class="fa-sharp fa-solid fa-xmark" onclick="closeModal()"></i>
-                          </div>
-                          <div tabindex="0" class="arrow-right">
+                          <button tabindex="0" class="icon-close" aria-label="Fermer">
+                            <i class="fa-sharp fa-solid fa-xmark" onclick="closeModal('lightBox')"></i>
+                          </button>
+                          <button tabindex="0" class="arrow-left" aria-label="Précedant">
+                          <i class="fa-sharp fa-solid fa-angle-right fa-rotate-180"></i>
+                          </button>
+                          <button tabindex="0" class="arrow-right" aria-label="Suivant">
                             <i class="fa-sharp fa-solid fa-angle-right"></i>
-                          </div>
-                          <div tabindex="0" class="arrow-left">
-                            <i class="fa-sharp fa-solid fa-angle-right fa-rotate-180"></i>
-                          </div>
+                          </button>
                           <ul class="conteneurImages">`;
 
     // Création du rendu
     data.forEach((item, index) => {
       // Définition d'une classe en fonction de la photo sélectionnée
       const classed = indexPhoto == index ? "show" : "hidden";
+
       if (item.image) {
         displayMedia += `<li class="li-image" data-index="${index}">
-                          <img class="list-photos lightBox-photo ${classed}" src="assets/photographers/${path}/${item.image}" alt="photo sélectionnée">
+                          <img class="list-photos lightBox-photo ${classed}" data-id="${item.id}" src="assets/photographers/${path}/${item.image}" alt="photo sélectionnée">
                           <p class="title-photo ${classed}">${item.title}</p>
                         </li>`;
       }
       if (item.video) {
         displayMedia += ` <li class="li-image" data-index="${index}">
-                            <video class="video list-photos lightBox-photo ${classed}" controls width="100" aria-label="Vidéo : ${item.video}">
+                            <video tabindex="0" class="video list-photos lightBox-photo ${classed}" controls width="100" aria-label="Vidéo : ${item.video}" data-id="${item.id}">
                               <source src="assets/photographers/${path}/${item.video}" type="video/mp4">
                             </video>
                             <p class="title-photo ${classed}">${item.title}</p>

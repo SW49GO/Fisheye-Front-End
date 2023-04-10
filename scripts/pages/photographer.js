@@ -152,7 +152,7 @@ console.log(i);
  * Function to show the next photo
  * @param {*} nbMedias
  */
-function goToPreviewPhoto(nbMedias) {
+function goToPreviousPhoto(nbMedias) {
   document
     .getElementById("contact_modal")
     .querySelectorAll(".li-image")

@@ -17,10 +17,8 @@ function displayModal(option) {
     modal.style.position = "fixed";
     divModal.style.display = "none";
     modal.style.border = ".125rem solid #95FFF9";
-    const conteneurLightBox = modal.querySelector(".lightBox");
-    // modal.querySelector(".icon-close").focus();
 
-    console.log(conteneurLightBox);
+    const conteneurLightBox = modal.querySelector(".lightBox");
     // If the lightBox is already present, remove it
     if (conteneurLightBox) {
       modal.removeChild(conteneurLightBox);
@@ -43,13 +41,37 @@ function displayModal(option) {
 /**
  * Function to close Contact Modal
  */
-function closeModal() {
+function closeModal(option) {
+  const focusContactClose = document.getElementById("begin");
+  const focusLightBoxClose = document.querySelector(".photograph-header");
   modal.style.display = "none";
   main.style.opacity = 1;
   header.style.opacity = 1;
-  // document.querySelector(".contact_button").focus();
+  if (option != null) {
+    if (option === "form") {
+      console.log("form close");
+      focusContactClose.focus();
+    }
+  }
+  if (option === "lightBox") {
+    console.log("lightBox close");
+    focusLightBoxClose
+      .querySelector(".list-article")
+      .querySelector(".list-photos")
+      .focus();
+  }
 }
 
+// Manage Even Listener "Enter" on modal contact
+const closeByEnterModal = modal.querySelector(".modal-close");
+if (closeByEnterModal != null) {
+  closeByEnterModal.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+      console.log("ENtrER");
+      closeModal("form");
+    }
+  });
+}
 /**
  * Function to show photographer name un Contact Modal
  * @param {string} photographerName
