@@ -69,27 +69,6 @@ function selectFilter(selectMenuFilter, btnFilter) {
 }
 
 /**
- * Console.log of form submission
- */
-const form = document.querySelector(".modal-form");
-if (form != null) {
-  form.addEventListener("submit", function (event) {
-    event.preventDefault();
-    console.log(
-      "Votre prénom : " +
-        event.target.firstname.value +
-        "\nVotre nom : " +
-        event.target.lastname.value +
-        "\nVotre adresse Email : " +
-        event.target.email.value +
-        "\nVotre message : " +
-        event.target.message.value
-    );
-    closeModal();
-  });
-}
-
-/**
  * Function Management Likes
  * @param {string} numberLikes HTML
  * @param {array} tabRef
@@ -231,4 +210,26 @@ function goToNextPhoto(nbMedias) {
     .querySelectorAll(".li-image")
     [i].querySelector(".title-photo")
     .classList.toggle("hidden");
+}
+
+/**
+ * Console.log of form submission
+ */
+const form = document.querySelector(".modal-form");
+if (form != null) {
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    console.log(
+      "Votre prénom : " +
+        event.target.firstname.value +
+        "\nVotre nom : " +
+        event.target.lastname.value +
+        "\nVotre adresse Email : " +
+        event.target.email.value +
+        "\nVotre message : " +
+        event.target.message.value
+    );
+    closeModal("form");
+  });
 }

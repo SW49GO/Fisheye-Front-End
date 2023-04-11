@@ -1,3 +1,4 @@
+// DOM HTML elements declare
 const modal = document.getElementById("contact_modal");
 const divModal = document.querySelector(".modal");
 const header = document.getElementsByTagName("header")[0];
@@ -17,6 +18,7 @@ function displayModal(option) {
     modal.style.position = "fixed";
     divModal.style.display = "none";
     modal.style.border = ".125rem solid #95FFF9";
+    modal.style.width = "60%";
 
     const conteneurLightBox = modal.querySelector(".lightBox");
     // If the lightBox is already present, remove it
@@ -48,6 +50,7 @@ function closeModal(option) {
   main.style.opacity = 1;
   header.style.opacity = 1;
   if (option != null) {
+    // Focus after modal form closed
     if (option === "form") {
       console.log("form close");
       focusContactClose.focus();
@@ -55,6 +58,7 @@ function closeModal(option) {
   }
   if (option === "lightBox") {
     console.log("lightBox close");
+    // Focus after mightBox closed
     focusLightBoxClose
       .querySelector(".list-article")
       .querySelector(".list-photos")

@@ -1,6 +1,6 @@
 /**
  * Pattern Factories to create HTMLElements for photographer.html
- * @param {object} data
+ * @param {object} data -> {media[all of the photographer] & photographer[0]}
  * @returns getMediaCardDOM->HTMLElement(article)
  */
 function mediaFactory(data) {
@@ -13,10 +13,8 @@ function mediaFactory(data) {
    */
   function getMediaCardDOM() {
     console.log("factories/media.js->getMediaCardDOM");
+    // Name of the photographer
     const { name } = data.photographer[0];
-    // console.log(name);
-
-    // console.log(data.media[0]);
     const path = name.split(" ")[0];
     const parentArticle = document.querySelector(".photograph-header");
     const theLastArticle = document.querySelector(".list-article");
@@ -26,10 +24,11 @@ function mediaFactory(data) {
     }
     const article = document.createElement("article");
     article.className = "list-article";
+    // article.setAttribute("title", "Ensemble des travaux du photographe");
     for (let i = 0; i < data.media.length; i++) {
       const images = data.media[i].image
-        ? `<img tabindex="0" class="list-photos" data-id="${data.media[i].id}" src="assets/photographers/${path}/${data.media[i].image}" alt="${data.media[i].title}" loading="lazy"></img>`
-        : `<video tabindex="0" class="video list-photos" data-id="${data.media[i].id}" aria-label="Vidéo : ${data.media[i].title}">
+        ? `<img tabindex="0" class="list-photos" data-id="${data.media[i].id}" src="assets/photographers/${path}/${data.media[i].image}" alt="${data.media[i].title}" loading="lazy" title="PHOTO: ${data.media[i].title}, cliquez pour agrandir"></img>`
+        : `<video tabindex="0" class="video list-photos" data-id="${data.media[i].id}" aria-label="Vidéo : ${data.media[i].title}" title="VIDEO : ${data.media[i].title}, cliquez pour lire la vidéo">
                                         <source src="assets/photographers/${path}/${data.media[i].video}" type="video/mp4" >
                                       </video>`;
       const title = data.media[i].video
@@ -45,7 +44,7 @@ function mediaFactory(data) {
                                    </a>
                                   <figcaption class="list-photos-description" >
                                     ${title}
-                                    <button class="number-likes" tabindex="0" aria-label="Poser un like sur cette image apprécié ${data.media[i].likes} fois">${data.media[i].likes}<i data-ref="${data.media[i].id}" class="fa-solid fa-heart icon-likes"></i></button>
+                                    <button class="number-likes" tabindex="0" aria-label="Poser un like sur cette image apprécié ${data.media[i].likes} fois" title="Image liké ${data.media[i].likes} fois">${data.media[i].likes}<i data-ref="${data.media[i].id}" class="fa-solid fa-heart icon-likes" title="Ajouter un like"></i></button>
                                   </figcaption>
                                 </div>`;
       }
@@ -61,10 +60,17 @@ function mediaFactory(data) {
    * @returns
    */
   function getEncart(numberLikes, price) {
+    const parentEncart = document.querySelector(".photograph-header");
+    const theLastEncart = document.querySelector(".encart");
+    // If "encart" already exist in DOM, remove it
+    if (theLastEncart) {
+      parentEncart.removeChild(theLastEncart);
+    }
+
     const article = document.createElement("article");
     article.className = "encart";
-    article.innerHTML = `<p class="likes" tabindex="0">${numberLikes} <span>&hearts;<span></p>
-    <p class="price" tabindex="0">${price}€/jour</p>`;
+    article.innerHTML = `<p class="likes" tabindex="0" title="Nombre total de likes">${numberLikes} <span>&hearts;<span></p>
+    <p class="price" tabindex="0" title="Tarif journalier des services du photographe">${price}€/jour</p>`;
     article.innerHTML += `<a href="#begin">Revenir en haut de la page</a>`;
     return article;
   }
@@ -99,13 +105,13 @@ function mediaFactory(data) {
 
     // Affichage de toutes les images et video
     let displayMedia = `<div class="conteneurLightBox">
-                          <button tabindex="0" class="icon-close" aria-label="Fermer">
+                          <button tabindex="0" class="icon-close" aria-label="Fermer la lightBox" title="Fermer la lightBox">
                             <i class="fa-sharp fa-solid fa-xmark" onclick="closeModal('lightBox')"></i>
                           </button>
-                          <button tabindex="0" class="arrow-left" aria-label="Précedant">
+                          <button tabindex="0" class="arrow-left" aria-label="Revenir à l'image précédante" title="Précedent">
                           <i class="fa-sharp fa-solid fa-angle-right fa-rotate-180"></i>
                           </button>
-                          <button tabindex="0" class="arrow-right" aria-label="Suivant">
+                          <button tabindex="0" class="arrow-right" aria-label="Aller à l'image suivante" title="Suivant">
                             <i class="fa-sharp fa-solid fa-angle-right"></i>
                           </button>
                           <ul class="conteneurImages">`;
@@ -136,7 +142,7 @@ function mediaFactory(data) {
     article.className = "lightBox";
     article.style.position = "relative";
     article.style.top = "0";
-    article.style.order = "1";
+    // article.style.order = "1";
     article.innerHTML = displayMedia;
     return article;
   }

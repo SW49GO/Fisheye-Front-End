@@ -281,18 +281,18 @@ async function displayLightBox(
     console.log("index.js->displayLightBox");
     const mediaPhotographer = await getMediaById(media, idPhotographer);
     const name = await getNamePhotographer(photographers, idPhotographer);
-
+    // HTML element where insert article
     const modal = document.getElementById("contact_modal");
-    // Nombre de Medias
-    const nbMedias = mediaPhotographer.length;
-
     const mediaModel = mediaFactory(mediaPhotographer);
     const mediaLightBoxDOM = mediaModel.getLightBoxDOM(selectPhoto, name);
 
     if (mediaLightBoxDOM != null) {
       modal.appendChild(mediaLightBoxDOM);
+      // Focus on lightBox to run keyboard arrow
+      const focusLightBoxOpen = document.querySelector(".icon-close");
+      focusLightBoxOpen.focus();
 
-      // Ecouteur d'évènement sur les flèches
+      // Event listener on arrows markup
       const arrowLeft = modal.querySelector(".arrow-left");
       arrowLeft.addEventListener("click", function () {
         goToPreviousPhoto(mediaPhotographer);
@@ -301,7 +301,7 @@ async function displayLightBox(
       arrowRight.addEventListener("click", function () {
         goToNextPhoto(mediaPhotographer);
       });
-      // Ecouteur d'évènement sur la modal pour la gestion des flèches du clavier
+      // Event listener for keyboard arrows
       modal.addEventListener("keydown", function (e) {
         if (e.key === "ArrowRight") {
           goToNextPhoto(mediaPhotographer);
@@ -310,7 +310,7 @@ async function displayLightBox(
           goToPreviousPhoto(mediaPhotographer);
         }
       });
-      // Ecouteur d'évènement sur la fermeture de la modal
+      // Event listener to close lightBox with keyboard "Enter"
       const closeLightBox = modal.querySelector(".icon-close");
       closeLightBox.addEventListener("keydown", function (e) {
         if (e.key === "Enter") {

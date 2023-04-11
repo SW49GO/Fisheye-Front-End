@@ -17,7 +17,12 @@
   </head>
   <body>
     <header role="banner">
-      <a id="begin" href="index.html" tabindex="0">
+      <a
+        id="begin"
+        href="index.html"
+        tabindex="0"
+        title="Lien vers la page d'accueil"
+      >
         <img
           src="assets/images/logo.png"
           class="logo"
@@ -26,21 +31,23 @@
       </a>
     </header>
     <main id="main" role="main">
-      <div class="photograph-header">
-        <!-- <button class="contact_button" onclick="displayModal()">
-          Contactez-moi
-        </button> -->
-      </div>
+      <section class="photograph-header"></section>
     </main>
-    <div id="contact_modal" role="dialog">
+    <section id="contact_modal" role="dialog">
       <div class="modal">
         <header class="modal-header">
-          <h1 class="modal-header-title" tabindex="0">Contactez-moi</h1>
+          <h1
+            class="modal-header-title"
+            tabindex="0"
+            aria-label="Contactez le photographe"
+          >
+            Contactez-moi
+          </h1>
           <img
             class="modal-close"
             src="assets/icons/close.svg"
             onclick="closeModal('form')"
-            alt="Fermer la fenêtre"
+            alt="Fermer la fenêtre de Contact"
             tabindex="0"
           />
         </header>
@@ -54,6 +61,7 @@
               required
               aria-required="true"
               aria-labelledby="first"
+              placeholder="Entrer votre prénom"
             />
             <label id="last" for="lastname">Nom</label>
             <input
@@ -63,6 +71,7 @@
               required
               aria-required="true"
               aria-labelledby="last"
+              placeholder="Entrer votre nom"
             />
             <label id="mail" for="email">Email</label>
             <input
@@ -72,18 +81,22 @@
               required
               aria-required="true"
               aria-labelledby="mail"
+              placeholder="Entrer votre email"
             />
             <label id="mess" for="message" aria-label="Votre message"
               >Votre message</label
             >
-            <input
+            <textarea
               type="text"
               name="message"
               id="message"
               required
               aria-required="true"
               aria-labelledby="mess"
-            />
+              cols="35"
+              rows="6"
+              placeholder="Entrer votre message ..."
+            ></textarea>
           </div>
           <button
             type="submit"
@@ -94,12 +107,12 @@
             Envoyer
           </button>
           <p id="form-validation">
-            Veuillez remplir tous les champs obligatoires avant de soumettre le
-            formulaire.
+            Vérifier d'avoir remplis tous les champs obligatoires avant de
+            soumettre le formulaire.
           </p>
         </form>
       </div>
-    </div>
+    </section>
     <script src="scripts/factories/media.js"></script>
     <script src="scripts/factories/photographer.js"></script>
     <script src="/scripts/pages/photographer.js"></script>

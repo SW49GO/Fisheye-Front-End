@@ -24,7 +24,7 @@ function photographerFactory(data) {
       "aria-label",
       "Carte d'identité du photographe " + name
     );
-    article.innerHTML = `<a href="photographer.html?identify=${id}" aria-label="Lien vers la page du photographe ${name}">
+    article.innerHTML = `<a href="photographer.html?identify=${id}" aria-label="Lien vers la page du photographe ${name}" title="Lien vers la page du photographe ${name}">
                             <img src="${picture}" alt="Portrait du photographe ${name}, lien vers sa page">
                             <h2>${name}</h2>
                         </a>
@@ -51,31 +51,30 @@ function photographerFactory(data) {
       const article = document.createElement("article");
       article.className = "photographer-header-article";
       article.innerHTML = `<div class="photographer-identity" data-identity="${id}">
-                          <div  aria-label="Localisation, slogan et tarifs du photographe ${name}" tabindex="0">
-                            <h2 class="name-photographer">${name}</h2>
-                            <h3>${city}, ${country}</h3> 
-                            <p>${tagline}</p>
+                            <div  title="Localisation, slogan et tarifs du photographe ${name}" tabindex="0">
+                              <h2 class="name-photographer">${name}</h2>
+                              <h3>${city}, ${country}</h3> 
+                              <p>${tagline}</p>
+                            </div>
+                            <div title="Bouton pour contacter ${name}">
+                              <button class="contact_button" onclick="displayModal('form')" aria-pressed="false" tabindex="0">Contactez-moi</button>
+                            </div>
+                            <div title="Portait de ${name}" tabindex="0">
+                              <img class="photographer-portrait" src="${picture}" alt="Portrait du photographe ${name}">
+                            </div>
                           </div>
-                          <div aria-label="Bouton pour contacter ${name}">
-                            <button class="contact_button" onclick="displayModal('form')" aria-pressed="false" tabindex="0">Contactez-moi</button>
-                          </div>
-                          <div aria-label="Portait de ${name}" tabindex="0">
-                            <img class="photographer-portrait" src="${picture}" alt="Portrait du photographe ${name}">
-                          </div>
-                        </div>
-                        <div class="select-sort">
-                          <p tabindex="0">Trier par </p>
-                          <div class="dropdown">
-                            <button class="btn-filter" tabindex="0" aria-haspopup="true" aria-pressed="false" role="dropdown"><p class="txt-filter">Popularité</p><span class="chevron-filter"><i class="fa-solid fa-chevron-down"></i></span></button>
-                            <ul class="select-menu">
-                              <hr aria-hidden="true">
-                              <li class="select-menu-item" tabindex="0">Date</li>
-                              <hr aria-hidden="true">
-                              <li class="select-menu-item" tabindex="0">Titre</li>
-                            </ul>
-                          </div>
-                        </div>
-                    `;
+                          <div class="select-sort">
+                            <p tabindex="0">Trier par </p>
+                            <div class="dropdown" title="Menu déroulant pour trier les photos">
+                              <button class="btn-filter" tabindex="0" aria-haspopup="true" aria-pressed="false" role="dropdown"><p class="txt-filter">Popularité</p><span class="chevron-filter"><i class="fa-solid fa-chevron-down"></i></span></button>
+                              <ul class="select-menu">
+                                <hr aria-hidden="true">
+                                <li class="select-menu-item" tabindex="0">Date</li>
+                                <hr aria-hidden="true">
+                                <li class="select-menu-item" tabindex="0">Titre</li>
+                              </ul>
+                            </div>
+                          </div>`;
       return article;
     }
     return null;
