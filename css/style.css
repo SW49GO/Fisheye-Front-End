@@ -45,7 +45,7 @@ button {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2.375rem;
-  margin-top: 3.25rem;
+  margin: 3.25rem 0;
 }
 
 .photographer_section article {

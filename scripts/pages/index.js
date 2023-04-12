@@ -185,16 +185,17 @@ async function displayMedia(media, photographers, idPhotographer, options) {
     });
   }
   // Event listener on each photo -> Click and Enter
-  const listPhotos = document.querySelectorAll(".list-photos");
+  const listPhotos = document.querySelectorAll(".list-photos-conteneur");
+  console.log("listPhotos:", listPhotos);
   for (let i = 0; i < listPhotos.length; i++) {
     listPhotos[i].addEventListener("click", function (event) {
       event.preventDefault();
-      selectPhotoLightBox(listPhotos[i]);
+      selectPhotoLightBox(listPhotos[i].querySelector(".list-photos"));
     });
     listPhotos[i].addEventListener("keydown", function (event) {
       if (event.key === "Enter") {
         event.preventDefault();
-        selectPhotoLightBox(listPhotos[i]);
+        selectPhotoLightBox(listPhotos[i].querySelector(".list-photos"));
       }
     });
   }

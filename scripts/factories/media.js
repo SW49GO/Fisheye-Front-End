@@ -27,8 +27,8 @@ function mediaFactory(data) {
     // article.setAttribute("title", "Ensemble des travaux du photographe");
     for (let i = 0; i < data.media.length; i++) {
       const images = data.media[i].image
-        ? `<img tabindex="0" class="list-photos" data-id="${data.media[i].id}" src="assets/photographers/${path}/${data.media[i].image}" alt="${data.media[i].title}" loading="lazy" title="PHOTO: ${data.media[i].title}, cliquez pour agrandir"></img>`
-        : `<video tabindex="0" class="video list-photos" data-id="${data.media[i].id}" aria-label="Vidéo : ${data.media[i].title}" title="VIDEO : ${data.media[i].title}, cliquez pour lire la vidéo">
+        ? `<img tabindex="-1" class="list-photos" data-id="${data.media[i].id}" src="assets/photographers/${path}/${data.media[i].image}" alt="${data.media[i].title}" loading="lazy" title="Cliquez pour agrandir"></img>`
+        : `<video tabindex="-1" class="video list-photos" data-id="${data.media[i].id}" aria-label="Vidéo ${data.media[i].title}" title="Cliquez pour lire la vidéo">
                                         <source src="assets/photographers/${path}/${data.media[i].video}" type="video/mp4" >
                                       </video>`;
       const title = data.media[i].video
@@ -38,13 +38,14 @@ function mediaFactory(data) {
         // console.log(images);
         article.innerHTML += `<div class="list-photos-photographer">
                                   <a href="#" tabindex="-1">
-                                    <button type="button" tabindex="-1" class="list-photos-conteneur" aria-label="Cliquer pour zoomer sur la photo ou lire la vidéo">
+                                    <button type="button" tabindex="0" class="list-photos-conteneur" aria-label="Cliquer pour zoomer sur la photo ou lire la vidéo">
                                       ${images}
                                     </button>
                                    </a>
                                   <figcaption class="list-photos-description" >
                                     ${title}
-                                    <button class="number-likes" tabindex="0" aria-label="Poser un like sur cette image apprécié ${data.media[i].likes} fois" title="Image liké ${data.media[i].likes} fois">${data.media[i].likes}<i data-ref="${data.media[i].id}" class="fa-solid fa-heart icon-likes" title="Ajouter un like"></i></button>
+                                    <button class="number-likes" tabindex="0" aria-label="Poser un like sur cette image aimé ${data.media[i].likes} fois">${data.media[i].likes}<i data-ref="${data.media[i].id}" class="fa-solid fa-heart icon-likes" title="Ajouter un like" aria-label="like"></i></button>
+                                    <p class="sr-only" aria-live="assertive"></p>
                                   </figcaption>
                                 </div>`;
       }
@@ -105,8 +106,8 @@ function mediaFactory(data) {
 
     // Affichage de toutes les images et video
     let displayMedia = `<div class="conteneurLightBox">
-                          <button tabindex="0" class="icon-close" aria-label="Fermer la lightBox" title="Fermer la lightBox">
-                            <i class="fa-sharp fa-solid fa-xmark" onclick="closeModal('lightBox')"></i>
+                          <button tabindex="0" type="button" class="icon-close" aria-label="Fermer la lightBox" title="Fermer la lightBox" onclick="closeModal('lightBox')">
+                            <i class="fa-sharp fa-solid fa-xmark"></i>
                           </button>
                           <button tabindex="0" class="arrow-left" aria-label="Revenir à l'image précédante" title="Précedent">
                           <i class="fa-sharp fa-solid fa-angle-right fa-rotate-180"></i>
@@ -122,14 +123,16 @@ function mediaFactory(data) {
       const classed = indexPhoto == index ? "show" : "hidden";
 
       if (item.image) {
+        const descImage = item.image.split(".")[0];
         displayMedia += `<li class="li-image" data-index="${index}">
-                          <img class="list-photos lightBox-photo ${classed}" data-id="${item.id}" src="assets/photographers/${path}/${item.image}" alt="photo sélectionnée">
+                          <img class="list-photos lightBox-photo ${classed}" data-id="${item.id}" src="assets/photographers/${path}/${item.image}" alt="photo ${descImage}">
                           <p class="title-photo ${classed}">${item.title}</p>
                         </li>`;
       }
       if (item.video) {
+        const descVideo = item.video.split(".")[0];
         displayMedia += ` <li class="li-image" data-index="${index}">
-                            <video tabindex="0" class="video list-photos lightBox-photo ${classed}" controls width="100" aria-label="Vidéo : ${item.video}" data-id="${item.id}">
+                            <video tabindex="0" class="video list-photos lightBox-photo ${classed}" controls width="100" aria-label="Vidéo ${descVideo}" data-id="${item.id}">
                               <source src="assets/photographers/${path}/${item.video}" type="video/mp4">
                             </video>
                             <p class="title-photo ${classed}">${item.title}</p>
@@ -142,7 +145,6 @@ function mediaFactory(data) {
     article.className = "lightBox";
     article.style.position = "relative";
     article.style.top = "0";
-    // article.style.order = "1";
     article.innerHTML = displayMedia;
     return article;
   }

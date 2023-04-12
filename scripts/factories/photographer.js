@@ -57,7 +57,7 @@ function photographerFactory(data) {
                               <p>${tagline}</p>
                             </div>
                             <div title="Bouton pour contacter ${name}">
-                              <button class="contact_button" onclick="displayModal('form')" aria-pressed="false" tabindex="0">Contactez-moi</button>
+                              <button tabindex="0" type="button" class="contact_button" onclick="displayModal('form')" aria-pressed="false"  aria-label="Contacter ${name}">Contactez-moi</button>
                             </div>
                             <div title="Portait de ${name}" tabindex="0">
                               <img class="photographer-portrait" src="${picture}" alt="Portrait du photographe ${name}">

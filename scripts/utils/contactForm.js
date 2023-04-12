@@ -1,5 +1,5 @@
 // DOM HTML elements declare
-const modal = document.getElementById("contact_modal");
+// const modal = document.getElementById("contact_modal");
 const divModal = document.querySelector(".modal");
 const header = document.getElementsByTagName("header")[0];
 const main = document.getElementById("main");
@@ -11,7 +11,10 @@ function displayModal(option) {
   modal.style.display = "block";
   divModal.style.display = "block";
   main.style.opacity = 0.5;
+  main.setAttribute("aria-hidden", "true");
   header.style.opacity = 0.5;
+  header.setAttribute("aria-hidden", "true");
+
   document.querySelector(".modal-header-title").focus();
   if (option === "lightBox") {
     modal.style.borderRadius = "none";
@@ -32,6 +35,7 @@ function displayModal(option) {
       modal.style.position = "absolute";
     }
     modal.style.border = "none";
+    modal.style.width = "auto";
     const conteneurLightBox = modal.querySelector(".lightBox");
     // If the lightBox is already present, remove it
     if (conteneurLightBox) {
@@ -48,7 +52,10 @@ function closeModal(option) {
   const focusLightBoxClose = document.querySelector(".photograph-header");
   modal.style.display = "none";
   main.style.opacity = 1;
+  main.setAttribute("aria-hidden", "false");
   header.style.opacity = 1;
+  header.setAttribute("aria-hidden", "false");
+
   if (option != null) {
     // Focus after modal form closed
     if (option === "form") {
@@ -83,6 +90,10 @@ if (closeByEnterModal != null) {
 function displayPhotographerName(photographerName) {
   console.log("utils/contactFormjs");
   const namePhotographer = document.querySelector(".modal-header-title");
+  const conteneurName = namePhotographer.querySelector(".namePhotographer");
   console.log(namePhotographer);
-  namePhotographer.innerHTML += `<br> ${photographerName}`;
+  if (conteneurName) {
+    namePhotographer.removeChild(conteneurName);
+  }
+  namePhotographer.innerHTML += `<p class="namePhotographer">${photographerName}</p>`;
 }
