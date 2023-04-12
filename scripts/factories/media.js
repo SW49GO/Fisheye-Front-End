@@ -96,13 +96,18 @@ function mediaFactory(data) {
     // Envoi de la valeur de l'index de la photo
     getValueIndex(indexPhoto);
 
-    // Déterminer le format du media s'il s'agit pour la photo ou video sélectionner
-    const formatPhoto = data
-      .filter((photo) => photo.id == selectPhoto)
-      .map((format) => format.image);
+    // Déterminer le format de la photo sélectionnée, si ce n'est pas une vidéo, rendre la video non focusable
     const formatVideo = data
       .filter((photo) => photo.id == selectPhoto)
       .map((format) => format.video);
+    console.log(formatVideo);
+    // Have tabindex or not for LightBox TAB
+    let tab;
+    if (formatVideo[0] == undefined) {
+      tab = 'tabindex="-1"';
+    } else {
+      tab = 'tabindex="-0"';
+    }
 
     // Affichage de toutes les images et video
     let displayMedia = `<div class="conteneurLightBox">
@@ -132,7 +137,7 @@ function mediaFactory(data) {
       if (item.video) {
         const descVideo = item.video.split(".")[0];
         displayMedia += ` <li class="li-image" data-index="${index}">
-                            <video tabindex="0" class="video list-photos lightBox-photo ${classed}" controls width="100" aria-label="Vidéo ${descVideo}" data-id="${item.id}">
+                            <video ${tab} class="video list-photos lightBox-photo ${classed}" controls width="100" aria-label="Vidéo ${descVideo}" data-id="${item.id}">
                               <source src="assets/photographers/${path}/${item.video}" type="video/mp4">
                             </video>
                             <p class="title-photo ${classed}">${item.title}</p>

@@ -304,17 +304,17 @@ async function displayLightBox(
       });
       // Event listener for keyboard arrows
       modal.addEventListener("keydown", function (e) {
-        if (e.key === "ArrowRight") {
+        if (e.key === "ArrowRight" || e.key === 39) {
           goToNextPhoto(mediaPhotographer);
         }
-        if (e.key === "ArrowLeft") {
+        if (e.key === "ArrowLeft" || e.key === 37) {
           goToPreviousPhoto(mediaPhotographer);
         }
       });
       // Event listener to close lightBox with keyboard "Enter"
       const closeLightBox = modal.querySelector(".icon-close");
       closeLightBox.addEventListener("keydown", function (e) {
-        if (e.key === "Enter") {
+        if (e.key === "Enter" || e.key === 13) {
           console.log("index close lightbox");
           e.preventDefault();
           closeModal("lightBox");

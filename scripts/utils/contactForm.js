@@ -1,5 +1,5 @@
 // DOM HTML elements declare
-// const modal = document.getElementById("contact_modal");
+const modal = document.getElementById("contact_modal");
 const divModal = document.querySelector(".modal");
 const header = document.getElementsByTagName("header")[0];
 const main = document.getElementById("main");

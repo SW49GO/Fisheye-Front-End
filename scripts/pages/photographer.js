@@ -236,67 +236,43 @@ if (form != null) {
   });
 }
 
-// Add all the elements inside modal which you want to make focusable
-const focusableElements = "button, input, textarea";
-const modal = document.getElementById("contact_modal"); // select the modal by it's id
-
-const firstFocusableElementForm = modal.querySelector(".modal-close"); // get first element to be focused inside modal
-const lastFocusableElementForm = modal.querySelector(".contact_button"); // get last element to be focused inside modal
-
-const focusableContent = modal.querySelectorAll(focusableElements);
-const firstFocusableElementLightBox = "";
-
 document.addEventListener("keydown", function (e) {
   let isTabPressed = e.key === "Tab" || e.key === 9;
-  const firstFocusableElementLightBox = modal.querySelector(".icon-close");
-  const lastFocusableElementLightBox = modal.querySelector(".arrow-right");
-
+  const numberChildNodes = modal.childNodes;
   if (!isTabPressed) {
     return;
   }
+  let focusableElements = "";
+  console.log(modal.childNodes);
+  if (numberChildNodes.length === 3) {
+    // Elements focusable on modal Contact
+    focusableElements = 'button,input,textarea,[tabindex]:not([tabindex="-1"])';
+  } else if (numberChildNodes.length === 4) {
+    // Elements focusable on modal LightBox
+    focusableElements = '[tabindex]:not([tabindex="-1"],h1,img)';
+  }
+
+  // const modal = document.querySelector("#exampleModal"); // select the modal by it's id
+
+  const firstFocusableElement = modal.querySelectorAll(focusableElements)[0]; // get first element to be focused inside modal
+  const focusableContent = modal.querySelectorAll(focusableElements);
+  console.log("focusableContent:", focusableContent);
+  const lastFocusableElement = focusableContent[focusableContent.length - 1]; // get last element to be focused inside modal
 
   if (e.shiftKey) {
     // if shift key pressed for shift + tab combination
-    if (
-      modal.childNodes.length === 3 &&
-      document.activeElement === firstFocusableElementForm
-    ) {
-      lastFocusableElementForm.focus(); // add focus for the last focusable element
-      e.preventDefault();
-    }
-    if (
-      modal.childNodes.length === 4 &&
-      document.activeElement === firstFocusableElementLightBox
-    ) {
-      console.log("lightBoxFocus");
-      lastFocusableElementLightBox.focus();
+    if (document.activeElement === firstFocusableElement) {
+      lastFocusableElement.focus(); // add focus for the last focusable element
       e.preventDefault();
     }
   } else {
     // if tab key is pressed
-    if (
-      modal.childNodes.length === 3 &&
-      document.activeElement === lastFocusableElementForm
-    ) {
+    if (document.activeElement === lastFocusableElement) {
       // if focused has reached to last focusable element then focus first focusable element after pressing tab
-      firstFocusableElementForm.focus(); // add focus for the first focusable element
-      e.preventDefault();
-    }
-    if (
-      modal.childNodes.length === 4 &&
-      document.activeElement === lastFocusableElementLightBox
-    ) {
-      console.log("lightBoxFocus");
-      // if focused has reached to last focusable element then focus first focusable element after pressing tab
-      firstFocusableElementLightBox.focus();
+      firstFocusableElement.focus(); // add focus for the first focusable element
       e.preventDefault();
     }
   }
 });
-if (modal.childNodes.length === 3) {
-  firstFocusableElementForm.focus();
-}
-if (modal.childNodes.length === 4) {
-  console.log("lightBoxFocus");
-  firstFocusableElementLightBox.focus();
-}
+
+firstFocusableElement.focus();
