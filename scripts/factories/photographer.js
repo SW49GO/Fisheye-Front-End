@@ -3,6 +3,7 @@
  * @param {object} data
  * @returns string (name, picture) function (getUserCardDom)
  */
+// eslint-disable-next-line no-unused-vars
 function photographerFactory(data) {
   console.log("factories/photographer.js");
   // Extraction des propriétés de l'objet data pour photographer à l'aide de la déstructuration
@@ -24,7 +25,7 @@ function photographerFactory(data) {
       "aria-label",
       "Carte d'identité du photographe " + name
     );
-    article.innerHTML = `<a href="photographer.html?identify=${id}" aria-label="Lien vers la page du photographe ${name}" title="Lien vers la page du photographe ${name}">
+    article.innerHTML = `<a tabindex="0" href="photographer.html?identify=${id}" aria-label="Lien vers la page du photographe ${name}" title="Lien vers la page du photographe ${name}">
                             <img src="${picture}" alt="Portrait du photographe ${name}, lien vers sa page">
                             <h2>${name}</h2>
                         </a>
@@ -57,7 +58,7 @@ function photographerFactory(data) {
                               <p>${tagline}</p>
                             </div>
                             <div title="Bouton pour contacter ${name}">
-                              <button tabindex="0" type="button" class="contact_button" onclick="displayModal('form')" aria-pressed="false"  aria-label="Contacter ${name}">Contactez-moi</button>
+                              <button tabindex="0" type="button" class="contact_button" onclick="displayModal('form','${name}')" aria-pressed="false"  aria-label="Contacter ${name}">Contactez-moi</button>
                             </div>
                             <div title="Portait de ${name}" tabindex="0">
                               <img class="photographer-portrait" src="${picture}" alt="Portrait du photographe ${name}">

@@ -99,6 +99,7 @@ textarea {
 }
 ::placeholder {
   font-size: 1rem;
+  padding-left: 1rem;
 }
 /* input:invalid {
   border: 0.125rem solid #fc0202;
@@ -241,7 +242,8 @@ hr {
   color: #901c1c;
 }
 .number-likes {
-  /* border: none; */
+  border-radius: 0.3125rem;
+  padding: 0.125rem;
   color: #901c1c;
   background-color: #fff;
 }

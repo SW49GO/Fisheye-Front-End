@@ -3,6 +3,7 @@
  * @param {object} data -> {media[all of the photographer] & photographer[0]}
  * @returns getMediaCardDOM->HTMLElement(article)
  */
+// eslint-disable-next-line no-unused-vars
 function mediaFactory(data) {
   console.log("factories/media.js");
   console.log(data);
@@ -31,6 +32,10 @@ function mediaFactory(data) {
         : `<video tabindex="-1" class="video list-photos" data-id="${data.media[i].id}" aria-label="Vidéo ${data.media[i].title}" title="Cliquez pour lire la vidéo">
                                         <source src="assets/photographers/${path}/${data.media[i].video}" type="video/mp4" >
                                       </video>`;
+      const ariaDescription = images.includes("video")
+        ? "Cliquer pour lire la vidéos"
+        : "Cliquer pour afficher la photo";
+
       const title = data.media[i].video
         ? `<p tabindex="0"><i class="fa-solid fa-video" title="Vidéo"></i> ${data.media[i].title}</p>`
         : `<p tabindex="0">${data.media[i].title}</p>`;
@@ -38,7 +43,7 @@ function mediaFactory(data) {
         // console.log(images);
         article.innerHTML += `<div class="list-photos-photographer">
                                   <a href="#" tabindex="-1">
-                                    <button type="button" tabindex="0" class="list-photos-conteneur" aria-label="Cliquer pour zoomer sur la photo ou lire la vidéo">
+                                    <button type="button" tabindex="0" class="list-photos-conteneur" aria-label="${ariaDescription}">
                                       ${images}
                                     </button>
                                    </a>
@@ -78,40 +83,28 @@ function mediaFactory(data) {
 
   /**
    * Function to display LightBox
-   * @param {string} selectPhoto
-   * @param {string} name
+   * @param {string} photoSelected -> ID of the media
+   * @param {string} name ->for the folder name
    * @returns
    */
-  function getLightBoxDOM(selectPhoto, name) {
+  function getLightBoxDOM(photoSelected, name) {
     console.log("factories/media.js->getLightBoxDOM");
-    console.log("selectionPhoto" + selectPhoto);
+    console.log("selectionPhoto" + photoSelected);
     // Récupération du nom pour le chemin d'accès au fichier
     const path = name[0].split(" ")[0];
     // Récupération de l'index de la photo sélectionnée d'après son id
     const indexPhoto = data
-      .map((photo) => photo.id == selectPhoto)
+      .map((photo) => photo.id == photoSelected)
       .indexOf(true);
     console.log(indexPhoto);
 
-    // Envoi de la valeur de l'index de la photo
+    // Envoi de la valeur de l'index de la photo -> variable "i" pour la photo suivante ou précédente
+    // eslint-disable-next-line no-undef
     getValueIndex(indexPhoto);
-
-    // Déterminer le format de la photo sélectionnée, si ce n'est pas une vidéo, rendre la video non focusable
-    const formatVideo = data
-      .filter((photo) => photo.id == selectPhoto)
-      .map((format) => format.video);
-    console.log(formatVideo);
-    // Have tabindex or not for LightBox TAB
-    let tab;
-    if (formatVideo[0] == undefined) {
-      tab = 'tabindex="-1"';
-    } else {
-      tab = 'tabindex="-0"';
-    }
 
     // Affichage de toutes les images et video
     let displayMedia = `<div class="conteneurLightBox">
-                          <button tabindex="0" type="button" class="icon-close" aria-label="Fermer la lightBox" title="Fermer la lightBox" onclick="closeModal('lightBox')">
+                          <button tabindex="0" type="button" class="icon-close" aria-label="Fermer la lightBox" title="Fermer la lightBox" onclick="closeModal('lightBox','mouseClose')">
                             <i class="fa-sharp fa-solid fa-xmark"></i>
                           </button>
                           <button tabindex="0" class="arrow-left" aria-label="Revenir à l'image précédante" title="Précedent">
@@ -137,7 +130,7 @@ function mediaFactory(data) {
       if (item.video) {
         const descVideo = item.video.split(".")[0];
         displayMedia += ` <li class="li-image" data-index="${index}">
-                            <video ${tab} class="video list-photos lightBox-photo ${classed}" controls width="100" aria-label="Vidéo ${descVideo}" data-id="${item.id}">
+                            <video tabindex="0" class="video list-photos lightBox-photo ${classed}" controls width="100" aria-label="Vidéo ${descVideo}" data-id="${item.id}">
                               <source src="assets/photographers/${path}/${item.video}" type="video/mp4">
                             </video>
                             <p class="title-photo ${classed}">${item.title}</p>

@@ -7,7 +7,9 @@ const main = document.getElementById("main");
 /**
  * Function to display the Contact Modal
  */
-function displayModal(option) {
+// eslint-disable-next-line no-unused-vars
+function displayModal(option, name) {
+  // eslint-disable-next-line no-undef
   modal.style.display = "block";
   divModal.style.display = "block";
   main.style.opacity = 0.5;
@@ -34,6 +36,7 @@ function displayModal(option) {
     if (getComputedStyle(modal).getPropertyValue("position") !== "absolute") {
       modal.style.position = "absolute";
     }
+    displayPhotographerName(name);
     modal.style.border = "none";
     modal.style.width = "auto";
     const conteneurLightBox = modal.querySelector(".lightBox");
@@ -47,7 +50,8 @@ function displayModal(option) {
 /**
  * Function to close Contact Modal
  */
-function closeModal(option) {
+function closeModal(option, photoSelected) {
+  console.log("contactForm", photoSelected);
   const focusContactClose = document.getElementById("begin");
   const focusLightBoxClose = document.querySelector(".photograph-header");
   modal.style.display = "none";
@@ -63,17 +67,25 @@ function closeModal(option) {
       focusContactClose.focus();
     }
   }
-  if (option === "lightBox") {
+  if (option === "lightBox" && photoSelected !== "mouseClose") {
     console.log("lightBox close");
-    // Focus after mightBox closed
+    // // Focus after lightBox closed on photo that be selected
+    const allMedia = focusLightBoxClose.querySelectorAll(".list-photos");
+    let indexP;
+    allMedia.forEach((element, index) => {
+      if (element.dataset.id == photoSelected) {
+        indexP = index;
+      }
+    });
+    console.log(indexP);
     focusLightBoxClose
       .querySelector(".list-article")
-      .querySelector(".list-photos")
-      .focus();
+      .querySelectorAll(".list-photos")
+      [indexP].focus();
   }
 }
-
 // Manage Even Listener "Enter" on modal contact
+// eslint-disable-next-line no-undef
 const closeByEnterModal = modal.querySelector(".modal-close");
 if (closeByEnterModal != null) {
   closeByEnterModal.addEventListener("keydown", function (event) {

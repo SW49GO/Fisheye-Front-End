@@ -71,6 +71,7 @@ async function displayDataIndex(photographers) {
   const photographersSection = document.querySelector(".photographer_section");
   // Loop for display each photographers data in Home Page
   photographers.forEach((photographer) => {
+    // eslint-disable-next-line no-undef
     const photographerModel = photographerFactory(photographer);
     const userCardDOM = photographerModel.getUserCardDOM();
     photographersSection.appendChild(userCardDOM);
@@ -95,6 +96,7 @@ async function displayDataPhotographer(photographers, idPhotographer) {
 
   console.log(personalPhotographer[0]);
   const personalData = personalPhotographer[0];
+  // eslint-disable-next-line no-undef
   const pagePhotographer = photographerFactory(personalData);
   const pageCardDOM = pagePhotographer.getPagePhotographerDOM();
   mediaSection.appendChild(pageCardDOM);
@@ -104,6 +106,7 @@ async function displayDataPhotographer(photographers, idPhotographer) {
   console.log(btnFilter);
   btnFilter.addEventListener("click", function () {
     console.log("entrer addEventListener Index");
+    // eslint-disable-next-line no-undef
     displayMenuFilter(btnFilter);
   });
   // Event listener on filter selection menu
@@ -112,6 +115,7 @@ async function displayDataPhotographer(photographers, idPhotographer) {
     // On click
     selectMenuFilter[i].addEventListener("click", function () {
       console.log();
+      // eslint-disable-next-line no-undef
       selectFilter(selectMenuFilter[i], btnFilter);
       const selectedMenuFilter = document.querySelector(".select-menu");
       selectedMenuFilter.classList.remove("show");
@@ -120,6 +124,7 @@ async function displayDataPhotographer(photographers, idPhotographer) {
     selectMenuFilter[i].addEventListener("keydown", function (event) {
       if (event.key === "Enter") {
         event.preventDefault();
+        // eslint-disable-next-line no-undef
         selectFilter(selectMenuFilter[i], btnFilter);
         const selectedMenuFilter = document.querySelector(".select-menu");
         selectedMenuFilter.classList.remove("show");
@@ -136,10 +141,6 @@ async function displayDataPhotographer(photographers, idPhotographer) {
  * @param {string} options
  */
 async function displayMedia(media, photographers, idPhotographer, options) {
-  // Display name of the photographer for contact_modal
-  const name = await getNamePhotographer(photographers, idPhotographer);
-  displayPhotographerName(name);
-
   console.log("index.js->displaymedia");
   // DOM element that will receive the HTML
   const mediaImage = document.querySelector(".photograph-header");
@@ -166,6 +167,7 @@ async function displayMedia(media, photographers, idPhotographer, options) {
     media: newMedia,
   };
 
+  // eslint-disable-next-line no-undef
   const mediaModel = mediaFactory(photographerData);
   const mediaCardDOM = mediaModel.getMediaCardDOM();
   console.log(mediaCardDOM);
@@ -181,6 +183,7 @@ async function displayMedia(media, photographers, idPhotographer, options) {
   const tabRef = [];
   for (let i = 0; i < numberLikes.length; i++) {
     numberLikes[i].addEventListener("click", function () {
+      // eslint-disable-next-line no-undef
       likeNumberChange(numberLikes[i], tabRef);
     });
   }
@@ -190,11 +193,13 @@ async function displayMedia(media, photographers, idPhotographer, options) {
   for (let i = 0; i < listPhotos.length; i++) {
     listPhotos[i].addEventListener("click", function (event) {
       event.preventDefault();
+      // eslint-disable-next-line no-undef
       selectPhotoLightBox(listPhotos[i].querySelector(".list-photos"));
     });
     listPhotos[i].addEventListener("keydown", function (event) {
       if (event.key === "Enter") {
         event.preventDefault();
+        // eslint-disable-next-line no-undef
         selectPhotoLightBox(listPhotos[i].querySelector(".list-photos"));
       }
     });
@@ -259,6 +264,7 @@ async function displayEncart(media, photographers, idPhotographer) {
   console.log(price);
   const mediaData = await getMediaById(media, idPhotographer);
   console.log(mediaData);
+  // eslint-disable-next-line no-undef
   const mediaEncart = mediaFactory(mediaData);
   const encartCardDOM = mediaEncart.getEncart(numbLikesEncart, price);
   mediaConteneur.appendChild(encartCardDOM);
@@ -268,24 +274,25 @@ async function displayEncart(media, photographers, idPhotographer) {
  * Function to display LightBox
  * @param {object} media
  * @param {object} photographers
- * @param {string} selectPhoto
+ * @param {string} photoSelected ->ID of the media
  * @param {string} idPhotographer
  */
 async function displayLightBox(
   media,
   photographers,
-  selectPhoto,
+  photoSelected,
   idPhotographer
 ) {
-  console.log(selectPhoto);
-  if (selectPhoto !== "1") {
+  console.log(photoSelected);
+  if (photoSelected !== "1") {
     console.log("index.js->displayLightBox");
     const mediaPhotographer = await getMediaById(media, idPhotographer);
     const name = await getNamePhotographer(photographers, idPhotographer);
     // HTML element where insert article
     const modal = document.getElementById("contact_modal");
+    // eslint-disable-next-line no-undef
     const mediaModel = mediaFactory(mediaPhotographer);
-    const mediaLightBoxDOM = mediaModel.getLightBoxDOM(selectPhoto, name);
+    const mediaLightBoxDOM = mediaModel.getLightBoxDOM(photoSelected, name);
 
     if (mediaLightBoxDOM != null) {
       modal.appendChild(mediaLightBoxDOM);
@@ -296,18 +303,22 @@ async function displayLightBox(
       // Event listener on arrows markup
       const arrowLeft = modal.querySelector(".arrow-left");
       arrowLeft.addEventListener("click", function () {
+        // eslint-disable-next-line no-undef
         goToPreviousPhoto(mediaPhotographer);
       });
       const arrowRight = modal.querySelector(".arrow-right");
       arrowRight.addEventListener("click", function () {
+        // eslint-disable-next-line no-undef
         goToNextPhoto(mediaPhotographer);
       });
       // Event listener for keyboard arrows
       modal.addEventListener("keydown", function (e) {
         if (e.key === "ArrowRight" || e.key === 39) {
+          // eslint-disable-next-line no-undef
           goToNextPhoto(mediaPhotographer);
         }
         if (e.key === "ArrowLeft" || e.key === 37) {
+          // eslint-disable-next-line no-undef
           goToPreviousPhoto(mediaPhotographer);
         }
       });
@@ -317,7 +328,8 @@ async function displayLightBox(
         if (e.key === "Enter" || e.key === 13) {
           console.log("index close lightbox");
           e.preventDefault();
-          closeModal("lightBox");
+          // eslint-disable-next-line no-undef
+          closeModal("lightBox", photoSelected);
         }
       });
     }
@@ -354,3 +366,26 @@ async function init(options) {
 }
 
 init();
+
+if (window.location.href.includes("index.html")) {
+  let i = 0;
+  document.addEventListener("keydown", function (e) {
+    const bodyElementIndex = document.getElementsByTagName("body")[0];
+    const focusable = Array.from(
+      bodyElementIndex.querySelectorAll('[tabindex="0"]')
+    );
+    console.log(focusable);
+    if (e.key === "ArrowRight" || e.key === 39) {
+      i++;
+      i = ((i % focusable.length) + focusable.length) % focusable.length;
+      focusable[i].focus();
+      console.log("droite: ", i);
+    }
+    if (e.key === "ArrowLeft" || e.key === 37) {
+      i--;
+      i = ((i % focusable.length) + focusable.length) % focusable.length;
+      focusable[i].focus();
+      console.log("gauche", i);
+    }
+  });
+}
