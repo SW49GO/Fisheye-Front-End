@@ -66,8 +66,9 @@ function photographerFactory(data) {
                           </div>
                           <div class="select-sort">
                             <p tabindex="0">Trier par </p>
+                            <p id="desc-sort" class="sr-only" aria-live="assertive">Trier par popularité</p>
                             <div class="dropdown" title="Menu déroulant pour trier les photos">
-                              <button class="btn-filter" tabindex="0" aria-haspopup="true" aria-pressed="false" role="dropdown"><p class="txt-filter">Popularité</p><span class="chevron-filter"><i class="fa-solid fa-chevron-down"></i></span></button>
+                              <button class="btn-filter" tabindex="0" aria-haspopup="lightBox" aria-expanded="false" role="dropdown" aria-labelledby="desc-sort"><p class="txt-filter">Popularité</p><span class="chevron-filter"><i class="fa-solid fa-chevron-down"></i></span></button>
                               <ul class="select-menu">
                                 <hr aria-hidden="true">
                                 <li class="select-menu-item" tabindex="0">Date</li>

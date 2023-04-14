@@ -40,6 +40,12 @@ function selectFilter(selectMenuFilter, btnFilter) {
   // console.log(selectMenuFilter);
   // console.log("entrer selection menu");
   // Positioning of arrows
+  const txtSrOnly = document
+    .querySelector(".photograph-header")
+    .querySelectorAll(".sr-only")[0];
+
+  console.log("txtSrOnly:", txtSrOnly);
+
   const chevronFilter = btnFilter.querySelector(".chevron-filter");
   chevronFilter.innerHTML = `<i class="fa-solid fa-chevron-down"></i>`;
   const button = btnFilter.childNodes[0];
@@ -47,7 +53,7 @@ function selectFilter(selectMenuFilter, btnFilter) {
   const buttonTxt = button.textContent;
   const choiceName = selectMenuFilter.textContent;
 
-  // Reversing menuItems names
+  // Reversing menuItems names and change aria-expanded of the btn-filter
   button.textContent = choiceName;
   selectMenuFilter.textContent = buttonTxt;
 
@@ -56,12 +62,15 @@ function selectFilter(selectMenuFilter, btnFilter) {
   switch (choiceName) {
     case "Popularité":
       select = "1";
+      txtSrOnly.textContent = "Photos trier par Popularité";
       break;
     case "Date":
       select = "2";
+      txtSrOnly.textContent = "Photos trier par Date";
       break;
     case "Titre":
       select = "3";
+      txtSrOnly.textContent = "Photos trier par Titre";
       break;
   }
   console.log(select);
@@ -247,7 +256,7 @@ function getChildNodesModal() {
 
 if (window.location.href.includes("photographer.html")) {
   // Initialize "i" to incement the focusable element of the page
-  let i = 0;
+  let i = -1;
   document.addEventListener("keydown", function (e) {
     // If the modal appear on the document
     if (getComputedStyle(modalContact).getPropertyValue("display") !== "none") {

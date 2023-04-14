@@ -382,7 +382,7 @@ async function init(options) {
 init();
 
 if (window.location.href.includes("index.html")) {
-  let i = 0;
+  let i = -1;
   document.addEventListener("keydown", function (e) {
     const bodyElementIndex = document.getElementsByTagName("body")[0];
     const focusable = Array.from(

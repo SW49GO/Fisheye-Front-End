@@ -28,8 +28,8 @@ function mediaFactory(data) {
     // article.setAttribute("title", "Ensemble des travaux du photographe");
     for (let i = 0; i < data.media.length; i++) {
       const images = data.media[i].image
-        ? `<img tabindex="0" class="list-photos" data-id="${data.media[i].id}" src="assets/photographers/${path}/${data.media[i].image}" alt="${data.media[i].title}" loading="lazy" title="Cliquez pour agrandir"></img>`
-        : `<video tabindex="0" class="video list-photos" data-id="${data.media[i].id}" aria-label="Vidéo ${data.media[i].title}" title="Cliquez pour lire la vidéo">
+        ? `<img tabindex="-1" class="list-photos" data-id="${data.media[i].id}" src="assets/photographers/${path}/${data.media[i].image}" alt="${data.media[i].title}" loading="lazy" title="Cliquez pour agrandir"></img>`
+        : `<video tabindex="-1" class="video list-photos" data-id="${data.media[i].id}" aria-label="Vidéo ${data.media[i].title}" title="Cliquez pour lire la vidéo">
                                         <source src="assets/photographers/${path}/${data.media[i].video}" type="video/mp4" >
                                       </video>`;
       const ariaDescription = images.includes("video")
@@ -77,7 +77,7 @@ function mediaFactory(data) {
     article.className = "encart";
     article.innerHTML = `<p class="likes" tabindex="0" title="Nombre total de likes">${numberLikes} <span>&hearts;<span></p>
     <p class="price" tabindex="0" title="Tarif journalier des services du photographe">${price}€/jour</p>`;
-    article.innerHTML += `<a href="#begin">Revenir en haut de la page</a>`;
+    article.innerHTML += `<a tabindex="0" href="#begin">Revenir en haut de la page</a>`;
     return article;
   }
 
@@ -107,7 +107,7 @@ function mediaFactory(data) {
                           <button tabindex="0" type="button" class="icon-close" aria-label="Fermer la lightBox" title="Fermer la lightBox" onclick="closeModal('lightBox','mouseClose')">
                             <i class="fa-sharp fa-solid fa-xmark"></i>
                           </button>
-                          <button tabindex="0" class="arrow-left" aria-label="Revenir à l'image précédante" title="Précedent">
+                          <button tabindex="0" class="arrow-left" aria-label="Revenir à l'image précédante" title="Précedante">
                           <i class="fa-sharp fa-solid fa-angle-right fa-rotate-180"></i>
                           </button>
                           <button tabindex="0" class="arrow-right" aria-label="Aller à l'image suivante" title="Suivant">
@@ -132,6 +132,7 @@ function mediaFactory(data) {
         displayMedia += ` <li class="li-image" data-index="${index}">
                             <video tabindex="0" class="video list-photos lightBox-photo ${classed}" controls width="100" aria-label="Vidéo ${descVideo}" data-id="${item.id}">
                               <source src="assets/photographers/${path}/${item.video}" type="video/mp4">
+                              <track  kind="subtitles" src="assets/photographers/${path}/desc.vtt" srclang="fr" default/>
                             </video>
                             <p class="title-photo ${classed}">${item.title}</p>
                           </li>`;
