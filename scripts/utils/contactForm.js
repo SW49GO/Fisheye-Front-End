@@ -1,8 +1,9 @@
-// DOM HTML elements declare
+// DOM HTML elements
 const modal = document.getElementById("contact_modal");
 const divModal = document.querySelector(".modal");
 const header = document.getElementsByTagName("header")[0];
 const main = document.getElementById("main");
+const closeByEnterModal = modal.querySelector(".modal-close");
 
 /**
  * Function to display the Contact Modal
@@ -54,11 +55,21 @@ function closeModal(option, photoSelected) {
   console.log("contactForm", photoSelected);
   const focusContactClose = document.getElementById("begin");
   const focusLightBoxClose = document.querySelector(".photograph-header");
+  const conteneurLightBox = modal.querySelector(".lightBox");
+  const allMedia = focusLightBoxClose.querySelectorAll(".list-photos");
+
   modal.style.display = "none";
   main.style.opacity = 1;
   main.setAttribute("aria-hidden", "false");
   header.style.opacity = 1;
   header.setAttribute("aria-hidden", "false");
+  // Remove the lightBox in the DOM
+
+  console.log("conteneurLightBox:", conteneurLightBox);
+  // If the lightBox is already present, remove it
+  if (conteneurLightBox) {
+    modal.removeChild(conteneurLightBox);
+  }
 
   if (option != null) {
     // Focus after modal form closed
@@ -69,8 +80,7 @@ function closeModal(option, photoSelected) {
   }
   if (option === "lightBox" && photoSelected !== "mouseClose") {
     console.log("lightBox close");
-    // // Focus after lightBox closed on photo that be selected
-    const allMedia = focusLightBoxClose.querySelectorAll(".list-photos");
+    // Focus after lightBox closed on the photo that be selected before
     let indexP;
     allMedia.forEach((element, index) => {
       if (element.dataset.id == photoSelected) {
@@ -84,9 +94,10 @@ function closeModal(option, photoSelected) {
       [indexP].focus();
   }
 }
-// Manage Even Listener "Enter" on modal contact
-// eslint-disable-next-line no-undef
-const closeByEnterModal = modal.querySelector(".modal-close");
+
+/**
+ * Manage Even Listener "Enter" on modal contact
+ */
 if (closeByEnterModal != null) {
   closeByEnterModal.addEventListener("keydown", function (event) {
     if (event.key === "Enter") {

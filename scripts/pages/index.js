@@ -284,6 +284,7 @@ async function displayLightBox(
   idPhotographer
 ) {
   console.log(photoSelected);
+  // photoSelect must be different of option=1 for the filter
   if (photoSelected !== "1") {
     console.log("index.js->displayLightBox");
     const mediaPhotographer = await getMediaById(media, idPhotographer);
@@ -296,10 +297,11 @@ async function displayLightBox(
 
     if (mediaLightBoxDOM != null) {
       modal.appendChild(mediaLightBoxDOM);
-      // Focus on lightBox to run keyboard arrow
+      // Focus on lightBox to run keyboard arrow in the lightBox modal
       const focusLightBoxOpen = document.querySelector(".icon-close");
       focusLightBoxOpen.focus();
 
+      console.log("passe le add");
       // Event listener on arrows markup
       const arrowLeft = modal.querySelector(".arrow-left");
       arrowLeft.addEventListener("click", function () {
@@ -311,17 +313,26 @@ async function displayLightBox(
         // eslint-disable-next-line no-undef
         goToNextPhoto(mediaPhotographer);
       });
-      // Event listener for keyboard arrows
-      modal.addEventListener("keydown", function (e) {
-        if (e.key === "ArrowRight" || e.key === 39) {
-          // eslint-disable-next-line no-undef
-          goToNextPhoto(mediaPhotographer);
-        }
-        if (e.key === "ArrowLeft" || e.key === 37) {
-          // eslint-disable-next-line no-undef
-          goToPreviousPhoto(mediaPhotographer);
-        }
-      });
+
+      // Stockage the first photo to active addEventListener just one time
+      let stockagePhoto = localStorage.getItem("photo");
+      console.log("stockagePhoto:", stockagePhoto);
+      if (!stockagePhoto) {
+        // Event listener for keyboard arrows
+        modal.addEventListener("keydown", function (e) {
+          if (e.key === "ArrowRight" || e.key === 39) {
+            // eslint-disable-next-line no-undef
+            goToNextPhoto(mediaPhotographer);
+          }
+          if (e.key === "ArrowLeft" || e.key === 37) {
+            // eslint-disable-next-line no-undef
+            goToPreviousPhoto(mediaPhotographer);
+          }
+        });
+        // setItem to have not an empty localStorage
+        stockagePhoto = localStorage.setItem("photo", photoSelected);
+        console.log("stockagePhoto:", stockagePhoto);
+      }
       // Event listener to close lightBox with keyboard "Enter"
       const closeLightBox = modal.querySelector(".icon-close");
       closeLightBox.addEventListener("keydown", function (e) {
@@ -345,6 +356,9 @@ async function displayLightBox(
  * @param {string} options
  */
 async function init(options) {
+  // Clear localStorage, because stock the first photoSelect to have just one EventListener
+  // on keydown arrowRight and arrowLeft
+  localStorage.clear();
   // Retrieve data (media,photographers) -> fetch
   const { media, photographers } = await getJsonDataPhotographers();
 

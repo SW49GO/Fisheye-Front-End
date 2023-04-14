@@ -12,7 +12,7 @@ function displayMenuFilter(btnFilter) {
 
   // console.log('photographer.js/ ->btnSord addEventlistener');
   const selectedMenuFilter = document.querySelector(".select-menu");
-  console.log(selectedMenuFilter.classList);
+  // console.log(selectedMenuFilter.classList);
   selectedMenuFilter.classList.toggle("show");
 
   const chevronFilter = btnFilter.querySelector(".chevron-filter");
@@ -36,9 +36,9 @@ function displayMenuFilter(btnFilter) {
  */
 // eslint-disable-next-line no-unused-vars
 function selectFilter(selectMenuFilter, btnFilter) {
-  console.log(btnFilter);
-  console.log(selectMenuFilter);
-  console.log("entrer selection menu");
+  // console.log(btnFilter);
+  // console.log(selectMenuFilter);
+  // console.log("entrer selection menu");
   // Positioning of arrows
   const chevronFilter = btnFilter.querySelector(".chevron-filter");
   chevronFilter.innerHTML = `<i class="fa-solid fa-chevron-down"></i>`;
@@ -112,9 +112,9 @@ function likeNumberChange(numberLikes, tabRef) {
  */
 // eslint-disable-next-line no-unused-vars
 function selectPhotoLightBox(photo) {
-  console.log(photo);
+  // console.log(photo);
   const idPhoto = photo.dataset.id;
-  console.log(idPhoto);
+  // console.log(idPhoto);
   // eslint-disable-next-line no-undef
   getJsonDataPhotographers().then(({ media, photographers }) => {
     // eslint-disable-next-line no-undef
@@ -145,7 +145,8 @@ console.log(i);
  */
 // eslint-disable-next-line no-unused-vars
 function goToPreviousPhoto(nbMedias) {
-  // The photo selected change show to hidden and tabindex to -1
+  // The photo selected change show to hidden
+  console.log("previous", "position", i);
   document
     .getElementById("contact_modal")
     .querySelectorAll(".li-image")
@@ -156,11 +157,11 @@ function goToPreviousPhoto(nbMedias) {
     .querySelectorAll(".li-image")
     [i].querySelector(".title-photo")
     .classList.toggle("hidden");
-  document
-    .getElementById("contact_modal")
-    .querySelectorAll(".li-image")
-    [i].querySelector(".lightBox-photo")
-    .setAttribute("tabindex", "-1");
+  // document
+  //   .getElementById("contact_modal")
+  //   .querySelectorAll(".li-image")
+  //   [i].querySelector(".lightBox-photo")
+  //   .setAttribute("tabindex", "-1");
 
   // console.log(nbMedias.length);
   console.log("left");
@@ -174,14 +175,14 @@ function goToPreviousPhoto(nbMedias) {
     .querySelectorAll(".li-image")
     [i].querySelector(".lightBox-photo")
     .classList.toggle("hidden");
-  document
-    .getElementById("contact_modal")
-    .querySelectorAll(".li-image")
-    [i].querySelector(".lightBox-photo")
-    .setAttribute("tabindex", "0");
-  console.log(
-    document.getElementById("contact_modal").querySelectorAll(".li-image")[i]
-  );
+  // document
+  //   .getElementById("contact_modal")
+  //   .querySelectorAll(".li-image")
+  //   [i].querySelector(".lightBox-photo")
+  //   .setAttribute("tabindex", "0");
+  // console.log(
+  //   document.getElementById("contact_modal").querySelectorAll(".li-image")[i]
+  // );
   document
     .getElementById("contact_modal")
     .querySelectorAll(".li-image")
@@ -195,18 +196,14 @@ function goToPreviousPhoto(nbMedias) {
  */
 // eslint-disable-next-line no-unused-vars
 function goToNextPhoto(nbMedias) {
-  // console.log(nbMedias.length);
+  console.log("next", "position", i);
   // Effacement de l'image et son titre en cours
   document
     .getElementById("contact_modal")
     .querySelectorAll(".li-image")
     [i].querySelector(".lightBox-photo")
     .classList.toggle("hidden");
-  document
-    .getElementById("contact_modal")
-    .querySelectorAll(".li-image")
-    [i].querySelector(".lightBox-photo")
-    .setAttribute("tabindex", "-1");
+
   document
     .getElementById("contact_modal")
     .querySelectorAll(".li-image")
@@ -224,14 +221,10 @@ function goToNextPhoto(nbMedias) {
     .querySelectorAll(".li-image")
     [i].querySelector(".lightBox-photo")
     .classList.toggle("hidden");
-  document
-    .getElementById("contact_modal")
-    .querySelectorAll(".li-image")
-    [i].querySelector(".lightBox-photo")
-    .setAttribute("tabindex", "0");
-  console.log(
-    document.getElementById("contact_modal").querySelectorAll(".li-image")[i]
-  );
+
+  // console.log(
+  //   document.getElementById("contact_modal").querySelectorAll(".li-image")[i]
+  // );
   document
     .getElementById("contact_modal")
     .querySelectorAll(".li-image")
@@ -251,36 +244,44 @@ const modalContact = document.getElementById("contact_modal");
 function getChildNodesModal() {
   return modalContact.childNodes;
 }
+
 if (window.location.href.includes("photographer.html")) {
   // Initialize "i" to incement the focusable element of the page
   let i = 0;
   document.addEventListener("keydown", function (e) {
     // If the modal appear on the document
     if (getComputedStyle(modalContact).getPropertyValue("display") !== "none") {
-      console.log(e);
+      // console.log(e);
       let isTabPressed = e.key === "Tab" || e.key === 9;
+      // console.log("TAB");
       const numberChildNodes = getChildNodesModal();
 
       if (!isTabPressed) {
         return;
       }
       let focusableElements = "";
-      console.log(modalContact.childNodes);
+      console.log(modalContact.childNodes[2]);
+      // Elements focusable on modal Contact ->3
       if (numberChildNodes.length === 3) {
-        // Elements focusable on modal Contact
         focusableElements =
           'button,input,textarea,[tabindex]:not([tabindex="-1"])';
       } else if (numberChildNodes.length === 4) {
-        // Elements focusable on modal LightBox
-        focusableElements = '[tabindex]:not([tabindex="-1"],h1,img)';
+        // Elements focusable on modal LightBox ->4 max with video
+        focusableElements = '[tabindex="0"]:not(h1,img,.hidden)';
       }
-
+      // The first element to be focused inside modal
       const firstFocusableElement =
-        modalContact.querySelectorAll(focusableElements)[0]; // get first element to be focused inside modal
+        modalContact.querySelectorAll(focusableElements)[0];
       const focusableContent = modalContact.querySelectorAll(focusableElements);
-      console.log("focusableContent:", focusableContent);
+
+      console.log(
+        "focusableContent:",
+        modalContact.querySelectorAll(focusableElements)
+      );
+
+      // The last element to be focused inside modal
       const lastFocusableElement =
-        focusableContent[focusableContent.length - 1]; // get last element to be focused inside modal
+        focusableContent[focusableContent.length - 1];
 
       if (e.shiftKey) {
         // if shift key pressed for shift + tab combination
@@ -297,11 +298,12 @@ if (window.location.href.includes("photographer.html")) {
         }
       }
     } else {
-      // Navigation with arrows on the entire photographer.html page
-
+      // Navigation with arrows keys on the entire photographer.html page
       const bodyElementPhotographer = document.getElementsByTagName("body")[0];
       const focusable = Array.from(
-        bodyElementPhotographer.querySelectorAll('[tabindex="0"]')
+        bodyElementPhotographer.querySelectorAll(
+          '[tabindex="0"]:not(#contact_modal [tabindex="0"])'
+        )
       );
 
       console.log(focusable);
@@ -343,6 +345,7 @@ if (form != null) {
         "\nVotre message : " +
         event.target.message.value
     );
+
     // eslint-disable-next-line no-undef
     closeModal("form");
   });

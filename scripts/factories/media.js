@@ -28,8 +28,8 @@ function mediaFactory(data) {
     // article.setAttribute("title", "Ensemble des travaux du photographe");
     for (let i = 0; i < data.media.length; i++) {
       const images = data.media[i].image
-        ? `<img tabindex="-1" class="list-photos" data-id="${data.media[i].id}" src="assets/photographers/${path}/${data.media[i].image}" alt="${data.media[i].title}" loading="lazy" title="Cliquez pour agrandir"></img>`
-        : `<video tabindex="-1" class="video list-photos" data-id="${data.media[i].id}" aria-label="Vidéo ${data.media[i].title}" title="Cliquez pour lire la vidéo">
+        ? `<img tabindex="0" class="list-photos" data-id="${data.media[i].id}" src="assets/photographers/${path}/${data.media[i].image}" alt="${data.media[i].title}" loading="lazy" title="Cliquez pour agrandir"></img>`
+        : `<video tabindex="0" class="video list-photos" data-id="${data.media[i].id}" aria-label="Vidéo ${data.media[i].title}" title="Cliquez pour lire la vidéo">
                                         <source src="assets/photographers/${path}/${data.media[i].video}" type="video/mp4" >
                                       </video>`;
       const ariaDescription = images.includes("video")
@@ -96,7 +96,7 @@ function mediaFactory(data) {
     const indexPhoto = data
       .map((photo) => photo.id == photoSelected)
       .indexOf(true);
-    console.log(indexPhoto);
+    console.log(photoSelected);
 
     // Envoi de la valeur de l'index de la photo -> variable "i" pour la photo suivante ou précédente
     // eslint-disable-next-line no-undef
