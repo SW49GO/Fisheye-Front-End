@@ -57,7 +57,8 @@ button {
 }
 
 .photographer_section article h2 {
-  color: #d3573c;
+  /* color: #d3573c; Not conform to WCAG2.1 AA*/
+  color: #ce403c;
   font-size: 2rem;
   line-height: 3rem;
 }

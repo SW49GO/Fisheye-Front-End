@@ -155,35 +155,39 @@ let indexP;
 // eslint-disable-next-line no-unused-vars
 function goToPreviousPhoto(nbMedias) {
   // The photo selected change show to hidden
-  console.log("previous", "position", indexP);
-  document
+  const liImage = document
     .getElementById("contact_modal")
-    .querySelectorAll(".li-image")
-    [indexP].querySelector(".lightBox-photo")
-    .classList.toggle("hidden");
-  document
-    .getElementById("contact_modal")
-    .querySelectorAll(".li-image")
-    [indexP].querySelector(".title-photo")
-    .classList.toggle("hidden");
+    .querySelectorAll(".li-image");
+  if (liImage[indexP]) {
+    document
+      .getElementById("contact_modal")
+      .querySelectorAll(".li-image")
+      [indexP].querySelector(".lightBox-photo")
+      .classList.toggle("hidden");
+    document
+      .getElementById("contact_modal")
+      .querySelectorAll(".li-image")
+      [indexP].querySelector(".title-photo")
+      .classList.toggle("hidden");
 
-  // console.log(nbMedias.length);
-  console.log("left");
-  indexP--;
-  // Affecte une valeur positif à "indexPhoto", si "indexPhoto" est négatif
-  indexP = ((indexP % nbMedias.length) + nbMedias.length) % nbMedias.length;
+    // console.log(nbMedias.length);
+    console.log("left");
+    indexP--;
+    // Affecte une valeur positif à "indexPhoto", si "indexPhoto" est négatif
+    indexP = ((indexP % nbMedias.length) + nbMedias.length) % nbMedias.length;
 
-  // The photo selected change hidden to show
-  document
-    .getElementById("contact_modal")
-    .querySelectorAll(".li-image")
-    [indexP].querySelector(".lightBox-photo")
-    .classList.toggle("hidden");
-  document
-    .getElementById("contact_modal")
-    .querySelectorAll(".li-image")
-    [indexP].querySelector(".title-photo")
-    .classList.toggle("hidden");
+    // The photo selected change hidden to show
+    document
+      .getElementById("contact_modal")
+      .querySelectorAll(".li-image")
+      [indexP].querySelector(".lightBox-photo")
+      .classList.toggle("hidden");
+    document
+      .getElementById("contact_modal")
+      .querySelectorAll(".li-image")
+      [indexP].querySelector(".title-photo")
+      .classList.toggle("hidden");
+  }
 }
 
 /**
@@ -192,36 +196,40 @@ function goToPreviousPhoto(nbMedias) {
  */
 // eslint-disable-next-line no-unused-vars
 function goToNextPhoto(nbMedias) {
-  console.log("next", "position", indexP);
-  // Effacement de l'image et son titre en cours
-  document
+  const liImage = document
     .getElementById("contact_modal")
-    .querySelectorAll(".li-image")
-    [indexP].querySelector(".lightBox-photo")
-    .classList.toggle("hidden");
+    .querySelectorAll(".li-image");
+  if (liImage[indexP]) {
+    // Effacement de l'image et son titre en cours
+    document
+      .getElementById("contact_modal")
+      .querySelectorAll(".li-image")
+      [indexP].querySelector(".lightBox-photo")
+      .classList.toggle("hidden");
 
-  document
-    .getElementById("contact_modal")
-    .querySelectorAll(".li-image")
-    [indexP].querySelector(".title-photo")
-    .classList.toggle("hidden");
+    document
+      .getElementById("contact_modal")
+      .querySelectorAll(".li-image")
+      [indexP].querySelector(".title-photo")
+      .classList.toggle("hidden");
 
-  console.log("right");
-  indexP++;
-  // Affecte une valeur positif à "indexPhoto", si "indexPhoto" est négatif
-  indexP = ((indexP % nbMedias.length) + nbMedias.length) % nbMedias.length;
+    console.log("right");
+    indexP++;
+    // Affecte une valeur positif à "indexPhoto", si "indexPhoto" est négatif
+    indexP = ((indexP % nbMedias.length) + nbMedias.length) % nbMedias.length;
 
-  // Apparition de la prochain photo et son titre
-  document
-    .getElementById("contact_modal")
-    .querySelectorAll(".li-image")
-    [indexP].querySelector(".lightBox-photo")
-    .classList.toggle("hidden");
-  document
-    .getElementById("contact_modal")
-    .querySelectorAll(".li-image")
-    [indexP].querySelector(".title-photo")
-    .classList.toggle("hidden");
+    // Apparition de la prochain photo et son titre
+    document
+      .getElementById("contact_modal")
+      .querySelectorAll(".li-image")
+      [indexP].querySelector(".lightBox-photo")
+      .classList.toggle("hidden");
+    document
+      .getElementById("contact_modal")
+      .querySelectorAll(".li-image")
+      [indexP].querySelector(".title-photo")
+      .classList.toggle("hidden");
+  }
 }
 
 // Element DOM
@@ -240,6 +248,13 @@ if (window.location.href.includes("photographer.html")) {
     // Verify if the modal is display block on page
     if (getComputedStyle(contactModal).getPropertyValue("display") !== "none") {
       const isTabPressed = event.key === "Tab" || event.key === 9;
+      const isArrowPressed =
+        event.key === "ArrowRight" ||
+        event.key === 39 ||
+        event.key === "ArrowLeft";
+      if (isArrowPressed) {
+        navigateWithArrows(event);
+      }
       // if tab not pressed go out
       if (!isTabPressed) {
         return;
@@ -323,26 +338,45 @@ let focusIndex = -1;
  * @param {object} event
  */
 function navigateWithArrows(event) {
-  // Navigation on photographer page with keyboard arrows
-  const bodyElementPhotographer = document.getElementsByTagName("body")[0];
-  const focusableElements = Array.from(
-    bodyElementPhotographer.querySelectorAll(
-      '[tabindex="0"]:not(#contact_modal [tabindex="0"])'
-    )
-  );
-  if (event.key === "ArrowRight" || event.key === 39) {
-    focusIndex++;
-    focusIndex =
-      ((focusIndex % focusableElements.length) + focusableElements.length) %
-      focusableElements.length;
-    focusableElements[focusIndex].focus();
+  console.log(event);
+  let focusableElements;
+  if (getComputedStyle(contactModal).getPropertyValue("display") === "none") {
+    // Navigation on photographer page with keyboard arrows
+    const bodyElementPhotographer = document.getElementsByTagName("body")[0];
+    focusableElements = Array.from(
+      bodyElementPhotographer.querySelectorAll(
+        '[tabindex="0"]:not(#contact_modal [tabindex="0"])'
+      )
+    );
+  } else {
+    focusableElements = Array.from(
+      contactModal.querySelectorAll(
+        'button,input,textarea,[tabindex]:not([tabindex="-1"])'
+      )
+    );
   }
-  if (event.key === "ArrowLeft" || event.key === 37) {
-    focusIndex--;
-    focusIndex =
-      ((focusIndex % focusableElements.length) + focusableElements.length) %
-      focusableElements.length;
-    focusableElements[focusIndex].focus();
+  const liImage = document
+    .getElementById("contact_modal")
+    .querySelectorAll(".li-image");
+  console.log(liImage.length);
+  if (liImage.length === 0) {
+    if (event.key === "ArrowRight" || event.key === 39) {
+      console.log("arrowRight");
+      focusIndex++;
+      focusIndex =
+        ((focusIndex % focusableElements.length) + focusableElements.length) %
+        focusableElements.length;
+      focusableElements[focusIndex].focus();
+    }
+    if (event.key === "ArrowLeft" || event.key === 37) {
+      console.log("arrowLeft");
+
+      focusIndex--;
+      focusIndex =
+        ((focusIndex % focusableElements.length) + focusableElements.length) %
+        focusableElements.length;
+      focusableElements[focusIndex].focus();
+    }
   }
 }
 

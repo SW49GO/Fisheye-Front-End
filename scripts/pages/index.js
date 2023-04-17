@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /**
  * function to retrieve data from Json file
  * @returns object
@@ -299,6 +300,9 @@ async function displayLightBox(
       // Stockage the first photo to active addEventListener just one time
       let stockagePhoto = localStorage.getItem("photo");
       if (!stockagePhoto) {
+        // setItem to have not an empty localStorage
+        stockagePhoto = localStorage.setItem("photo", photoSelected);
+
         // Event listener for keyboard arrows
         modal.addEventListener("keydown", function (e) {
           if (e.key === "ArrowRight" || e.key === 39) {
@@ -310,9 +314,8 @@ async function displayLightBox(
             goToPreviousPhoto(mediaPhotographer);
           }
         });
-        // setItem to have not an empty localStorage
-        stockagePhoto = localStorage.setItem("photo", photoSelected);
       }
+
       // Event listener to close lightBox with keyboard "Enter"
       const closeLightBox = modal.querySelector(".icon-close");
       closeLightBox.addEventListener("keydown", function (e) {
