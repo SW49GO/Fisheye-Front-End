@@ -49,10 +49,12 @@ function displayModal(option, name) {
 }
 
 /**
- * Function to close Contact Modal
+ *  Function to close Contact Modal
+ * @param {string} option  which modal close
+ * @param {string} photoSelected id photo or the way to close
  */
 function closeModal(option, photoSelected) {
-  console.log("contactForm", photoSelected);
+  console.log(photoSelected);
   const focusContactClose = document.getElementById("begin");
   const focusLightBoxClose = document.querySelector(".photograph-header");
   const conteneurLightBox = modal.querySelector(".lightBox");
@@ -64,8 +66,6 @@ function closeModal(option, photoSelected) {
   header.style.opacity = 1;
   header.setAttribute("aria-hidden", "false");
   // Remove the lightBox in the DOM
-
-  console.log("conteneurLightBox:", conteneurLightBox);
   // If the lightBox is already present, remove it
   if (conteneurLightBox) {
     modal.removeChild(conteneurLightBox);
@@ -74,12 +74,10 @@ function closeModal(option, photoSelected) {
   if (option != null) {
     // Focus after modal form closed
     if (option === "form") {
-      console.log("form close");
       focusContactClose.focus();
     }
   }
   if (option === "lightBox" && photoSelected !== "mouseClose") {
-    console.log("lightBox close");
     // Focus after lightBox closed on the photo that be selected before
     let indexP;
     allMedia.forEach((element, index) => {
@@ -87,7 +85,6 @@ function closeModal(option, photoSelected) {
         indexP = index;
       }
     });
-    console.log(indexP);
     focusLightBoxClose
       .querySelector(".list-article")
       .querySelectorAll(".list-photos")
@@ -101,7 +98,6 @@ function closeModal(option, photoSelected) {
 if (closeByEnterModal != null) {
   closeByEnterModal.addEventListener("keydown", function (event) {
     if (event.key === "Enter") {
-      console.log("ENtrER");
       closeModal("form");
     }
   });
@@ -111,10 +107,8 @@ if (closeByEnterModal != null) {
  * @param {string} photographerName
  */
 function displayPhotographerName(photographerName) {
-  console.log("utils/contactFormjs");
   const namePhotographer = document.querySelector(".modal-header-title");
   const conteneurName = namePhotographer.querySelector(".namePhotographer");
-  console.log(namePhotographer);
   if (conteneurName) {
     namePhotographer.removeChild(conteneurName);
   }

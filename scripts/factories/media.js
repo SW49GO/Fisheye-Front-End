@@ -5,15 +5,14 @@
  */
 // eslint-disable-next-line no-unused-vars
 function mediaFactory(data) {
-  console.log("factories/media.js");
-  console.log(data);
+  // console.log("factories/media.js");
 
   /**
    * Function to display Photos and Video
    * @returns HTML Element
    */
   function getMediaCardDOM() {
-    console.log("factories/media.js->getMediaCardDOM");
+    // console.log("factories/media.js->getMediaCardDOM");
     // Name of the photographer
     const { name } = data.photographer[0];
     const path = name.split(" ")[0];
@@ -29,7 +28,7 @@ function mediaFactory(data) {
     for (let i = 0; i < data.media.length; i++) {
       const images = data.media[i].image
         ? `<img tabindex="-1" class="list-photos" data-id="${data.media[i].id}" src="assets/photographers/${path}/${data.media[i].image}" alt="${data.media[i].title}" loading="lazy" title="Cliquez pour agrandir"></img>`
-        : `<video tabindex="-1" class="video list-photos" data-id="${data.media[i].id}" aria-label="Vidéo ${data.media[i].title}" title="Cliquez pour lire la vidéo">
+        : `<video tabindex="-1" class="videos list-photos" data-id="${data.media[i].id}" aria-label="Vidéo ${data.media[i].title}" title="Cliquez pour lire la vidéo">
                                         <source src="assets/photographers/${path}/${data.media[i].video}" type="video/mp4" >
                                       </video>`;
       const ariaDescription = images.includes("video")
@@ -40,7 +39,6 @@ function mediaFactory(data) {
         ? `<p tabindex="0"><i class="fa-solid fa-video" title="Vidéo"></i> ${data.media[i].title}</p>`
         : `<p tabindex="0">${data.media[i].title}</p>`;
       if (images) {
-        // console.log(images);
         article.innerHTML += `<div class="list-photos-photographer">
                                   <a href="#" tabindex="-1">
                                     <button type="button" tabindex="0" class="list-photos-conteneur" aria-label="${ariaDescription}">
@@ -49,7 +47,7 @@ function mediaFactory(data) {
                                    </a>
                                   <figcaption class="list-photos-description" >
                                     ${title}
-                                    <button class="number-likes" tabindex="0" aria-label="Poser un like sur cette image aimé ${data.media[i].likes} fois">${data.media[i].likes}<i data-ref="${data.media[i].id}" class="fa-solid fa-heart icon-likes" title="Ajouter un like" aria-label="like"></i></button>
+                                    <button class="number-likes" tabindex="0" aria-label="Poser un like sur cette image aimé ${data.media[i].likes} fois">${data.media[i].likes}<i data-ref="${data.media[i].id}" class="fa-solid fa-heart icon-likes" title="Ajouter un like"></i></button>
                                     <p class="sr-only" aria-live="assertive"></p>
                                   </figcaption>
                                 </div>`;
@@ -88,17 +86,15 @@ function mediaFactory(data) {
    * @returns
    */
   function getLightBoxDOM(photoSelected, name) {
-    console.log("factories/media.js->getLightBoxDOM");
-    console.log("selectionPhoto" + photoSelected);
+    // console.log("factories/media.js->getLightBoxDOM");
     // Récupération du nom pour le chemin d'accès au fichier
     const path = name[0].split(" ")[0];
     // Récupération de l'index de la photo sélectionnée d'après son id
     const indexPhoto = data
       .map((photo) => photo.id == photoSelected)
       .indexOf(true);
-    console.log(photoSelected);
 
-    // Envoi de la valeur de l'index de la photo -> variable "i" pour la photo suivante ou précédente
+    // Envoi de la valeur de l'index de la photo -> variable "indexP" pour la photo suivante ou précédente
     // eslint-disable-next-line no-undef
     getValueIndex(indexPhoto);
 
@@ -122,18 +118,19 @@ function mediaFactory(data) {
 
       if (item.image) {
         const descImage = item.image.split(".")[0];
-        displayMedia += `<li class="li-image" data-index="${index}">
+        displayMedia += `<li class="li-image">
                           <img class="list-photos lightBox-photo ${classed}" data-id="${item.id}" src="assets/photographers/${path}/${item.image}" alt="photo ${descImage}">
                           <p class="title-photo ${classed}">${item.title}</p>
                         </li>`;
       }
       if (item.video) {
         const descVideo = item.video.split(".")[0];
-        displayMedia += ` <li class="li-image" data-index="${index}">
-                            <video tabindex="0" class="video list-photos lightBox-photo ${classed}" controls width="100" aria-label="Vidéo ${descVideo}" data-id="${item.id}">
+        displayMedia += ` <li class="li-image">
+                            <video tabindex="0" class="videos list-photos lightBox-photo ${classed}" controls width="100" aria-label="Vidéo ${descVideo}" data-id="${item.id}" onplay="audioPlay()">
                               <source src="assets/photographers/${path}/${item.video}" type="video/mp4">
                               <track  kind="subtitles" src="assets/photographers/${path}/desc.vtt" srclang="fr" default/>
                             </video>
+                            <audio class="audio" tabindex="-1" src="assets/photographers/${path}/audio.mp3"></audio>
                             <p class="title-photo ${classed}">${item.title}</p>
                           </li>`;
       }

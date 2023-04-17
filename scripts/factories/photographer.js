@@ -5,12 +5,10 @@
  */
 // eslint-disable-next-line no-unused-vars
 function photographerFactory(data) {
-  console.log("factories/photographer.js");
+  // console.log("factories/photographer.js");
   // Extraction des propriétés de l'objet data pour photographer à l'aide de la déstructuration
   const { name, id, city, country, tagline, price, portrait } = data;
-  console.log(data);
   const picture = `assets/photographers/Photographers ID Photos/${portrait}`;
-  // console.log(data);
 
   /**
    * Function to create HTLM Elements (portraits and name of photographers)
@@ -18,7 +16,7 @@ function photographerFactory(data) {
    * --> from displayDataIndex
    */
   function getUserCardDOM() {
-    console.log("factories/photographer.js->getUserCardDOM");
+    // console.log("factories/photographer.js->getUserCardDOM");
     // Création des éléments HTML pour représenter la carte utilisateur page Accueil
     const article = document.createElement("article");
     article.setAttribute(
@@ -43,11 +41,10 @@ function photographerFactory(data) {
    * --> from displayDataPhotographer
    */
   function getPagePhotographerDOM() {
-    console.log("factories/photographer.js->getPagePhotographer");
+    // console.log("factories/photographer.js->getPagePhotographer");
     const picture = `assets/photographers/Photographers ID Photos/${portrait}`;
 
     const verif = document.querySelector(".photographer-header-article");
-    console.log(verif);
     if (!verif) {
       const article = document.createElement("article");
       article.className = "photographer-header-article";
@@ -68,7 +65,7 @@ function photographerFactory(data) {
                             <p tabindex="0">Trier par </p>
                             <p id="desc-sort" class="sr-only" aria-live="assertive">Trier par popularité</p>
                             <div class="dropdown" title="Menu déroulant pour trier les photos">
-                              <button class="btn-filter" tabindex="0" aria-haspopup="lightBox" aria-expanded="false" role="dropdown" aria-labelledby="desc-sort"><p class="txt-filter">Popularité</p><span class="chevron-filter"><i class="fa-solid fa-chevron-down"></i></span></button>
+                              <button class="btn-filter" tabindex="0" aria-haspopup="true" aria-expanded="false" role="button" aria-labelledby="desc-sort"><p class="txt-filter">Popularité</p><span class="chevron-filter"><i class="fa-solid fa-chevron-down"></i></span></button>
                               <ul class="select-menu">
                                 <hr aria-hidden="true">
                                 <li class="select-menu-item" tabindex="0">Date</li>

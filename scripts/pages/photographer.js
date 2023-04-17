@@ -134,19 +134,19 @@ function selectPhotoLightBox(photo) {
 }
 
 /**
- * Function to initialize "i" that is the index of the photo selected
+ * Function to initialize "indexP" that is the index of the photo selected
+ * get from media.js
  * @param {string} indexPhoto
  * @returns
  */
 // eslint-disable-next-line no-unused-vars
 function getValueIndex(indexPhoto) {
   console.log(indexPhoto);
-  i = parseInt(indexPhoto);
-  return i;
+  indexP = parseInt(indexPhoto);
+  return indexP;
 }
-// Variable i=indexPhoto
-let i;
-console.log(i);
+// Variable indexPhoto
+let indexP;
 
 /**
  * Function to show the next photo
@@ -155,47 +155,34 @@ console.log(i);
 // eslint-disable-next-line no-unused-vars
 function goToPreviousPhoto(nbMedias) {
   // The photo selected change show to hidden
-  console.log("previous", "position", i);
+  console.log("previous", "position", indexP);
   document
     .getElementById("contact_modal")
     .querySelectorAll(".li-image")
-    [i].querySelector(".lightBox-photo")
+    [indexP].querySelector(".lightBox-photo")
     .classList.toggle("hidden");
   document
     .getElementById("contact_modal")
     .querySelectorAll(".li-image")
-    [i].querySelector(".title-photo")
+    [indexP].querySelector(".title-photo")
     .classList.toggle("hidden");
-  // document
-  //   .getElementById("contact_modal")
-  //   .querySelectorAll(".li-image")
-  //   [i].querySelector(".lightBox-photo")
-  //   .setAttribute("tabindex", "-1");
 
   // console.log(nbMedias.length);
   console.log("left");
-  i--;
-  // Affecte une valeur positif à "i", si "i" est négatif
-  i = ((i % nbMedias.length) + nbMedias.length) % nbMedias.length;
+  indexP--;
+  // Affecte une valeur positif à "indexPhoto", si "indexPhoto" est négatif
+  indexP = ((indexP % nbMedias.length) + nbMedias.length) % nbMedias.length;
 
-  // The photo selected change hidden to show and tabindex to 0
+  // The photo selected change hidden to show
   document
     .getElementById("contact_modal")
     .querySelectorAll(".li-image")
-    [i].querySelector(".lightBox-photo")
+    [indexP].querySelector(".lightBox-photo")
     .classList.toggle("hidden");
-  // document
-  //   .getElementById("contact_modal")
-  //   .querySelectorAll(".li-image")
-  //   [i].querySelector(".lightBox-photo")
-  //   .setAttribute("tabindex", "0");
-  // console.log(
-  //   document.getElementById("contact_modal").querySelectorAll(".li-image")[i]
-  // );
   document
     .getElementById("contact_modal")
     .querySelectorAll(".li-image")
-    [i].querySelector(".title-photo")
+    [indexP].querySelector(".title-photo")
     .classList.toggle("hidden");
 }
 
@@ -205,134 +192,157 @@ function goToPreviousPhoto(nbMedias) {
  */
 // eslint-disable-next-line no-unused-vars
 function goToNextPhoto(nbMedias) {
-  console.log("next", "position", i);
+  console.log("next", "position", indexP);
   // Effacement de l'image et son titre en cours
   document
     .getElementById("contact_modal")
     .querySelectorAll(".li-image")
-    [i].querySelector(".lightBox-photo")
+    [indexP].querySelector(".lightBox-photo")
     .classList.toggle("hidden");
 
   document
     .getElementById("contact_modal")
     .querySelectorAll(".li-image")
-    [i].querySelector(".title-photo")
+    [indexP].querySelector(".title-photo")
     .classList.toggle("hidden");
 
   console.log("right");
-  i++;
-  // Affecte une valeur positif à "i", si "i" est négatif
-  i = ((i % nbMedias.length) + nbMedias.length) % nbMedias.length;
+  indexP++;
+  // Affecte une valeur positif à "indexPhoto", si "indexPhoto" est négatif
+  indexP = ((indexP % nbMedias.length) + nbMedias.length) % nbMedias.length;
 
   // Apparition de la prochain photo et son titre
   document
     .getElementById("contact_modal")
     .querySelectorAll(".li-image")
-    [i].querySelector(".lightBox-photo")
+    [indexP].querySelector(".lightBox-photo")
     .classList.toggle("hidden");
-
-  // console.log(
-  //   document.getElementById("contact_modal").querySelectorAll(".li-image")[i]
-  // );
   document
     .getElementById("contact_modal")
     .querySelectorAll(".li-image")
-    [i].querySelector(".title-photo")
+    [indexP].querySelector(".title-photo")
     .classList.toggle("hidden");
 }
 
+// Element DOM
+const contactModal = document.getElementById("contact_modal");
+
 /**
- * Even Listener on Modal to get the focus on the Elements
- * Even Listener on window to move with keyborad
- */
-const modalContact = document.getElementById("contact_modal");
-/**
- * Function to have the nodeList of the modal LightBox
- * @returns NodeList
+ * Function to identify in the modal the number of nodes
+ * @returns number of nodes
  */
 function getChildNodesModal() {
-  return modalContact.childNodes;
+  return contactModal.childNodes;
 }
 
 if (window.location.href.includes("photographer.html")) {
-  // Initialize "i" to incement the focusable element of the page
-  let i = -1;
-  document.addEventListener("keydown", function (e) {
-    // If the modal appear on the document
-    if (getComputedStyle(modalContact).getPropertyValue("display") !== "none") {
-      // console.log(e);
-      let isTabPressed = e.key === "Tab" || e.key === 9;
-      // console.log("TAB");
-      const numberChildNodes = getChildNodesModal();
-
+  document.addEventListener("keydown", function (event) {
+    // Verify if the modal is display block on page
+    if (getComputedStyle(contactModal).getPropertyValue("display") !== "none") {
+      const isTabPressed = event.key === "Tab" || event.key === 9;
+      // if tab not pressed go out
       if (!isTabPressed) {
         return;
       }
-      let focusableElements = "";
-      console.log(modalContact.childNodes[2]);
-      // Elements focusable on modal Contact ->3
-      if (numberChildNodes.length === 3) {
-        focusableElements =
+      // Number of Nodes when Tab is pressed
+      const focusableElementsCount = getChildNodesModal().length;
+      let focusableElementsSelector;
+      // Nodes focusables : Contact Form & LightBox without Video
+      if (focusableElementsCount === 3) {
+        // Elements that can be focusable
+        focusableElementsSelector =
           'button,input,textarea,[tabindex]:not([tabindex="-1"])';
-      } else if (numberChildNodes.length === 4) {
-        // Elements focusable on modal LightBox ->4 max with video
-        focusableElements = '[tabindex="0"]:not(h1,img,.hidden)';
       }
-      // The first element to be focused inside modal
-      const firstFocusableElement =
-        modalContact.querySelectorAll(focusableElements)[0];
-      const focusableContent = modalContact.querySelectorAll(focusableElements);
-
-      console.log(
-        "focusableContent:",
-        modalContact.querySelectorAll(focusableElements)
+      // Nodes focusables : LightBox with Video
+      else if (focusableElementsCount === 4) {
+        focusableElementsSelector = '[tabindex="0"]:not(h1,img,.hidden)';
+      }
+      // First focusable Element from the list of node
+      const firstFocusableElement = contactModal.querySelectorAll(
+        focusableElementsSelector
+      )[0];
+      // NodeList of all elements
+      const focusableContent = contactModal.querySelectorAll(
+        focusableElementsSelector
       );
-
-      // The last element to be focused inside modal
+      // Last focusable Element
       const lastFocusableElement =
         focusableContent[focusableContent.length - 1];
 
-      if (e.shiftKey) {
-        // if shift key pressed for shift + tab combination
-        if (document.activeElement === firstFocusableElement) {
-          lastFocusableElement.focus(); // add focus for the last focusable element
-          e.preventDefault();
-        }
-      } else {
-        // if tab key is pressed
-        if (document.activeElement === lastFocusableElement) {
-          // if focused has reached to last focusable element then focus first focusable element after pressing tab
-          firstFocusableElement.focus(); // add focus for the first focusable element
-          e.preventDefault();
-        }
-      }
-    } else {
-      // Navigation with arrows keys on the entire photographer.html page
-      const bodyElementPhotographer = document.getElementsByTagName("body")[0];
-      const focusable = Array.from(
-        bodyElementPhotographer.querySelectorAll(
-          '[tabindex="0"]:not(#contact_modal [tabindex="0"])'
-        )
+      navigateFocusableElements(
+        event,
+        firstFocusableElement,
+        lastFocusableElement
       );
-
-      console.log(focusable);
-      if (e.key === "ArrowRight" || e.key === 39) {
-        i++;
-        i = ((i % focusable.length) + focusable.length) % focusable.length;
-        focusable[i].focus();
-        console.log("droite: ", i);
-      }
-      if (e.key === "ArrowLeft" || e.key === 37) {
-        i--;
-        i = ((i % focusable.length) + focusable.length) % focusable.length;
-        focusable[i].focus();
-        console.log("gauche", i);
-      }
+    } else {
+      // When modal is display none, navigate with keyboard arrows on photographer page
+      navigateWithArrows(event);
     }
   });
-  if (typeof firstFocusableElement != "undefined") {
-    // eslint-disable-next-line no-undef
+  // The first focusable element of each modal
+  const firstFocusableElement =
+    contactModal.querySelectorAll('[tabindex="0"]')[0];
+
+  if (firstFocusableElement) {
     firstFocusableElement.focus();
+  }
+}
+
+/**
+ * Function to get focus on the elements
+ * @param {object} event
+ * @param {object} firstFocusableElement
+ * @param {object} lastFocusableElement
+ */
+function navigateFocusableElements(
+  event,
+  firstFocusableElement,
+  lastFocusableElement
+) {
+  // if shift + tab pressed
+  if (event.shiftKey) {
+    if (document.activeElement === firstFocusableElement) {
+      // add focus for the last focusable element
+      lastFocusableElement.focus();
+      // Prevent the default behavior of Tab, scrolling down in the page
+      event.preventDefault();
+    }
+  } else {
+    // if tab key is pressed
+    if (document.activeElement === lastFocusableElement) {
+      // if focused has reached to last focusable element then focus first focusable element after pressing tab
+      firstFocusableElement.focus();
+      event.preventDefault();
+    }
+  }
+}
+// Variable to increment or decrement focus for all page photographer
+let focusIndex = -1;
+/**
+ * Function to navigate on photographer page with keyboard arrows
+ * @param {object} event
+ */
+function navigateWithArrows(event) {
+  // Navigation on photographer page with keyboard arrows
+  const bodyElementPhotographer = document.getElementsByTagName("body")[0];
+  const focusableElements = Array.from(
+    bodyElementPhotographer.querySelectorAll(
+      '[tabindex="0"]:not(#contact_modal [tabindex="0"])'
+    )
+  );
+  if (event.key === "ArrowRight" || event.key === 39) {
+    focusIndex++;
+    focusIndex =
+      ((focusIndex % focusableElements.length) + focusableElements.length) %
+      focusableElements.length;
+    focusableElements[focusIndex].focus();
+  }
+  if (event.key === "ArrowLeft" || event.key === 37) {
+    focusIndex--;
+    focusIndex =
+      ((focusIndex % focusableElements.length) + focusableElements.length) %
+      focusableElements.length;
+    focusableElements[focusIndex].focus();
   }
 }
 

@@ -3,7 +3,7 @@
  * @returns object
  */
 async function getJsonDataPhotographers() {
-  console.log("index.js ->getJsonDataPhotographers");
+  // console.log("index.js ->getJsonDataPhotographers");
   return await fetch("../../data/photographers.json")
     .then((response) => {
       if (!response.ok) {
@@ -25,7 +25,7 @@ async function getJsonDataPhotographers() {
  * @returns
  */
 async function getPhotographerById(photographers, id) {
-  console.log("index.js->getPhotograperById(photographers, id)");
+  // console.log("index.js->getPhotograperById(photographers, id)");
   // Retrieve data of a photographer from his ID
   const personalPhotographer = photographers.filter(
     (user) => user.id === parseInt(id)
@@ -40,11 +40,10 @@ async function getPhotographerById(photographers, id) {
  * @returns
  */
 async function getMediaById(media, id) {
-  console.log("index.js->getMediaById(media,id)");
+  // console.log("index.js->getMediaById(media,id)");
   const mediaPhotographer = media.filter(
     (medias) => medias.photographerId === parseInt(id)
   );
-  // console.log(mediaPhotographer);
   return mediaPhotographer;
 }
 /**
@@ -54,7 +53,7 @@ async function getMediaById(media, id) {
  * @returns
  */
 async function getNamePhotographer(photographers, id) {
-  console.log("index.js->getNamePhotopher(photographers,id)");
+  // console.log("index.js->getNamePhotopher(photographers,id)");
   const photographerName = photographers
     .filter((photographer) => photographer.id === parseInt(id))
     .map((photographer) => photographer.name);
@@ -67,7 +66,6 @@ async function getNamePhotographer(photographers, id) {
  * --> to getUserCardDOM
  */
 async function displayDataIndex(photographers) {
-  console.log(photographers);
   const photographersSection = document.querySelector(".photographer_section");
   // Loop for display each photographers data in Home Page
   photographers.forEach((photographer) => {
@@ -85,7 +83,7 @@ async function displayDataIndex(photographers) {
  * --> to getPagePhotographerDOM
  */
 async function displayDataPhotographer(photographers, idPhotographer) {
-  console.log("index.js->displayDataPhotographer");
+  // console.log("index.js->displayDataPhotographer");
   // DOM element that will receive the HTML
   const mediaSection = document.querySelector(".photograph-header");
   // Data of photographer who is selected
@@ -94,7 +92,6 @@ async function displayDataPhotographer(photographers, idPhotographer) {
     idPhotographer
   );
 
-  console.log(personalPhotographer[0]);
   const personalData = personalPhotographer[0];
   // eslint-disable-next-line no-undef
   const pagePhotographer = photographerFactory(personalData);
@@ -103,9 +100,7 @@ async function displayDataPhotographer(photographers, idPhotographer) {
 
   // Event listener on Filter button
   const btnFilter = document.querySelector(".btn-filter");
-  console.log(btnFilter);
   btnFilter.addEventListener("click", function () {
-    console.log("entrer addEventListener Index");
     // eslint-disable-next-line no-undef
     displayMenuFilter(btnFilter);
   });
@@ -114,7 +109,6 @@ async function displayDataPhotographer(photographers, idPhotographer) {
   for (let i = 0; i < selectMenuFilter.length; i++) {
     // On click
     selectMenuFilter[i].addEventListener("click", function () {
-      console.log();
       // eslint-disable-next-line no-undef
       selectFilter(selectMenuFilter[i], btnFilter);
       const selectedMenuFilter = document.querySelector(".select-menu");
@@ -141,11 +135,10 @@ async function displayDataPhotographer(photographers, idPhotographer) {
  * @param {string} options
  */
 async function displayMedia(media, photographers, idPhotographer, options) {
-  console.log("index.js->displaymedia");
+  // console.log("index.js->displaymedia");
   // DOM element that will receive the HTML
   const mediaImage = document.querySelector(".photograph-header");
 
-  console.log("trier par :" + options);
   // Get the media from ID photographer
   const mediaPhotographer = await getMediaById(media, idPhotographer);
 
@@ -160,7 +153,6 @@ async function displayMedia(media, photographers, idPhotographer, options) {
     idPhotographer,
     options
   );
-  console.log(newMedia);
   // The data which is sent to mediaFactory
   const photographerData = {
     photographer: personalPhotographer,
@@ -170,7 +162,6 @@ async function displayMedia(media, photographers, idPhotographer, options) {
   // eslint-disable-next-line no-undef
   const mediaModel = mediaFactory(photographerData);
   const mediaCardDOM = mediaModel.getMediaCardDOM();
-  console.log(mediaCardDOM);
   // Received HTML Element who insert into the DOM
   mediaImage.appendChild(mediaCardDOM);
 
@@ -189,7 +180,6 @@ async function displayMedia(media, photographers, idPhotographer, options) {
   }
   // Event listener on each photo -> Click and Enter
   const listPhotos = document.querySelectorAll(".list-photos-conteneur");
-  console.log("listPhotos:", listPhotos);
   for (let i = 0; i < listPhotos.length; i++) {
     listPhotos[i].addEventListener("click", function (event) {
       event.preventDefault();
@@ -214,10 +204,9 @@ async function displayMedia(media, photographers, idPhotographer, options) {
  * @returns
  */
 async function getMediaFilter(media, id, options) {
-  console.log("index.js-> getMediaFilter(media, id, options)");
+  // console.log("index.js-> getMediaFilter(media, id, options)");
 
   const medias = await getMediaById(media, id);
-  // console.log(medias);
 
   // Filter for the select options
   let mediaFilter;
@@ -234,7 +223,6 @@ async function getMediaFilter(media, id, options) {
     default:
       mediaFilter = medias;
   }
-  // console.log(mediaFilter);
   return mediaFilter;
 }
 /**
@@ -252,8 +240,6 @@ async function displayEncart(media, photographers, idPhotographer) {
     .filter((media) => media.photographerId === parseInt(idPhotographer))
     .map((listLike) => listLike.likes)
     .reduce((acc, value) => acc + value);
-  console.log(numbLikesEncart);
-  console.log(media);
 
   // Get all informations about a photographer to take is service price
   const photoghrapherData = await getPhotographerById(
@@ -261,9 +247,7 @@ async function displayEncart(media, photographers, idPhotographer) {
     idPhotographer
   );
   const price = photoghrapherData[0].price;
-  console.log(price);
   const mediaData = await getMediaById(media, idPhotographer);
-  console.log(mediaData);
   // eslint-disable-next-line no-undef
   const mediaEncart = mediaFactory(mediaData);
   const encartCardDOM = mediaEncart.getEncart(numbLikesEncart, price);
@@ -283,7 +267,6 @@ async function displayLightBox(
   photoSelected,
   idPhotographer
 ) {
-  console.log(photoSelected);
   // photoSelect must be different of option=1 for the filter
   if (photoSelected !== "1") {
     console.log("index.js->displayLightBox");
@@ -301,7 +284,6 @@ async function displayLightBox(
       const focusLightBoxOpen = document.querySelector(".icon-close");
       focusLightBoxOpen.focus();
 
-      console.log("passe le add");
       // Event listener on arrows markup
       const arrowLeft = modal.querySelector(".arrow-left");
       arrowLeft.addEventListener("click", function () {
@@ -316,7 +298,6 @@ async function displayLightBox(
 
       // Stockage the first photo to active addEventListener just one time
       let stockagePhoto = localStorage.getItem("photo");
-      console.log("stockagePhoto:", stockagePhoto);
       if (!stockagePhoto) {
         // Event listener for keyboard arrows
         modal.addEventListener("keydown", function (e) {
@@ -331,13 +312,11 @@ async function displayLightBox(
         });
         // setItem to have not an empty localStorage
         stockagePhoto = localStorage.setItem("photo", photoSelected);
-        console.log("stockagePhoto:", stockagePhoto);
       }
       // Event listener to close lightBox with keyboard "Enter"
       const closeLightBox = modal.querySelector(".icon-close");
       closeLightBox.addEventListener("keydown", function (e) {
         if (e.key === "Enter" || e.key === 13) {
-          console.log("index close lightbox");
           e.preventDefault();
           // eslint-disable-next-line no-undef
           closeModal("lightBox", photoSelected);
@@ -381,25 +360,31 @@ async function init(options) {
 
 init();
 
+/**
+ * Navigation with keyboard arrow
+ */
 if (window.location.href.includes("index.html")) {
-  let i = -1;
+  let i = -1; // First focusable after press -> 0
   document.addEventListener("keydown", function (e) {
     const bodyElementIndex = document.getElementsByTagName("body")[0];
+    // Array of Elements focusable of the page index
     const focusable = Array.from(
       bodyElementIndex.querySelectorAll('[tabindex="0"]')
     );
-    console.log(focusable);
     if (e.key === "ArrowRight" || e.key === 39) {
       i++;
       i = ((i % focusable.length) + focusable.length) % focusable.length;
       focusable[i].focus();
-      console.log("droite: ", i);
     }
     if (e.key === "ArrowLeft" || e.key === 37) {
       i--;
       i = ((i % focusable.length) + focusable.length) % focusable.length;
       focusable[i].focus();
-      console.log("gauche", i);
     }
   });
+}
+// eslint-disable-next-line no-unused-vars
+function audioPlay() {
+  const audio = document.querySelector("audio");
+  audio.play();
 }
