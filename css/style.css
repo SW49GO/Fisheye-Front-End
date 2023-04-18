@@ -69,7 +69,6 @@ button {
   width: 12.5rem;
   object-fit: cover;
   border-radius: 50%;
-  overflow-clip-margin: unset;
 }
 .photographer-description {
   text-align: center;

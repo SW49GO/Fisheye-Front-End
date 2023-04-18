@@ -6,7 +6,7 @@
 // eslint-disable-next-line no-unused-vars
 function photographerFactory(data) {
   // console.log("factories/photographer.js");
-  // Extraction des propriétés de l'objet data pour photographer à l'aide de la déstructuration
+  // Extracting properties from the data object for photographer using destructuring
   const { name, id, city, country, tagline, price, portrait } = data;
   const picture = `assets/photographers/Photographers ID Photos/${portrait}`;
 
@@ -17,17 +17,14 @@ function photographerFactory(data) {
    */
   function getUserCardDOM() {
     // console.log("factories/photographer.js->getUserCardDOM");
-    // Création des éléments HTML pour représenter la carte utilisateur page Accueil
+    // Creation of HTML elements to represent the Home page user card
     const article = document.createElement("article");
-    article.setAttribute(
-      "aria-label",
-      "Carte d'identité du photographe " + name
-    );
     article.innerHTML = `<a tabindex="0" href="photographer.html?identify=${id}" aria-label="Lien vers la page du photographe ${name}" title="Lien vers la page du photographe ${name}">
                             <img src="${picture}" alt="Portrait du photographe ${name}, lien vers sa page">
                             <h2>${name}</h2>
                         </a>
-                        <div class="photographer-description" aria-label="Localisation, slogan et tarifs du photographe ${name}" tabindex="0">
+                        <div class="photographer-description" tabindex="0">
+                          <p class="sr-only">Localisation, slogan et tarifs du photographe ${name}</p>
                           <h3>${city}, ${country}</h3> 
                           <p>${tagline}</p>
                           <p>${price}€/jour</p>
@@ -50,6 +47,7 @@ function photographerFactory(data) {
       article.className = "photographer-header-article";
       article.innerHTML = `<div class="photographer-identity" data-identity="${id}">
                             <div  title="Localisation, slogan et tarifs du photographe ${name}" tabindex="0">
+                              <p class="sr-only">Localisation, slogan et tarifs du photographe</p>
                               <h2 class="name-photographer">${name}</h2>
                               <h3>${city}, ${country}</h3> 
                               <p>${tagline}</p>
@@ -57,13 +55,13 @@ function photographerFactory(data) {
                             <div title="Bouton pour contacter ${name}">
                               <button tabindex="0" type="button" class="contact_button" onclick="displayModal('form','${name}')" aria-pressed="false"  aria-label="Contacter ${name}">Contactez-moi</button>
                             </div>
-                            <div title="Portait de ${name}" tabindex="0">
+                            <div class="portrait" title="Portait de ${name}" tabindex="0">
                               <img class="photographer-portrait" src="${picture}" alt="Portrait du photographe ${name}">
                             </div>
                           </div>
                           <div class="select-sort">
                             <p tabindex="0">Trier par </p>
-                            <p id="desc-sort" class="sr-only" aria-live="assertive">Trier par popularité</p>
+                            <p id="desc-sort" class="sr-only" aria-live="polite">Trier par popularité</p>
                             <div class="dropdown" title="Menu déroulant pour trier les photos">
                               <button class="btn-filter" tabindex="0" aria-haspopup="true" aria-expanded="false" role="button" aria-labelledby="desc-sort"><p class="txt-filter">Popularité</p><span class="chevron-filter"><i class="fa-solid fa-chevron-down"></i></span></button>
                               <ul class="select-menu">

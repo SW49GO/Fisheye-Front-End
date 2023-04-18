@@ -7,9 +7,11 @@ const closeByEnterModal = modal.querySelector(".modal-close");
 
 /**
  * Function to display the Contact Modal
+ * @param {string} whichModal -> which modal open "lightBox" or "form"
+ * @param {string} nameArtist -> use for contact modal, name of the photographer
  */
 // eslint-disable-next-line no-unused-vars
-function displayModal(option, name) {
+function displayModal(whichModal, nameArtist) {
   // eslint-disable-next-line no-undef
   modal.style.display = "block";
   divModal.style.display = "block";
@@ -18,8 +20,10 @@ function displayModal(option, name) {
   header.style.opacity = 0.5;
   header.setAttribute("aria-hidden", "true");
 
+  // Focus on the first element when contact modal open
   document.querySelector(".modal-header-title").focus();
-  if (option === "lightBox") {
+
+  if (whichModal === "lightBox") {
     modal.style.borderRadius = "none";
     modal.style.position = "fixed";
     divModal.style.display = "none";
@@ -32,12 +36,12 @@ function displayModal(option, name) {
       modal.removeChild(conteneurLightBox);
     }
   }
-  if (option === "form") {
+  if (whichModal === "form") {
     // Check the status of the "position" style of #contact_modal
     if (getComputedStyle(modal).getPropertyValue("position") !== "absolute") {
       modal.style.position = "absolute";
     }
-    displayPhotographerName(name);
+    displayPhotographerName(nameArtist);
     modal.style.border = "none";
     modal.style.width = "auto";
     const conteneurLightBox = modal.querySelector(".lightBox");
@@ -50,12 +54,12 @@ function displayModal(option, name) {
 
 /**
  *  Function to close Contact Modal
- * @param {string} option  which modal close
- * @param {string} photoSelected id photo or the way to close
+ * @param {string} whichModal  which modal close "lightBox" or "form"
+ * @param {string} idPhotoSelected id of the photo selected
  */
-function closeModal(option, photoSelected) {
-  console.log(photoSelected);
-  const focusContactClose = document.getElementById("begin");
+function closeModal(whichModal, idPhotoSelected) {
+  console.log(idPhotoSelected);
+  const focusContactClose = document.querySelector(".portrait");
   const focusLightBoxClose = document.querySelector(".photograph-header");
   const conteneurLightBox = modal.querySelector(".lightBox");
   const allMedia = focusLightBoxClose.querySelectorAll(".list-photos");
@@ -71,17 +75,18 @@ function closeModal(option, photoSelected) {
     modal.removeChild(conteneurLightBox);
   }
 
-  if (option != null) {
-    // Focus after modal form closed
-    if (option === "form") {
+  if (whichModal != null) {
+    // Focus after modal contact closed on the next element
+    if (whichModal === "form") {
       focusContactClose.focus();
     }
   }
-  if (option === "lightBox" && photoSelected !== "mouseClose") {
-    // Focus after lightBox closed on the photo that be selected before
+  if (whichModal === "lightBox" && idPhotoSelected) {
+    // Focus after lightBox closed on the photo that be selected before (when focus in document)
+    console.log(idPhotoSelected);
     let indexP;
     allMedia.forEach((element, index) => {
-      if (element.dataset.id == photoSelected) {
+      if (element.dataset.id == idPhotoSelected) {
         indexP = index;
       }
     });
@@ -89,6 +94,7 @@ function closeModal(option, photoSelected) {
       .querySelector(".list-article")
       .querySelectorAll(".list-photos")
       [indexP].focus();
+    console.log(focusLightBoxClose);
   }
 }
 

@@ -16,7 +16,7 @@
     <title>Fisheye - Page des travaux du photographe</title>
   </head>
   <body>
-    <header role="banner">
+    <header>
       <a
         id="begin"
         href="index.html"
@@ -30,19 +30,13 @@
         />
       </a>
     </header>
-    <main id="main" role="main">
-      <section class="photograph-header"></section>
+    <main id="main">
+      <div class="photograph-header"></div>
     </main>
     <section id="contact_modal" role="dialog">
       <div class="modal">
         <header class="modal-header">
-          <h1
-            class="modal-header-title"
-            tabindex="0"
-            aria-label="Contactez le photographe"
-          >
-            Contactez-moi
-          </h1>
+          <h1 class="modal-header-title" tabindex="0">Contactez-moi</h1>
           <img
             class="modal-close"
             src="assets/icons/close.svg"
@@ -53,7 +47,9 @@
         </header>
         <form class="modal-form">
           <div>
-            <label id="first" for="firstname">Prénom</label>
+            <label id="first" for="firstname" aria-label="Votre prénom"
+              >Prénom</label
+            >
             <input
               type="text"
               name="firsname"
@@ -63,7 +59,7 @@
               aria-labelledby="first"
               placeholder="Entrer votre prénom"
             />
-            <label id="last" for="lastname">Nom</label>
+            <label id="last" for="lastname" aria-label="Votre nom">Nom</label>
             <input
               type="text"
               name="lastname"
@@ -73,7 +69,7 @@
               aria-labelledby="last"
               placeholder="Entrer votre nom"
             />
-            <label id="mail" for="email">Email</label>
+            <label id="mail" for="email" aria-label="Votre Email">Email</label>
             <input
               type="email"
               name="email"
@@ -87,7 +83,6 @@
               >Votre message</label
             >
             <textarea
-              type="text"
               name="message"
               id="message"
               required
@@ -102,7 +97,7 @@
             type="submit"
             class="contact_button"
             aria-pressed="false"
-            aria-describedby="form-validation"
+            aria-labelledby="form-validation"
           >
             Envoyer
           </button>

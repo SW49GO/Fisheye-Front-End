@@ -14,8 +14,11 @@ function displayMenuFilter(btnFilter) {
   const selectedMenuFilter = document.querySelector(".select-menu");
   // console.log(selectedMenuFilter.classList);
   selectedMenuFilter.classList.toggle("show");
+  // Quand le menu est développé
+  btnFilter.setAttribute("aria-expanded", "true");
 
   const chevronFilter = btnFilter.querySelector(".chevron-filter");
+  // Element DOM <p>, affichage de la sélection principal
   const txtFilter = btnFilter.querySelector(".txt-filter");
 
   if (txtFilter.textContent === "") {
@@ -42,7 +45,7 @@ function selectFilter(selectMenuFilter, btnFilter) {
   // Positioning of arrows
   const txtSrOnly = document
     .querySelector(".photograph-header")
-    .querySelectorAll(".sr-only")[0];
+    .querySelectorAll(".sr-only")[1];
 
   console.log("txtSrOnly:", txtSrOnly);
 
@@ -56,6 +59,7 @@ function selectFilter(selectMenuFilter, btnFilter) {
   // Reversing menuItems names and change aria-expanded of the btn-filter
   button.textContent = choiceName;
   selectMenuFilter.textContent = buttonTxt;
+  btnFilter.setAttribute("aria-expanded", "false");
 
   console.log(choiceName);
   let select;

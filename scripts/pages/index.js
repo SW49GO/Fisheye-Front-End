@@ -325,6 +325,10 @@ async function displayLightBox(
           closeModal("lightBox", photoSelected);
         }
       });
+      // Event listener +1 (onclick html + this one for NVDA)
+      closeLightBox.addEventListener("click", function () {
+        closeModal("lightBox", photoSelected);
+      });
     }
   }
 }
