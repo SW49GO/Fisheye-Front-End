@@ -21,7 +21,6 @@
   padding: 0.6875rem;
   width: 10.625rem;
   height: 4.375rem;
-  /* border: none; */
   background-color: #901c1c;
   border-radius: 0.3125rem;
   cursor: pointer;
@@ -47,9 +46,6 @@
   margin: 0 2rem 3rem 0;
 }
 
-/* .modal header img {
-  cursor: pointer;
-} */
 .modal-close {
   position: relative;
   top: -1.875rem;
@@ -124,8 +120,7 @@ textarea:invalid:focus {
   font-size: 1.3rem;
 }
 .name-photographer {
-  /* color: #d3573c; Not conforme to WCAG2.1 AA*/
-  color: #ce403c;
+  color: #d3573c; /*conform to WCAG2.1 AA text > 1.5rem*/
   font-size: 2rem;
   order: 1;
 }
@@ -161,7 +156,6 @@ hr {
   position: relative;
   height: 2rem;
   background-color: #901c1c;
-  /* border: none; */
   width: 9rem;
   border-radius: 0.3125rem;
 }
@@ -236,7 +230,6 @@ hr {
 .list-photos-conteneur {
   width: 100%;
   height: 20rem;
-  /* border: none; */
 }
 .list-photos-description {
   display: flex;

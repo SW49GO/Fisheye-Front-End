@@ -1,7 +1,8 @@
 /**
- * Pattern function to create photo display of photographers
+ * Pattern function to create HTMLElements about photographers
+ * Called by "displayDataPageIndex", " displayStaticDataPhotographer"
  * @param {object} data
- * @returns string (name, picture) function (getUserCardDom)
+ * @returns getUserCardDOM, getPagePhotographerDOM
  */
 // eslint-disable-next-line no-unused-vars
 function photographerFactory(data) {
@@ -12,8 +13,8 @@ function photographerFactory(data) {
 
   /**
    * Function to create HTLM Elements (portraits and name of photographers)
+   * Called by "displayDataPageIndex"
    * @returns string (article)
-   * --> from displayDataIndex
    */
   function getUserCardDOM() {
     // console.log("factories/photographer.js->getUserCardDOM");
@@ -34,8 +35,8 @@ function photographerFactory(data) {
 
   /**
    * Function to return the HTML page of each Photographer
+   * Called by "displayStaticDataPhotographer"
    * @returns HTML Element
-   * --> from displayDataPhotographer
    */
   function getPagePhotographerDOM() {
     // console.log("factories/photographer.js->getPagePhotographer");
@@ -46,7 +47,7 @@ function photographerFactory(data) {
       const article = document.createElement("article");
       article.className = "photographer-header-article";
       article.innerHTML = `<div class="photographer-identity" data-identity="${id}">
-                            <div  title="Localisation, slogan et tarifs du photographe ${name}" tabindex="0">
+                            <div title="Localisation, slogan et tarifs du photographe ${name}" tabindex="0">
                               <p class="sr-only">Localisation, slogan et tarifs du photographe</p>
                               <h2 class="name-photographer">${name}</h2>
                               <h3>${city}, ${country}</h3> 

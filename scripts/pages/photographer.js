@@ -1,24 +1,25 @@
 // ID of the photographer
+// Initialized from "getUserCardDom" in the link "photographer.html?identify=${id}"
 const urlParams = new URLSearchParams(window.location.search);
 const idPhotographer = urlParams.get("identify");
 
 /**
- * Function to display chevrons & appear menu
+ * Function to display chevrons & appear the 2 list of the menu
+ * Called from "displayStaticPotographerData" on eventListener of the contact button
  * @param {string} btnFilter HTML
  */
 // eslint-disable-next-line no-unused-vars
 function displayMenuFilter(btnFilter) {
-  console.log("entrer dans le button");
-
-  // console.log('photographer.js/ ->btnSord addEventlistener');
+  // DOM Element create in factories\getPagePhotographerDOM -> ul
   const selectedMenuFilter = document.querySelector(".select-menu");
-  // console.log(selectedMenuFilter.classList);
-  selectedMenuFilter.classList.toggle("show");
-  // Quand le menu est développé
-  btnFilter.setAttribute("aria-expanded", "true");
 
+  selectedMenuFilter.classList.toggle("show");
+  // When the menu is expanded, set aria-expanded to true
+  btnFilter.setAttribute("aria-expanded", "true");
+  // DOM element to change the display of the chevron
   const chevronFilter = btnFilter.querySelector(".chevron-filter");
-  // Element DOM <p>, affichage de la sélection principal
+
+  // Element DOM text of the filter button
   const txtFilter = btnFilter.querySelector(".txt-filter");
 
   if (txtFilter.textContent === "") {
@@ -33,26 +34,22 @@ function displayMenuFilter(btnFilter) {
 }
 
 /**
- * Function to select menu
+ * Function to select submenu->li
+ * Called from index/displayStaticDataPhotographer on eventListener "select-menu-item"->li
  * @param {string} selectMenuFilter HTML
  * @param {string} btnFilter HTML
  */
 // eslint-disable-next-line no-unused-vars
 function selectFilter(selectMenuFilter, btnFilter) {
-  // console.log(btnFilter);
-  // console.log(selectMenuFilter);
-  // console.log("entrer selection menu");
-  // Positioning of arrows
+  // DOM Element to change the text for AT
   const txtSrOnly = document
     .querySelector(".photograph-header")
     .querySelectorAll(".sr-only")[1];
 
-  console.log("txtSrOnly:", txtSrOnly);
-
+  // Change chevron and text AT
   const chevronFilter = btnFilter.querySelector(".chevron-filter");
   chevronFilter.innerHTML = `<i class="fa-solid fa-chevron-down"></i>`;
   const button = btnFilter.childNodes[0];
-  console.log(button);
   const buttonTxt = button.textContent;
   const choiceName = selectMenuFilter.textContent;
 
@@ -61,7 +58,9 @@ function selectFilter(selectMenuFilter, btnFilter) {
   selectMenuFilter.textContent = buttonTxt;
   btnFilter.setAttribute("aria-expanded", "false");
 
-  console.log(choiceName);
+  // Switch on the textContent of the button (choiceName)
+  // to change the text for AT
+  // and send the selected choice to displayMedia
   let select;
   switch (choiceName) {
     case "Popularité":
@@ -77,7 +76,9 @@ function selectFilter(selectMenuFilter, btnFilter) {
       txtSrOnly.textContent = "Photos trier par Titre";
       break;
   }
-  console.log(select);
+  // Method .then to attach a promise manager, when the promise resolved with success
+  // and using destructuring to extract resolved data "media", "photographers"
+  // and then can send the data to "displayMedia"
   // eslint-disable-next-line no-undef
   getJsonDataPhotographers().then(({ media, photographers }) => {
     // eslint-disable-next-line no-undef
@@ -87,47 +88,55 @@ function selectFilter(selectMenuFilter, btnFilter) {
 
 /**
  * Function Management Likes
+ * Called by index/displayMedia on eventListener all "number-likes"
+ * Array to stock id of the media, inialized empty in index/displayMedia
  * @param {string} numberLikes HTML
  * @param {array} tabRef
  */
 
 // eslint-disable-next-line no-unused-vars
 function likeNumberChange(numberLikes, tabRef) {
+  // DOM Element the encart
   const encart = document.querySelector(".likes");
+  // Text inside the numberLikes
   let photoLike = parseInt(numberLikes.textContent);
-  console.log(photoLike);
+  // Retrieve data-ref -> id of the media
   const refLike = numberLikes.childNodes[1].dataset.ref;
   let totalLikesEncart = parseInt(encart.textContent);
-  console.log(totalLikesEncart);
 
   if (tabRef.includes(refLike)) {
     // If the user has already liked
     const index = tabRef.indexOf(refLike);
+    // Removing the id from index
     tabRef.splice(index, 1);
     totalLikesEncart--;
     photoLike--;
   } else {
-    // If the user has not yet liked
+    // If the user has not yet liked, insert id in the array
     tabRef.push(refLike);
     totalLikesEncart++;
     photoLike++;
   }
-  // Inserting new data into the DOM
+  // Inserting new data into the DOM "encart" and "numberLikes"
   encart.innerHTML = `${totalLikesEncart}<i class="fa-solid fa-heart"></i>`;
   numberLikes.innerHTML = `${photoLike}<i data-ref="${refLike}" class="fa-solid fa-heart icon-likes"></i>`;
-  // Read again number of like
+  // New value of number like, read again by AT -> aria-lve="polite"
   numberLikes.parentNode.querySelector(".sr-only").textContent = photoLike;
 }
 
 /**
  * Function to display the LightBox when user select a photo
- * @param {*} photo
+ * Called from index/displayMedia by eventListener on "list-photos"
+ * @param {object} photo HTML
  */
 // eslint-disable-next-line no-unused-vars
 function selectPhotoLightBox(photo) {
-  // console.log(photo);
+  // Retrieve id of the photo by the dataset
   const idPhoto = photo.dataset.id;
-  // console.log(idPhoto);
+
+  // Method .then to attach event on promise, when it's the promise resolve with success
+  // and using destructuring to extract resolved data "media", "photographers"
+  // and then can send datas to displayLightBox
   // eslint-disable-next-line no-undef
   getJsonDataPhotographers().then(({ media, photographers }) => {
     // eslint-disable-next-line no-undef
@@ -137,28 +146,27 @@ function selectPhotoLightBox(photo) {
   displayModal("lightBox");
 }
 
+// Variable to be initialize from "getValueIndex", and become a counter for "goToPreviousPhoto" and "goToNextPhoto"
+let indexP;
 /**
- * Function to initialize "indexP" that is the index of the photo selected
- * get from media.js
+ * Function to initialize "indexP" that is the index of the photo selected for the first time
+ * Called by media/getLightBoxDOM
  * @param {string} indexPhoto
  * @returns
  */
 // eslint-disable-next-line no-unused-vars
 function getValueIndex(indexPhoto) {
-  console.log(indexPhoto);
   indexP = parseInt(indexPhoto);
   return indexP;
 }
-// Variable indexPhoto
-let indexP;
 
 /**
  * Function to show the next photo
- * @param {string} nbMedias -> number of all medis
+ * @param {string} nbMedias -> number of all medias
  */
 // eslint-disable-next-line no-unused-vars
 function goToPreviousPhoto(nbMedias) {
-  // The photo selected change show to hidden
+  // The photo selected change -> show to hidden
   const liImage = document
     .getElementById("contact_modal")
     .querySelectorAll(".li-image");
@@ -174,13 +182,11 @@ function goToPreviousPhoto(nbMedias) {
       [indexP].querySelector(".title-photo")
       .classList.toggle("hidden");
 
-    // console.log(nbMedias.length);
-    console.log("left");
     indexP--;
-    // Affecte une valeur positif à "indexPhoto", si "indexPhoto" est négatif
+    // Assign a positive value to "indexPhoto", if "indexPhoto" is negative
     indexP = ((indexP % nbMedias.length) + nbMedias.length) % nbMedias.length;
 
-    // The photo selected change hidden to show
+    // The photo selected change -> hidden to show after indexP decrement
     document
       .getElementById("contact_modal")
       .querySelectorAll(".li-image")
@@ -196,7 +202,7 @@ function goToPreviousPhoto(nbMedias) {
 
 /**
  * Function to go to the preview photo
- * @param {} nbMedias
+ * @param {string} nbMedias -> number of all medias
  */
 // eslint-disable-next-line no-unused-vars
 function goToNextPhoto(nbMedias) {
@@ -204,7 +210,7 @@ function goToNextPhoto(nbMedias) {
     .getElementById("contact_modal")
     .querySelectorAll(".li-image");
   if (liImage[indexP]) {
-    // Effacement de l'image et son titre en cours
+    // The photo selected change -> show to hidden
     document
       .getElementById("contact_modal")
       .querySelectorAll(".li-image")
@@ -217,12 +223,11 @@ function goToNextPhoto(nbMedias) {
       [indexP].querySelector(".title-photo")
       .classList.toggle("hidden");
 
-    console.log("right");
     indexP++;
-    // Affecte une valeur positif à "indexPhoto", si "indexPhoto" est négatif
+    // Assign a positive value to "indexPhoto", if "indexPhoto" is negative
     indexP = ((indexP % nbMedias.length) + nbMedias.length) % nbMedias.length;
 
-    // Apparition de la prochain photo et son titre
+    // The photo selected change -> hidden to show after indexP increment
     document
       .getElementById("contact_modal")
       .querySelectorAll(".li-image")
@@ -240,22 +245,28 @@ function goToNextPhoto(nbMedias) {
 const contactModal = document.getElementById("contact_modal");
 
 /**
- * Function to identify in the modal the number of nodes
+ * Function to identify in a modal the number of nodes
+ * to initialize number of element focusable for eventListener on document
+ * when a modal is display "block" on photographer.html
  * @returns number of nodes
  */
 function getChildNodesModal() {
   return contactModal.childNodes;
 }
 
+/**
+ * AddEventListener when on photographer.html page
+ */
 if (window.location.href.includes("photographer.html")) {
   document.addEventListener("keydown", function (event) {
-    // Verify if the modal is display block on page
+    // Verify if in the list of style modal a property display have value block on page
     if (getComputedStyle(contactModal).getPropertyValue("display") !== "none") {
       const isTabPressed = event.key === "Tab" || event.key === 9;
       const isArrowPressed =
         event.key === "ArrowRight" ||
         event.key === 39 ||
         event.key === "ArrowLeft";
+      // If a keydown is "ArrowRight" or "ArrowLeft" send "event" to the function "navigateWithArrows" in modal
       if (isArrowPressed) {
         navigateWithArrows(event);
       }
@@ -288,6 +299,7 @@ if (window.location.href.includes("photographer.html")) {
       const lastFocusableElement =
         focusableContent[focusableContent.length - 1];
 
+      // Send "event" and "first - last" Focusable elements
       navigateFocusableElements(
         event,
         firstFocusableElement,
@@ -301,7 +313,7 @@ if (window.location.href.includes("photographer.html")) {
   // The first focusable element of each modal
   const firstFocusableElement =
     contactModal.querySelectorAll('[tabindex="0"]')[0];
-
+  // Focus on first element
   if (firstFocusableElement) {
     firstFocusableElement.focus();
   }
@@ -309,6 +321,7 @@ if (window.location.href.includes("photographer.html")) {
 
 /**
  * Function to get focus on the elements
+ * with TAB
  * @param {object} event
  * @param {object} firstFocusableElement
  * @param {object} lastFocusableElement
@@ -335,6 +348,7 @@ function navigateFocusableElements(
     }
   }
 }
+
 // Variable to increment or decrement focus for all page photographer
 let focusIndex = -1;
 /**
@@ -342,11 +356,11 @@ let focusIndex = -1;
  * @param {object} event
  */
 function navigateWithArrows(event) {
-  console.log(event);
   let focusableElements;
   if (getComputedStyle(contactModal).getPropertyValue("display") === "none") {
     // Navigation on photographer page with keyboard arrows
     const bodyElementPhotographer = document.getElementsByTagName("body")[0];
+    // Creating array of HTML Element which fulfills the condition
     focusableElements = Array.from(
       bodyElementPhotographer.querySelectorAll(
         '[tabindex="0"]:not(#contact_modal [tabindex="0"])'
@@ -362,10 +376,9 @@ function navigateWithArrows(event) {
   const liImage = document
     .getElementById("contact_modal")
     .querySelectorAll(".li-image");
-  console.log(liImage.length);
+
   if (liImage.length === 0) {
     if (event.key === "ArrowRight" || event.key === 39) {
-      console.log("arrowRight");
       focusIndex++;
       focusIndex =
         ((focusIndex % focusableElements.length) + focusableElements.length) %
@@ -373,8 +386,6 @@ function navigateWithArrows(event) {
       focusableElements[focusIndex].focus();
     }
     if (event.key === "ArrowLeft" || event.key === 37) {
-      console.log("arrowLeft");
-
       focusIndex--;
       focusIndex =
         ((focusIndex % focusableElements.length) + focusableElements.length) %
@@ -393,7 +404,8 @@ if (form != null) {
     event.preventDefault();
 
     console.log(
-      "Votre prénom : " +
+      "Informations du formulaire de Contact :" +
+        "\nVotre prénom : " +
         event.target.firstname.value +
         "\nVotre nom : " +
         event.target.lastname.value +
@@ -402,7 +414,7 @@ if (form != null) {
         "\nVotre message : " +
         event.target.message.value
     );
-
+    // option "form" send to closeModal
     // eslint-disable-next-line no-undef
     closeModal("form");
   });

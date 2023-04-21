@@ -57,8 +57,7 @@ button {
 }
 
 .photographer_section article h2 {
-  /* color: #d3573c; Not conform to WCAG2.1 AA*/
-  color: #ce403c;
+  color: #d3573c; /* conform WCAG2.1 for text >1.5rem*/
   font-size: 2rem;
   line-height: 3rem;
 }
@@ -69,6 +68,7 @@ button {
   width: 12.5rem;
   object-fit: cover;
   border-radius: 50%;
+  /* overflow-clip-margin: unset;  not accept by W3C Validator*/
 }
 .photographer-description {
   text-align: center;

@@ -1,7 +1,8 @@
 /**
  * Pattern Factories to create HTMLElements for photographer.html
+ * Called by "displayMedia","displayEncart"
  * @param {object} data -> {media[all of the photographer] & photographer[0]}
- * @returns getMediaCardDOM->HTMLElement(article)
+ * @returns getMediaCardDOM, getEncartDOM, getLightBoxDOM
  */
 // eslint-disable-next-line no-unused-vars
 function mediaFactory(data) {
@@ -9,6 +10,7 @@ function mediaFactory(data) {
 
   /**
    * Function to display Photos and Video
+   * Called by "displayMedia"
    * @returns HTML Element
    */
   function getMediaCardDOM() {
@@ -63,11 +65,12 @@ function mediaFactory(data) {
 
   /**
    * Function to display the Encart
+   * Called by "displayEncart"
    * @param {number} numberLikes
    * @param {number} price
    * @returns
    */
-  function getEncart(numberLikes, price) {
+  function getEncartDOM(numberLikes, price) {
     const parentEncart = document.querySelector(".photograph-header");
     const theLastEncart = document.querySelector(".encart");
     // If "encart" already exist in DOM, remove it
@@ -85,6 +88,7 @@ function mediaFactory(data) {
 
   /**
    * Function to display LightBox
+   * Called by "displayLightBox"
    * @param {string} photoSelected -> ID of the media
    * @param {string} name ->for the folder name
    * @returns
@@ -154,5 +158,5 @@ function mediaFactory(data) {
     return article;
   }
 
-  return { getMediaCardDOM, getEncart, getLightBoxDOM };
+  return { getMediaCardDOM, getEncartDOM, getLightBoxDOM };
 }

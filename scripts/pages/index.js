@@ -21,6 +21,7 @@ async function getJsonDataPhotographers() {
 }
 /**
  * Function to get Object of Identity of one Photograph
+ * Called by "displayStaticDataPhotographer","displayMedia" and "displayEncart"
  * @param {object} photographers
  * @param {string} id
  * @returns
@@ -28,27 +29,29 @@ async function getJsonDataPhotographers() {
 async function getPhotographerById(photographers, id) {
   // console.log("index.js->getPhotograperById(photographers, id)");
   // Retrieve data of a photographer from his ID
-  const personalPhotographer = photographers.filter(
+  const personnalPhotographerData = photographers.filter(
     (user) => user.id === parseInt(id)
   );
-  return personalPhotographer;
+  return personnalPhotographerData;
 }
 
 /**
  * Function to get all Object Media for one Photograph
+ * Called by "displayMedia","getMediaFilter","displayEncart","displayLightBox"
  * @param {object} media
  * @param {string} id
  * @returns
  */
 async function getMediaById(media, id) {
   // console.log("index.js->getMediaById(media,id)");
-  const mediaPhotographer = media.filter(
+  const mediaPhotographerData = media.filter(
     (medias) => medias.photographerId === parseInt(id)
   );
-  return mediaPhotographer;
+  return mediaPhotographerData;
 }
 /**
  * Function to get the Name of a photographer
+ * Called by "displayLightBox" to have determine the folder
  * @param {object} photographers
  * @param {string} id
  * @returns
@@ -63,10 +66,11 @@ async function getNamePhotographer(photographers, id) {
 
 /**
  * Function to display portraits of photographers
+ * Called by "init"
  * @param {array of objects} photographers
  * --> to getUserCardDOM
  */
-async function displayDataIndex(photographers) {
+async function displayDataPageIndex(photographers) {
   const photographersSection = document.querySelector(".photographer_section");
   // Loop for display each photographers data in Home Page
   photographers.forEach((photographer) => {
@@ -79,21 +83,23 @@ async function displayDataIndex(photographers) {
 
 /**
  * Function to display an article for header photograph for the page photographer.html
+ * Called by "init"
+ * Construct from photographerFactory -> getPagePhotographerDOM
  * @param {object} media
  * @param {object} photographers
  * --> to getPagePhotographerDOM
  */
-async function displayDataPhotographer(photographers, idPhotographer) {
-  // console.log("index.js->displayDataPhotographer");
+async function displayStaticDataPhotographer(photographers, idPhotographer) {
+  // console.log("index.js->displayStaticDataPhotographer");
   // DOM element that will receive the HTML
   const mediaSection = document.querySelector(".photograph-header");
   // Data of photographer who is selected
-  const personalPhotographer = await getPhotographerById(
+  const personnalPhotographerData = await getPhotographerById(
     photographers,
     idPhotographer
   );
-
-  const personalData = personalPhotographer[0];
+  // to send Object to "photographerFactory"
+  const personalData = personnalPhotographerData[0];
   // eslint-disable-next-line no-undef
   const pagePhotographer = photographerFactory(personalData);
   const pageCardDOM = pagePhotographer.getPagePhotographerDOM();
@@ -129,7 +135,8 @@ async function displayDataPhotographer(photographers, idPhotographer) {
 }
 /**
  * Function to display the medias of photographers in photographer.html
- * construct from mediaFactory -> getMediaCardDOM
+ * Called by "init"
+ * Construct from mediaFactory -> getMediaCardDOM
  * @param {object} media
  * @param {object} photographers
  * @param {string} idPhotographer
@@ -141,22 +148,22 @@ async function displayMedia(media, photographers, idPhotographer, options) {
   const mediaImage = document.querySelector(".photograph-header");
 
   // Get the media from ID photographer
-  const mediaPhotographer = await getMediaById(media, idPhotographer);
+  const mediaPhotographerData = await getMediaById(media, idPhotographer);
 
   // Get the data for THE photographer
-  const personalPhotographer = await getPhotographerById(
+  const personnalPhotographerData = await getPhotographerById(
     photographers,
     idPhotographer
   );
   // Get the medias after to check filter
   const newMedia = await getMediaFilter(
-    mediaPhotographer,
+    mediaPhotographerData,
     idPhotographer,
     options
   );
   // The data which is sent to mediaFactory
   const photographerData = {
-    photographer: personalPhotographer,
+    photographer: personnalPhotographerData,
     media: newMedia,
   };
 
@@ -199,6 +206,7 @@ async function displayMedia(media, photographers, idPhotographer, options) {
 
 /**
  * Function to filter photos
+ * Called by "displayMedia"
  * @param {object} media
  * @param {string} id
  * @param {string} options
@@ -219,7 +227,7 @@ async function getMediaFilter(media, id, options) {
       mediaFilter = medias.sort((a, b) => b.dates - a.dates);
       break;
     case "3":
-      mediaFilter = medias.sort((a, b) => a.title.localeCompare(b.title));
+      mediaFilter = medias.sort((a, b) => a.title.localeCompare(b.title, "fr"));
       break;
     default:
       mediaFilter = medias;
@@ -228,6 +236,8 @@ async function getMediaFilter(media, id, options) {
 }
 /**
  * Function to display the Encart
+ * Called by "displayMedia"
+ * Construct from mediaFactory -> getEncartDOM
  * @param {object} media
  * @param {object} photographers
  * @param {string} idPhotographer
@@ -236,7 +246,7 @@ async function displayEncart(media, photographers, idPhotographer) {
   // DOM element that will receive the HTML
   const mediaConteneur = document.querySelector(".photograph-header");
 
-  // Add all the Like of the photographer photos
+  // Added all the Like of the photographer photos
   const numbLikesEncart = media
     .filter((media) => media.photographerId === parseInt(idPhotographer))
     .map((listLike) => listLike.likes)
@@ -251,12 +261,13 @@ async function displayEncart(media, photographers, idPhotographer) {
   const mediaData = await getMediaById(media, idPhotographer);
   // eslint-disable-next-line no-undef
   const mediaEncart = mediaFactory(mediaData);
-  const encartCardDOM = mediaEncart.getEncart(numbLikesEncart, price);
+  const encartCardDOM = mediaEncart.getEncartDOM(numbLikesEncart, price);
   mediaConteneur.appendChild(encartCardDOM);
 }
 
 /**
  * Function to display LightBox
+ * Called by "init" and "photographer.js ->selectPhotoLightBox"
  * @param {object} media
  * @param {object} photographers
  * @param {string} photoSelected ->ID of the media
@@ -270,13 +281,14 @@ async function displayLightBox(
 ) {
   // photoSelect must be different of option=1 for the filter
   if (photoSelected !== "1") {
-    console.log("index.js->displayLightBox");
-    const mediaPhotographer = await getMediaById(media, idPhotographer);
+    // console.log("index.js->displayLightBox");
+    const mediaPhotographerData = await getMediaById(media, idPhotographer);
+    // Retrieve the name of the photographer for the name of the folder to get pictures
     const name = await getNamePhotographer(photographers, idPhotographer);
     // HTML element where insert article
     const modal = document.getElementById("contact_modal");
     // eslint-disable-next-line no-undef
-    const mediaModel = mediaFactory(mediaPhotographer);
+    const mediaModel = mediaFactory(mediaPhotographerData);
     const mediaLightBoxDOM = mediaModel.getLightBoxDOM(photoSelected, name);
 
     if (mediaLightBoxDOM != null) {
@@ -289,12 +301,12 @@ async function displayLightBox(
       const arrowLeft = modal.querySelector(".arrow-left");
       arrowLeft.addEventListener("click", function () {
         // eslint-disable-next-line no-undef
-        goToPreviousPhoto(mediaPhotographer);
+        goToPreviousPhoto(mediaPhotographerData);
       });
       const arrowRight = modal.querySelector(".arrow-right");
       arrowRight.addEventListener("click", function () {
         // eslint-disable-next-line no-undef
-        goToNextPhoto(mediaPhotographer);
+        goToNextPhoto(mediaPhotographerData);
       });
 
       // Stockage the first photo to active addEventListener just one time
@@ -307,11 +319,11 @@ async function displayLightBox(
         modal.addEventListener("keydown", function (e) {
           if (e.key === "ArrowRight" || e.key === 39) {
             // eslint-disable-next-line no-undef
-            goToNextPhoto(mediaPhotographer);
+            goToNextPhoto(mediaPhotographerData);
           }
           if (e.key === "ArrowLeft" || e.key === 37) {
             // eslint-disable-next-line no-undef
-            goToPreviousPhoto(mediaPhotographer);
+            goToPreviousPhoto(mediaPhotographerData);
           }
         });
       }
@@ -335,22 +347,23 @@ async function displayLightBox(
 
 /**
  * Initialization all functions :
- * - displayDataIndex() : to display portraits of photographers in home page
- * - displayDataPhotographer() : to display static page header photographer
+ * - displayDataPageIndex() : to display portraits of photographers in home page
+ * - displayStaticDataPhotographer() : to display static page header photographer
  * - displayMedia() : to display all photos and video
  * - displayLightBox() : to display the LightBox
- * @param {string} options
+ * @param {string} options -> use for select option filter / use for displayLightBox -> photoSelected
  */
 async function init(options) {
-  // Clear localStorage, because stock the first photoSelect to have just one EventListener
+  // Clear localStorage, because stock the first photoSelect(in displayLigthBox) to have just one EventListener
   // on keydown arrowRight and arrowLeft
   localStorage.clear();
+
   // Retrieve data (media,photographers) -> fetch
   const { media, photographers } = await getJsonDataPhotographers();
 
   // Initialization of homepage content
   if (window.location.href.includes("index.html")) {
-    displayDataIndex(photographers);
+    displayDataPageIndex(photographers);
   }
 
   // Initializing the content of a photographer's page
@@ -359,7 +372,7 @@ async function init(options) {
     const urlParams = new URLSearchParams(window.location.search);
     const idPhotographer = urlParams.get("identify");
 
-    displayDataPhotographer(photographers, idPhotographer);
+    displayStaticDataPhotographer(photographers, idPhotographer);
     displayMedia(media, photographers, idPhotographer, (options = "1"));
     displayLightBox(media, photographers, options, idPhotographer);
   }
@@ -380,6 +393,7 @@ if (window.location.href.includes("index.html")) {
     );
     if (e.key === "ArrowRight" || e.key === 39) {
       i++;
+      // Assign a positive value to "i", if "i" is negative
       i = ((i % focusable.length) + focusable.length) % focusable.length;
       focusable[i].focus();
     }
@@ -390,6 +404,11 @@ if (window.location.href.includes("index.html")) {
     }
   });
 }
+
+/**
+ * Function to play audio when video play
+ * Called and Construct by getLightBoxDOM-> HTML-> onplay="audioPlay()"
+ */
 // eslint-disable-next-line no-unused-vars
 function audioPlay() {
   const audio = document.querySelector("audio");
