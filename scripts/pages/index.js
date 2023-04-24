@@ -100,7 +100,6 @@ async function displayStaticDataPhotographer(photographers, idPhotographer) {
   );
   // to send Object to "photographerFactory"
   const personalData = personnalPhotographerData[0];
-  // eslint-disable-next-line no-undef
   const pagePhotographer = photographerFactory(personalData);
   const pageCardDOM = pagePhotographer.getPagePhotographerDOM();
   mediaSection.appendChild(pageCardDOM);
@@ -108,7 +107,6 @@ async function displayStaticDataPhotographer(photographers, idPhotographer) {
   // Event listener on Filter button
   const btnFilter = document.querySelector(".btn-filter");
   btnFilter.addEventListener("click", function () {
-    // eslint-disable-next-line no-undef
     displayMenuFilter(btnFilter);
   });
   // Event listener on filter selection menu
@@ -116,7 +114,6 @@ async function displayStaticDataPhotographer(photographers, idPhotographer) {
   for (let i = 0; i < selectMenuFilter.length; i++) {
     // On click
     selectMenuFilter[i].addEventListener("click", function () {
-      // eslint-disable-next-line no-undef
       selectFilter(selectMenuFilter[i], btnFilter);
       const selectedMenuFilter = document.querySelector(".select-menu");
       selectedMenuFilter.classList.remove("show");
@@ -125,7 +122,6 @@ async function displayStaticDataPhotographer(photographers, idPhotographer) {
     selectMenuFilter[i].addEventListener("keydown", function (event) {
       if (event.key === "Enter") {
         event.preventDefault();
-        // eslint-disable-next-line no-undef
         selectFilter(selectMenuFilter[i], btnFilter);
         const selectedMenuFilter = document.querySelector(".select-menu");
         selectedMenuFilter.classList.remove("show");
@@ -167,7 +163,6 @@ async function displayMedia(media, photographers, idPhotographer, options) {
     media: newMedia,
   };
 
-  // eslint-disable-next-line no-undef
   const mediaModel = mediaFactory(photographerData);
   const mediaCardDOM = mediaModel.getMediaCardDOM();
   // Received HTML Element who insert into the DOM
@@ -182,7 +177,6 @@ async function displayMedia(media, photographers, idPhotographer, options) {
   const tabRef = [];
   for (let i = 0; i < numberLikes.length; i++) {
     numberLikes[i].addEventListener("click", function () {
-      // eslint-disable-next-line no-undef
       likeNumberChange(numberLikes[i], tabRef);
     });
   }
@@ -191,13 +185,11 @@ async function displayMedia(media, photographers, idPhotographer, options) {
   for (let i = 0; i < listPhotos.length; i++) {
     listPhotos[i].addEventListener("click", function (event) {
       event.preventDefault();
-      // eslint-disable-next-line no-undef
       selectPhotoLightBox(listPhotos[i].querySelector(".list-photos"));
     });
     listPhotos[i].addEventListener("keydown", function (event) {
       if (event.key === "Enter") {
         event.preventDefault();
-        // eslint-disable-next-line no-undef
         selectPhotoLightBox(listPhotos[i].querySelector(".list-photos"));
       }
     });
@@ -259,7 +251,6 @@ async function displayEncart(media, photographers, idPhotographer) {
   );
   const price = photoghrapherData[0].price;
   const mediaData = await getMediaById(media, idPhotographer);
-  // eslint-disable-next-line no-undef
   const mediaEncart = mediaFactory(mediaData);
   const encartCardDOM = mediaEncart.getEncartDOM(numbLikesEncart, price);
   mediaConteneur.appendChild(encartCardDOM);
@@ -287,7 +278,6 @@ async function displayLightBox(
     const name = await getNamePhotographer(photographers, idPhotographer);
     // HTML element where insert article
     const modal = document.getElementById("contact_modal");
-    // eslint-disable-next-line no-undef
     const mediaModel = mediaFactory(mediaPhotographerData);
     const mediaLightBoxDOM = mediaModel.getLightBoxDOM(photoSelected, name);
 
@@ -300,12 +290,10 @@ async function displayLightBox(
       // Event listener on arrows markup
       const arrowLeft = modal.querySelector(".arrow-left");
       arrowLeft.addEventListener("click", function () {
-        // eslint-disable-next-line no-undef
         goToPreviousPhoto(mediaPhotographerData);
       });
       const arrowRight = modal.querySelector(".arrow-right");
       arrowRight.addEventListener("click", function () {
-        // eslint-disable-next-line no-undef
         goToNextPhoto(mediaPhotographerData);
       });
 
@@ -318,11 +306,9 @@ async function displayLightBox(
         // Event listener for keyboard arrows
         modal.addEventListener("keydown", function (e) {
           if (e.key === "ArrowRight" || e.key === 39) {
-            // eslint-disable-next-line no-undef
             goToNextPhoto(mediaPhotographerData);
           }
           if (e.key === "ArrowLeft" || e.key === 37) {
-            // eslint-disable-next-line no-undef
             goToPreviousPhoto(mediaPhotographerData);
           }
         });
@@ -333,7 +319,6 @@ async function displayLightBox(
       closeLightBox.addEventListener("keydown", function (e) {
         if (e.key === "Enter" || e.key === 13) {
           e.preventDefault();
-          // eslint-disable-next-line no-undef
           closeModal("lightBox", photoSelected);
         }
       });
@@ -351,9 +336,8 @@ async function displayLightBox(
  * - displayStaticDataPhotographer() : to display static page header photographer
  * - displayMedia() : to display all photos and video
  * - displayLightBox() : to display the LightBox
- * @param {string} options -> use for select option filter / use for displayLightBox -> photoSelected
  */
-async function init(options) {
+async function init() {
   // Clear localStorage, because stock the first photoSelect(in displayLigthBox) to have just one EventListener
   // on keydown arrowRight and arrowLeft
   localStorage.clear();
